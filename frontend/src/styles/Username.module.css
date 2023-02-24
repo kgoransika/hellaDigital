@@ -1,0 +1,50 @@
+.gradient {
+  background: rgba(17, 80, 169, 0.945);
+  background: linear-gradient(
+    225deg,
+    rgba(17, 80, 169, 0.541) 0%,
+    rgba(0, 171, 250, 0.644) 100%
+  );
+  border-radius: 16px;
+  box-shadow: 0 4px 30px #4747470b;
+  backdrop-filter: blur(7.1px);
+  border: 1px solid rgba(255, 255, 255, 0.151);
+  @apply shrink-0 h-[3/4] w-[26%] px-1 py-1 rounded-3xl min-w-max;
+}
+
+.glass {
+  background: rgba(187, 187, 187, 0.527);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px #4747470b;
+  backdrop-filter: blur(7.1px);
+  border: 1px solid rgba(255, 255, 255, 0.151);
+  @apply border-4 border-gray-50 shrink-0 h-[3/4] rounded-3xl px-5;
+}
+
+.profile_img {
+  max-width: 135px;
+  max-height: 135px;
+  min-width: 135px;
+  min-height: 135px;
+  @apply border-4 border-gray-100 w-[135px] rounded-full shadow-lg cursor-pointer;
+  @apply hover:border-gray-200;
+}
+
+.textbox {
+  @apply border-0 px-5 py-4 rounded-xl w-3/4 shadow-sm text-lg;
+  @apply focus:outline-none;
+}
+
+.btn {
+  background-color: hsl(216, 100%, 50%);
+  @apply w-3/4 py-4 rounded-lg text-gray-50 text-xl shadow-lg text-center;
+}
+
+.btn:hover {
+  background-color: black;
+  transition: 0.7s;
+}
+
+input[type='file'] {
+  display: none;
+}
