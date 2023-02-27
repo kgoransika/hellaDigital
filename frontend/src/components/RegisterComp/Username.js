@@ -1,23 +1,27 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import avatar from '../../assets/profile.png';
 import bgImg from '../../assets/hellaDigitalBG1.png';
 import styles from '../../styles/Username.module.css';
 import { useFormik } from 'formik';
-import { loginValidate } from '../../helper/validate';
+import { usernameValidate } from '../../helper/validate';
+import { useAuthStore } from '../../store/store';
 
 export default function Login() {
+  const navigate = useNavigate();
+  const setUsername = useAuthStore((state) => state.setUsername);
+
   const formik = useFormik({
     initialValues: {
-      username: '',
-      password: '',
+      username: 'example123',
     },
-    validate: loginValidate,
+    validate: usernameValidate,
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: async (values) => {
-      console.log(values);
+      setUsername(values.username);
+      navigate('/password');
     },
   });
 
@@ -70,14 +74,8 @@ export default function Login() {
                   type="text"
                   placeholder="Username"
                 />
-                <input
-                  {...formik.getFieldProps('password')}
-                  className={styles.textbox}
-                  type="password"
-                  placeholder="Password"
-                />
                 <button className={styles.btn} type="submit">
-                  Sign In
+                  Let's Go
                 </button>
               </div>
 
@@ -88,15 +86,7 @@ export default function Login() {
                     Register Now
                   </Link>
                 </span>
-                <br />
-                <span className="text-white-500">
-                  Forgot Password?{' '}
-                  <Link className="text-red-500" to="/recovery">
-                    Recover Now
-                  </Link>
-                </span>
               </div>
-              <div className="text-center"></div>
             </form>
           </div>
         </div>

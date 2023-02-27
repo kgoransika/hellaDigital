@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import avatar from '../../assets/profile.png';
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { useFormik } from 'formik';
 import { profileValidation } from '../../helper/validate';
 import convertToBase64 from '../../helper/convert';
+import useFetch from '../../hooks/fetch.hook';
+import { updateUser } from '../../helper/helper';
 import { useNavigate } from 'react-router-dom';
 import bgImg from '../../assets/hellaDigitalBG1.png';
 import styles from '../../styles/Username.module.css';
@@ -11,20 +13,33 @@ import extend from '../../styles/Profile.module.css';
 
 export default function Profile() {
   const [file, setFile] = useState();
+  const [{ isLoading, apiData, serverError }] = useFetch();
   const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      mobile: '',
-      address: '',
+      firstName: apiData?.firstName || '',
+      lastName: apiData?.lastName || '',
+      email: apiData?.email || '',
+      mobile: apiData?.mobile || '',
+      address: apiData?.address || '',
     },
     enableReinitialize: true,
     validate: profileValidation,
     validateOnBlur: false,
     validateOnChange: false,
+    onSubmit: async (values) => {
+      values = await Object.assign(values, {
+        profile: file || apiData?.profile || '',
+      });
+      let updatePromise = updateUser(values);
+
+      toast.promise(updatePromise, {
+        loading: 'Updating...',
+        success: <b>Update Successfully...!</b>,
+        error: <b>Could not Update!</b>,
+      });
+    },
   });
 
   /** formik doensn't support file upload so we need to create this handler */
@@ -38,6 +53,10 @@ export default function Profile() {
     localStorage.removeItem('token');
     navigate('/');
   }
+
+  if (isLoading) return <h1 className="text-2xl font-bold">isLoading</h1>;
+  if (serverError)
+    return <h1 className="text-xl text-red-500">{serverError.message}</h1>;
 
   return (
     <div

@@ -5,21 +5,41 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 /** import all components */
 import Register from './components/RegisterComp/Register';
+import Password from './components/RegisterComp/Password';
 import Profile from './components/RegisterComp/Profile';
 import Recovery from './components/RegisterComp/Recovery';
 import Reset from './components/RegisterComp/Reset';
 import PageNotFound from './components/PageNotFound';
-import Login from './components/RegisterComp/Login';
+import Username from './components/RegisterComp/Username';
+
+/** auth middleware */
+import { AuthorizeUser, ProtectRoute } from './middleware/auth';
 
 /** root routes */
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Login></Login>,
+    element: <Username></Username>,
   },
   {
     path: '/register',
     element: <Register></Register>,
+  },
+  {
+    path: '/password',
+    element: (
+      <ProtectRoute>
+        <Password />
+      </ProtectRoute>
+    ),
+  },
+  {
+    path: '/profile',
+    element: (
+      <AuthorizeUser>
+        <Profile />
+      </AuthorizeUser>
+    ),
   },
   {
     path: '/recovery',
@@ -28,10 +48,6 @@ const router = createBrowserRouter([
   {
     path: '/reset',
     element: <Reset></Reset>,
-  },
-  {
-    path: '/profile',
-    element: <Profile></Profile>,
   },
   {
     path: '*',
