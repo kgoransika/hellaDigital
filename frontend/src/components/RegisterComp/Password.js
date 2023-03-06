@@ -17,7 +17,7 @@ export default function Password() {
 
   const formik = useFormik({
     initialValues: {
-      password: 'admin@123',
+      password: '',
     },
     validate: passwordValidate,
     validateOnBlur: false,
@@ -41,7 +41,12 @@ export default function Password() {
     },
   });
 
-  if (isLoading) return <h1 className="text-2xl font-bold">isLoading</h1>;
+  if (isLoading)
+    return (
+      <h1 className="text-2xl font-bold" style={{ zIndex: '1' }}>
+        isLoading
+      </h1>
+    );
   if (serverError)
     return <h1 className="text-xl text-red-500">{serverError.message}</h1>;
 
@@ -62,11 +67,20 @@ export default function Password() {
         <div className={styles.gradient}>
           <div className={styles.glass}>
             <div className="title flex flex-col items-center">
-              <h4 className="text-5xl font-bold">
-                Hello {apiData?.firstName || apiData?.username}
+              <br></br>
+              <h4 className="text-4xl font-bold">
+                <span>HELLA</span>
+                <span
+                  style={{
+                    color: '#0066ff',
+                  }}
+                >
+                  {' '}
+                  DIGITAL
+                </span>
               </h4>
-              <span className="py-4 text-xl w-2/3 text-center text-gray-500">
-                Explore More by connecting with us.
+              <span className="py-4 text-xl w-2/3 text-center text-white">
+                Hello {apiData?.firstName || apiData?.username}
               </span>
             </div>
 
@@ -83,8 +97,9 @@ export default function Password() {
                 <input
                   {...formik.getFieldProps('password')}
                   className={styles.textbox}
-                  type="text"
+                  type="password"
                   placeholder="Password"
+                  autoComplete="new-password"
                 />
                 <button className={styles.btn} type="submit">
                   Sign In

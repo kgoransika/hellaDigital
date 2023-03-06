@@ -14,7 +14,7 @@ export default function Login() {
 
   const formik = useFormik({
     initialValues: {
-      username: 'example123',
+      username: '',
     },
     validate: usernameValidate,
     validateOnBlur: false,
@@ -73,6 +73,7 @@ export default function Login() {
                   className={styles.textbox}
                   type="text"
                   placeholder="Username"
+                  autoComplete="off"
                 />
                 <button className={styles.btn} type="submit">
                   Let's Go

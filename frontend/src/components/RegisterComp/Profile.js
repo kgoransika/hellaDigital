@@ -124,12 +124,14 @@ export default function Profile() {
                     className={`${styles.textbox} ${extend.textbox}`}
                     type="text"
                     placeholder="FirstName"
+                    autoComplete="off"
                   />
                   <input
                     {...formik.getFieldProps('lastName')}
                     className={`${styles.textbox} ${extend.textbox}`}
                     type="text"
                     placeholder="LastName"
+                    autoComplete="off"
                   />
                 </div>
 
@@ -142,12 +144,14 @@ export default function Profile() {
                     className={`${styles.textbox} ${extend.textbox}`}
                     type="text"
                     placeholder="Mobile No."
+                    autoComplete="off"
                   />
                   <input
                     {...formik.getFieldProps('email')}
                     className={`${styles.textbox} ${extend.textbox}`}
                     type="text"
                     placeholder="Email*"
+                    autoComplete="off"
                   />
                 </div>
 
@@ -157,6 +161,7 @@ export default function Profile() {
                   className={`${styles.textbox} ${extend.textbox}`}
                   type="text"
                   placeholder="Address"
+                  autoComplete="off"
                 />
                 <button className={styles.btn} type="submit">
                   Update

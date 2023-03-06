@@ -96,6 +96,7 @@ export default function Recovery() {
                     className={styles.textbox}
                     type="text"
                     placeholder="OTP"
+                    autoComplete="off"
                   />
                 </div>
 

@@ -90,12 +90,14 @@ export default function Reset() {
                   className={styles.textbox}
                   type="password"
                   placeholder="New Password"
+                  autoComplete="new-password"
                 />
                 <input
                   {...formik.getFieldProps('confirm_pwd')}
                   className={styles.textbox}
                   type="password"
                   placeholder="Confirm Password"
+                  autoComplete="new-password"
                 />
                 <button className={styles.btn} type="submit">
                   Reset
