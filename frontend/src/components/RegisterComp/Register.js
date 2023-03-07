@@ -12,6 +12,11 @@ import { registerUser } from '../../helper/helper';
 export default function Register() {
   const navigate = useNavigate();
   const [file, setFile] = useState();
+  const [role, setRole] = useState();
+
+  const handleChange = (e) => {
+    setRole(e.target.value);
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -23,11 +28,16 @@ export default function Register() {
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: async (values) => {
-      values = await Object.assign(values, { profile: file || '' });
+      values = await Object.assign(
+        values,
+        { profile: file || '' },
+        { role: role }
+      );
       let registerPromise = registerUser(values);
+      console.log(values);
       toast.promise(registerPromise, {
         loading: 'Creating...',
-        success: <b>Register Successfully...!</b>,
+        success: <b>Registration Successfull...!</b>,
         error: <b>Could not Register.</b>,
       });
 
@@ -136,11 +146,13 @@ export default function Register() {
                   >
                     <label className="inline-flex items-center">
                       <input
-                        {...formik.getFieldProps('userType')}
+                        {...formik.getFieldProps('role')}
                         type="radio"
                         className="form-radio text-indigo-600 h-5 w-5"
-                        name="userType"
-                        value="userType"
+                        name="role"
+                        value="dps"
+                        onChange={handleChange}
+                        checked={role === 'dps'}
                       />
                       <span className="ml-2">
                         I am a digital product seller
@@ -149,11 +161,13 @@ export default function Register() {
                     <br />
                     <label className="inline-flex items-center">
                       <input
-                        {...formik.getFieldProps('userType')}
+                        {...formik.getFieldProps('role')}
                         type="radio"
                         className="form-radio text-indigo-600 h-5 w-5"
-                        name="userType"
-                        value="userType2"
+                        name="role"
+                        value="dss"
+                        onChange={handleChange}
+                        checked={role === 'dss'}
                       />
                       <span className="ml-2">
                         I am a digital service seller
@@ -162,11 +176,13 @@ export default function Register() {
                     <br />
                     <label className="inline-flex items-center">
                       <input
-                        {...formik.getFieldProps('userType')}
+                        {...formik.getFieldProps('role')}
                         type="radio"
                         className="form-radio text-indigo-600 h-5 w-5"
-                        name="userType"
-                        value="userType3"
+                        name="role"
+                        value="client"
+                        onChange={handleChange}
+                        checked={role === 'client'}
                       />
                       <span className="ml-2">
                         I am a client searching for digital products

@@ -32,7 +32,7 @@ export async function verifyUser(req, res, next) {
 */
 export async function register(req, res) {
   try {
-    const { username, password, profile, email } = req.body;
+    const { username, password, profile, email, role } = req.body;
 
     // check the existing user
     const existUsername = new Promise((resolve, reject) => {
@@ -65,6 +65,7 @@ export async function register(req, res) {
                 password: hashedPassword,
                 profile: profile || '',
                 email,
+                role,
               });
 
               // return save result as a response
@@ -121,6 +122,7 @@ export async function login(req, res) {
             return res.status(200).send({
               msg: 'Login Successful...!',
               username: user.username,
+              role: user.role,
               token,
             });
           })
