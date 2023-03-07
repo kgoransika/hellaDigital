@@ -40,7 +40,7 @@ export async function registerValidation(values) {
   const errors = usernameVerify({}, values);
   passwordVerify(errors, values);
   emailVerify(errors, values);
-
+  roleVerify(errors, values);
   return errors;
 }
 
@@ -91,6 +91,15 @@ function emailVerify(error = {}, values) {
     error.email = toast.error('Wrong Email...!');
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
     error.email = toast.error('Invalid email address...!');
+  }
+
+  return error;
+}
+
+/** validate role */
+function roleVerify(error = {}, values) {
+  if (!values.role) {
+    error.role = toast.error('Please select user type...!');
   }
 
   return error;

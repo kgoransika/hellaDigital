@@ -36,7 +36,14 @@ export default function Password() {
       loginPromise.then((res) => {
         let { token } = res.data;
         localStorage.setItem('token', token);
-        navigate('/profile');
+        /* navigate('/profile'); */
+        if (apiData.role === 'dps') {
+          navigate('/dashboard');
+        } else if (apiData.role === 'dsp') {
+          navigate('/dashboard');
+        } else if (apiData.role === 'client') {
+          navigate('/products');
+        }
       });
     },
   });

@@ -13,16 +13,26 @@ export default function Register() {
   const navigate = useNavigate();
   const [file, setFile] = useState();
   const [role, setRole] = useState();
+  let successRole;
 
   const handleChange = (e) => {
     setRole(e.target.value);
   };
+
+  if (role === 'dps') {
+    successRole = 'Digital product Seller';
+  } else if (role === 'dsp') {
+    successRole = 'Digital Service Provider';
+  } else if (role === 'client') {
+    successRole = 'Client';
+  }
 
   const formik = useFormik({
     initialValues: {
       email: '',
       username: '',
       password: '',
+      role: '',
     },
     validate: registerValidation,
     validateOnBlur: false,
@@ -37,7 +47,7 @@ export default function Register() {
       console.log(values);
       toast.promise(registerPromise, {
         loading: 'Creating...',
-        success: <b>Registration Successfull...!</b>,
+        success: <b>Registered as {successRole}</b>,
         error: <b>Could not Register.</b>,
       });
 
@@ -141,12 +151,12 @@ export default function Register() {
                   style={{ width: '60%', height: '200px' }}
                 >
                   <div
+                    {...formik.getFieldProps('role')}
                     className="flex flex-col space-y-4 mr-10"
                     style={{ width: '100%', height: '200px' }}
                   >
                     <label className="inline-flex items-center">
                       <input
-                        {...formik.getFieldProps('role')}
                         type="radio"
                         className="form-radio text-indigo-600 h-5 w-5"
                         name="role"
@@ -165,9 +175,9 @@ export default function Register() {
                         type="radio"
                         className="form-radio text-indigo-600 h-5 w-5"
                         name="role"
-                        value="dss"
+                        value="dsp"
                         onChange={handleChange}
-                        checked={role === 'dss'}
+                        checked={role === 'dsp'}
                       />
                       <span className="ml-2">
                         I am a digital service seller
