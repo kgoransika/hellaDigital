@@ -11,6 +11,7 @@ export default function useFetch(query) {
     apiData: undefined,
     status: null,
     serverError: null,
+    isLoggedIn: false,
   });
 
   useEffect(() => {
@@ -26,7 +27,12 @@ export default function useFetch(query) {
 
         if (status === 201) {
           setData((prev) => ({ ...prev, isLoading: false }));
-          setData((prev) => ({ ...prev, apiData: data, status: status }));
+          setData((prev) => ({
+            ...prev,
+            apiData: data,
+            status: status,
+            isLoggedIn: data.username !== undefined,
+          }));
         }
 
         setData((prev) => ({ ...prev, isLoading: false }));

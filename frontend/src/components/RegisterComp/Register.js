@@ -212,7 +212,7 @@ export default function Register() {
                 <br />
                 <span className="text-black-500">
                   Are you already registered?{' '}
-                  <Link className="text-red-500" to="/">
+                  <Link className="text-red-500" to="/username">
                     Login Now
                   </Link>
                 </span>

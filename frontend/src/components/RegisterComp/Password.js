@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import avatar from '../../assets/profile.png';
 import bgImg from '../../assets/hellaDigitalBG1.png';
@@ -13,8 +13,29 @@ import styles from '../../styles/Username.module.css';
 export default function Password() {
   const navigate = useNavigate();
   const { username } = useAuthStore((state) => state.auth);
-  const [{ isLoading, apiData, serverError }] = useFetch(`/user/${username}`);
+  const [navigateBasedOnRole, setNavigateBasedOnRole] = useState(false);
+  const [{ isLoading, apiData, serverError, isLoggedIn }] = useFetch(
+    `/user/${username}`
+  );
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      setNavigateBasedOnRole(true);
+    }
+  }, [isLoggedIn, apiData]);
+
+  function navigateRole() {
+    if (navigateBasedOnRole === true) {
+      if (apiData.role === 'dps') {
+        navigate('/dashboard');
+      } else if (apiData.role === 'dsp') {
+        navigate('/dashboard');
+      } else if (apiData.role === 'client') {
+        navigate('/');
+      }
+      window.location.reload();
+    }
+  }
   const formik = useFormik({
     initialValues: {
       password: '',
@@ -36,13 +57,14 @@ export default function Password() {
       loginPromise.then((res) => {
         let { token } = res.data;
         localStorage.setItem('token', token);
-        navigate('/profile');
+        navigateRole();
+        /* navigate('/profile'); */
         /* if (apiData.role === 'dps') {
           navigate('/dashboard');
         } else if (apiData.role === 'dsp') {
           navigate('/dashboard');
         } else if (apiData.role === 'client') {
-          navigate('/products');
+          navigate('/');
         } */
       });
     },
