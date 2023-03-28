@@ -13,7 +13,6 @@ import styles from '../../styles/Username.module.css';
 export default function Password() {
   const navigate = useNavigate();
   const { username } = useAuthStore((state) => state.auth);
-  const setRole = useAuthStore((state) => state.setRole);
   const [navigateBasedOnRole, setNavigateBasedOnRole] = useState(false);
   const [{ isLoading, apiData, serverError, isLoggedIn }] = useFetch(
     `/user/${username}`
