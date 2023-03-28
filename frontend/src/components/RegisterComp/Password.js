@@ -13,6 +13,7 @@ import styles from '../../styles/Username.module.css';
 export default function Password() {
   const navigate = useNavigate();
   const { username } = useAuthStore((state) => state.auth);
+  const setRole = useAuthStore((state) => state.setRole);
   const [navigateBasedOnRole, setNavigateBasedOnRole] = useState(false);
   const [{ isLoading, apiData, serverError, isLoggedIn }] = useFetch(
     `/user/${username}`
@@ -26,11 +27,15 @@ export default function Password() {
 
   function navigateRole() {
     if (navigateBasedOnRole === true) {
+      setRole('dps');
       if (apiData.role === 'dps') {
+        setRole('dps');
         navigate('/dashboard');
       } else if (apiData.role === 'dsp') {
+        setRole('dsp');
         navigate('/dashboard');
       } else if (apiData.role === 'client') {
+        setRole('client');
         navigate('/');
       }
       window.location.reload();
@@ -57,15 +62,17 @@ export default function Password() {
       loginPromise.then((res) => {
         let { token } = res.data;
         localStorage.setItem('token', token);
-        navigateRole();
-        /* navigate('/profile'); */
-        /* if (apiData.role === 'dps') {
-          navigate('/dashboard');
-        } else if (apiData.role === 'dsp') {
-          navigate('/dashboard');
-        } else if (apiData.role === 'client') {
-          navigate('/');
-        } */
+        console.log(res.data.role);
+        if (navigateBasedOnRole === true) {
+          if (res.data.role === 'dps') {
+            navigate('/dashboard');
+          } else if (res.data.role === 'dsp') {
+            navigate('/dashboard');
+          } else if (res.data.role === 'client') {
+            navigate('/');
+          }
+          window.location.reload();
+        }
       });
     },
   });

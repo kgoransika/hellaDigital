@@ -17,7 +17,7 @@ import OrdersComp from './components/OrdersComp/OrdersComp';
 import ListingsComp from './components/ListingsComp/ListingsComp';
 
 /** auth middleware */
-import { AuthorizeUser, ProtectRoute } from './middleware/auth';
+import { AuthorizeUser, ProtectRoute, SellerRoute } from './middleware/auth';
 
 function App() {
   return (
@@ -46,9 +46,9 @@ function App() {
         <Route
           path="/dashboard"
           element={
-            <AuthorizeUser>
+            <SellerRoute>
               <DashboardComp />
-            </AuthorizeUser>
+            </SellerRoute>
           }
         />
         <Route path="/listings" element={<ListingsComp />} />

@@ -98,7 +98,7 @@ export async function register(req, res) {
 }
 */
 export async function login(req, res) {
-  const { username, password } = req.body;
+  const { username, password, role } = req.body;
 
   try {
     UserModel.findOne({ username })
@@ -114,6 +114,7 @@ export async function login(req, res) {
               {
                 userId: user._id,
                 username: user.username,
+                role: user.role,
               },
               ENV.JWT_SECRET,
               { expiresIn: '24h' }
