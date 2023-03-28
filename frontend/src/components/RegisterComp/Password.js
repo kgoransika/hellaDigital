@@ -25,22 +25,6 @@ export default function Password() {
     }
   }, [isLoggedIn, apiData]);
 
-  function navigateRole() {
-    if (navigateBasedOnRole === true) {
-      setRole('dps');
-      if (apiData.role === 'dps') {
-        setRole('dps');
-        navigate('/dashboard');
-      } else if (apiData.role === 'dsp') {
-        setRole('dsp');
-        navigate('/dashboard');
-      } else if (apiData.role === 'client') {
-        setRole('client');
-        navigate('/');
-      }
-      window.location.reload();
-    }
-  }
   const formik = useFormik({
     initialValues: {
       password: '',
