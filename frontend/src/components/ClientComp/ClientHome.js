@@ -1,9 +1,8 @@
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { Link } from 'react-router-dom';
-import { useAuthStore } from '../../store/store';
 import useFetch from '../../hooks/fetch.hook';
+import NavbarComponent from '../NavbarComp/NavbarComp';
 
 const products = [
   {
@@ -42,8 +41,7 @@ const products = [
 ];
 
 export default function ClientHome() {
-  const { isLoggedIn } = useAuthStore((state) => state.auth);
-  const [{ isLoading, apiData, serverError }] = useFetch();
+  const [{ apiData }] = useFetch();
 
   const digitalProducts = [
     {
@@ -240,6 +238,7 @@ export default function ClientHome() {
           }
         `}
       </style>
+      <NavbarComponent />
       <div className="mt-10">
         <h1 className="ml-20">Welcome, {apiData?.username}</h1>
         <div className="carousel">
