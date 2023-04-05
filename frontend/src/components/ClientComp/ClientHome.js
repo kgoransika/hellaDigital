@@ -1,8 +1,14 @@
+import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import useFetch from '../../hooks/fetch.hook';
 import NavbarComponent from '../NavbarComp/NavbarComp';
+import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
+import clientHomeBg1 from '../../assets/clientHomeBg1.jpg';
+import clientHomeBg2 from '../../assets/clientHomeBg2.jpg';
+import clientHomeBg3 from '../../assets/clientHomeBg3.jpg';
+import { ChevronDownIcon } from '@heroicons/react/20/solid';
 
 const products = [
   {
@@ -41,7 +47,15 @@ const products = [
 ];
 
 export default function ClientHome() {
-  const [{ apiData }] = useFetch();
+  const [{ apiData, isLoading }] = useFetch();
+  const token = localStorage.getItem('token');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, [token]);
 
   const digitalProducts = [
     {
@@ -162,7 +176,8 @@ export default function ClientHome() {
   const settings = {
     infinite: true,
     speed: 500,
-    slidesToShow: 5,
+    slidesToShow: 6,
+    slidesToScroll: 1,
     responsive: [
       {
         breakpoint: 1200,
@@ -191,14 +206,28 @@ export default function ClientHome() {
     ],
   };
 
+  const images = [clientHomeBg1, clientHomeBg2, clientHomeBg3];
+  const [bgImage, setBgImage] = useState(images[0]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const index = images.indexOf(bgImage);
+      const nextIndex = index === images.length - 1 ? 0 : index + 1;
+      setBgImage(images[nextIndex]);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [bgImage, images]);
+
   return (
     <>
       <style>
         {`
+
           .carousel {
-            width: 70%;
+            width: 80%;
             margin: auto;
             max-height: 400px;
+
           }
           
           .card {
@@ -239,95 +268,176 @@ export default function ClientHome() {
         `}
       </style>
       <NavbarComponent />
-      <div className="mt-10">
-        <h1 className="ml-20">Welcome, {apiData?.username}</h1>
-        <div className="carousel">
-          <h2>Digital Products</h2>
-          <Slider {...settings}>
-            {digitalProducts.map((digitalProduct) => (
-              <div key={digitalProduct.id} className="">
-                <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 hover:opacity-75 lg:aspect-none lg:h-80 relative">
-                  <h5 className="absolute top-0 left-0 z-10 p-4 text-white">
-                    {digitalProduct.title}
-                  </h5>
-                  <img
-                    src={digitalProduct.imgSrc}
-                    alt={digitalProduct.imageAlt}
-                    className="h-full w-full object-cover object-center lg:h-full lg:w-full brightness-50"
-                  />
-                </div>
-              </div>
-            ))}
-          </Slider>
-        </div>
-        <br />
-        <br />
-        <div className="carousel">
-          <h2>Digital Services</h2>
-          <Slider {...settings}>
-            {digitalServices.map((digitalService) => (
-              <div key={digitalService.id}>
-                <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 hover:opacity-75 lg:aspect-none lg:h-80 relative">
-                  <h5 className="absolute top-0 left-0 z-10 p-4 text-white">
-                    {digitalService.title1}
-                    <br />
-                    <br />
-                    {digitalService.title2}
-                    <br />
-                    <br />
-                    {digitalService.title3}
-                  </h5>
-                  <img
-                    src={digitalService.imgSrc}
-                    alt={digitalService.imageAlt}
-                    className="h-full w-full object-cover object-center lg:h-full lg:w-full brightness-50"
-                  />
-                </div>
-              </div>
-            ))}
-          </Slider>
-        </div>
-        <div className="bg-white">
-          <div className="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
-            <h2 className="text-2xl font-bold tracking-tight text-gray-900">
-              Featured Products
-            </h2>
-
-            <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-              {products.map((product) => (
-                <div key={product.id} className="group relative">
-                  <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:aspect-none lg:h-80">
-                    <img
-                      src={product.imageSrc}
-                      alt={product.imageAlt}
-                      className="h-full w-full object-cover object-center lg:h-full lg:w-full"
-                    />
+      {isLoading ? (
+        <ClimbingBoxLoader
+          size={20}
+          color={'#0066EF'}
+          loading={isLoading}
+          style={{ margin: 50 }}
+          duration={1}
+        />
+      ) : (
+        <div className="">
+          <div
+            style={{
+              backgroundColor: 'black',
+              borderRadius: '2px',
+              marginBottom: '50px',
+            }}
+          >
+            <div
+              className="mainBg"
+              style={{
+                backgroundImage: `url(${bgImage})`,
+                height: '98vh',
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                transition: 'background-image 1s ease-in-out',
+                display: 'flex',
+                flexDirection: 'column-reverse',
+              }}
+            >
+              <div
+                className="text-center"
+                style={{
+                  marginTop: 'auto',
+                  marginBottom: '30vh',
+                }}
+              >
+                {isLoggedIn ? (
+                  <div>
+                    <h1 className="text-white">Welcome {apiData?.username}!</h1>
+                    <a href="#carousel">
+                      <button
+                        className="text-center inline-flex items-center gap-x-1 leading-6 text-white rounded"
+                        style={{
+                          color: 'white',
+                          backgroundColor: 'hsl(216, 100%, 50%)',
+                          width: '20vh',
+                          height: '5vh',
+                        }}
+                      >
+                        <span className="ml-10">Explore</span>
+                        <ChevronDownIcon
+                          className="h-5 w-5 "
+                          aria-hidden="true"
+                        />
+                      </button>
+                    </a>
                   </div>
-                  <div className="mt-4 flex justify-between">
-                    <div>
-                      <h3 className="text-sm text-gray-700">
-                        <a href={product.href}>
-                          <span
-                            aria-hidden="true"
-                            className="absolute inset-0"
-                          />
-                          {product.name}
-                        </a>
-                      </h3>
-                      <p className="mt-1 text-sm text-gray-500">
-                        {product.color}
-                      </p>
-                    </div>
-                    <p className="text-sm font-medium text-gray-900">
-                      {product.price}
-                    </p>
+                ) : (
+                  <div>
+                    <h1 className="text-white">Welcome to Hella Digital!</h1>
+                    <h2 className="text-white">Join with us</h2>
+                    <br />
+                    <a href="#carousel">
+                      <button
+                        className="rounded"
+                        style={{
+                          color: 'white',
+                          backgroundColor: 'hsl(216, 100%, 50%)',
+                          width: '20vh',
+                          height: '5vh',
+                        }}
+                      >
+                        Explore!
+                      </button>
+                    </a>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+          <br />
+          <div className="carousel" id="carousel">
+            <h2>Digital Products</h2>
+            <Slider {...settings}>
+              {digitalProducts.map((digitalProduct) => (
+                <div key={digitalProduct.id} className="">
+                  <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 hover:opacity-75 lg:aspect-none lg:h-80 relative">
+                    <h5 className="absolute top-0 left-0 z-10 p-4 text-white">
+                      {digitalProduct.title}
+                    </h5>
+                    <img
+                      src={digitalProduct.imgSrc}
+                      alt={digitalProduct.imageAlt}
+                      className="h-full w-full object-cover object-center lg:h-full lg:w-full brightness-50"
+                    />
                   </div>
                 </div>
               ))}
+            </Slider>
+          </div>
+          <br />
+          <br />
+          <div className="carousel">
+            <h2>Digital Services</h2>
+            <Slider {...settings}>
+              {digitalServices.map((digitalService) => (
+                <div key={digitalService.id}>
+                  <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 hover:opacity-75 lg:aspect-none lg:h-80 relative">
+                    <h5 className="absolute top-0 left-0 z-10 p-4 text-white">
+                      {digitalService.title1}
+                      <br />
+                      <br />
+                      {digitalService.title2}
+                      <br />
+                      <br />
+                      {digitalService.title3}
+                    </h5>
+                    <img
+                      src={digitalService.imgSrc}
+                      alt={digitalService.imageAlt}
+                      className="h-full w-full object-cover object-center lg:h-full lg:w-full brightness-50"
+                    />
+                  </div>
+                </div>
+              ))}
+            </Slider>
+          </div>
+          <div className="bg-white">
+            <div className="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+              <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+                Featured Products
+              </h2>
+
+              <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                {products.map((product) => (
+                  <div key={product.id} className="group relative">
+                    <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:aspect-none lg:h-80">
+                      <img
+                        src={product.imageSrc}
+                        alt={product.imageAlt}
+                        className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                      />
+                    </div>
+                    <div className="mt-4 flex justify-between">
+                      <div>
+                        <h3 className="text-sm text-gray-700">
+                          <a href={product.href}>
+                            <span
+                              aria-hidden="true"
+                              className="absolute inset-0"
+                            />
+                            {product.name}
+                          </a>
+                        </h3>
+                        <p className="mt-1 text-sm text-gray-500">
+                          {product.color}
+                        </p>
+                      </div>
+                      <p className="text-sm font-medium text-gray-900">
+                        {product.price}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

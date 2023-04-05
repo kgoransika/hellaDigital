@@ -117,7 +117,7 @@ export async function login(req, res) {
                 role: user.role,
               },
               ENV.JWT_SECRET,
-              { expiresIn: '24h' }
+              { expiresIn: '1h' }
             );
 
             return res.status(200).send({
