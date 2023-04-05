@@ -20,6 +20,7 @@ import NavbarComponent from './components/NavbarComp/NavbarComp';
 import DashboardComp from './components/DashboardComp/DashboardComp';
 import OrdersComp from './components/OrdersComp/OrdersComp';
 import ListingsComp from './components/ListingsComp/ListingsComp';
+import FooterComp from './components/FooterComp/FooterComp';
 
 /** auth middleware */
 import { AuthorizeUser, ProtectRoute, SellerRoute } from './middleware/auth';
@@ -76,6 +77,7 @@ function Layout() {
     <main>
       <NavbarComponent />
       <Outlet />
+      <FooterComp />
     </main>
   );
 }

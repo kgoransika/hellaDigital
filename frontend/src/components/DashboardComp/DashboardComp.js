@@ -13,7 +13,6 @@ export default function DashboardComp() {
 
   const cardStyle = {
     margin: '20px',
-    height: '17vh',
     border: '1px solid #dee2e6',
     boxShadow: '0 0 1px 1px #dee2e6',
     borderRadius: '10px',

@@ -13,7 +13,7 @@ import './NavbarComp.css';
 
 export default function NavbarComp() {
   const navigate = useNavigate();
-  const [{ isLoading, apiData, serverError, isLoggedIn }] = useFetch();
+  const [{ isLoggedIn }] = useFetch();
   // logout handler function
   function userLogout() {
     localStorage.removeItem('token');
