@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import useFetch from '../../hooks/fetch.hook';
+import { getUsername } from '../../helper/helper';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
@@ -12,8 +12,23 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import './NavbarComp.css';
 
 export default function NavbarComp() {
+  const [username, setUsername] = useState('');
+  const [role, setRole] = useState('');
   const navigate = useNavigate();
-  const [{ isLoggedIn }] = useFetch();
+
+  const token = localStorage.getItem('token');
+
+  useEffect(() => {
+    getUsername()
+      .then((decodedToken) => {
+        setUsername(decodedToken.username);
+        setRole(decodedToken.role);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   // logout handler function
   function userLogout() {
     localStorage.removeItem('token');
@@ -51,37 +66,44 @@ export default function NavbarComp() {
                 </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
-                <Form className="d-flex">
-                  <Form.Control
-                    type="search"
-                    placeholder="What digital product or service are you looking for today?"
-                    className="me-2"
-                    aria-label="Search"
-                    style={{
-                      width: '450px',
-                    }}
-                  />
-                  <Button variant="outline-primary">Search</Button>
-                </Form>
-                {isLoggedIn ? (
+                {role === 'client' && (
+                  <Form className="d-flex">
+                    <Form.Control
+                      type="search"
+                      placeholder="What digital product or service are you looking for today?"
+                      className="me-2"
+                      aria-label="Search"
+                      style={{
+                        width: '450px',
+                      }}
+                    />
+                    <Button variant="outline-primary">Search</Button>
+                  </Form>
+                )}
+
+                {token ? (
                   <div className="ms-auto" id="tabs">
                     <Nav className="justify-content-end flex-grow-1 pe-3">
-                      <Nav.Link as={Link} to={'/dashboard'}>
-                        <span>Dashboard</span>
+                      {role !== 'client' && (
+                        <>
+                          <Nav.Link as={Link} to={'/dashboard'}>
+                            <span>Dashboard</span>
+                          </Nav.Link>
+                          <Nav.Link as={Link} to={'/listings'}>
+                            <span>Listings</span>
+                          </Nav.Link>
+                        </>
+                      )}
+                      <Nav.Link as={Link} to={'/orders'}>
+                        <span>Messages</span>
                       </Nav.Link>
                       <Nav.Link as={Link} to={'/orders'}>
                         <span>Orders</span>
-                      </Nav.Link>
-                      <Nav.Link as={Link} to={'/listings'}>
-                        <span>Listings</span>
                       </Nav.Link>
                       <NavDropdown
                         title="Profile"
                         id={`offcanvasNavbarDropdown-expand-${expand}`}
                       >
-                        <NavDropdown.Item as={Link} to={'/messages'}>
-                          Messages
-                        </NavDropdown.Item>
                         <NavDropdown.Item as={Link} to={'/notifications'}>
                           Notifications
                         </NavDropdown.Item>
