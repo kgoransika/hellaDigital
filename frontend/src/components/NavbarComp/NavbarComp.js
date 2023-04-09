@@ -94,7 +94,7 @@ export default function NavbarComp() {
                           </Nav.Link>
                         </>
                       )}
-                      <Nav.Link as={Link} to={'/orders'}>
+                      <Nav.Link as={Link} to={'/messages'}>
                         <span>Messages</span>
                       </Nav.Link>
                       <Nav.Link as={Link} to={'/orders'}>

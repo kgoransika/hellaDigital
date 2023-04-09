@@ -21,6 +21,7 @@ import DashboardComp from './components/DashboardComp/DashboardComp';
 import OrdersComp from './components/OrdersComp/OrdersComp';
 import ListingsComp from './components/ListingsComp/ListingsComp';
 import FooterComp from './components/FooterComp/FooterComp';
+import MessagesComp from './components/ProfileComp/MessagesComp';
 
 /** auth middleware */
 import { AuthorizeUser, ProtectRoute, SellerRoute } from './middleware/auth';
@@ -47,7 +48,15 @@ function App() {
               </SellerRoute>
             }
           />
-          <Route path="/listings" element={<ListingsComp />} />
+          <Route
+            path="/listings"
+            element={
+              <SellerRoute>
+                <ListingsComp />
+              </SellerRoute>
+            }
+          />
+          <Route path="/messages" element={<MessagesComp />} />
           <Route path="/orders" element={<OrdersComp />} />
           <Route path="/*" element={<PageNotFound />} />
         </Route>
