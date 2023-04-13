@@ -20,6 +20,7 @@ router.route('/addDigitalProduct').post(ProductController.addDigitalProduct); //
 router
   .route('/products/owner/:username')
   .get(ProductController.getProductsByOwner);
+router.route('/products/digitalProducts').get(ProductController.getAllProducts);
 
 /** GET Methods */
 router.route('/user/:username').get(controller.getUser); // user with username

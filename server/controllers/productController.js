@@ -45,3 +45,12 @@ export async function getProductsByOwner(req, res) {
     res.status(500).send({ error });
   }
 }
+
+export async function getAllProducts(req, res) {
+  try {
+    const products = await DPModel.find();
+    res.status(200).send(products);
+  } catch (error) {
+    res.status(500).send({ error });
+  }
+}

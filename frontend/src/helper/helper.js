@@ -154,3 +154,13 @@ export async function getProductBasedOnOwner({ username }) {
     return { error: 'Could not get Product data...!' };
   }
 }
+
+/** get ProductBasedOnOwner */
+export async function getAllProducts() {
+  try {
+    const { data } = await axios.get(`/api/products/digitalProducts`);
+    return { data };
+  } catch (error) {
+    return { error: 'Could not get Product data...!' };
+  }
+}

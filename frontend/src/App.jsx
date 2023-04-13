@@ -23,6 +23,7 @@ import ListingsComp from './components/ListingsComp/ListingsComp';
 import FooterComp from './components/FooterComp/FooterComp';
 import MessagesComp from './components/ProfileComp/MessagesComp';
 import AddDigitalProductComp from './components/ListingsComp/AddDigitalProductComp';
+import ClientProducts from './components/ClientComp/ClientProducts';
 
 /** auth middleware */
 import { AuthorizeUser, ProtectRoute, SellerRoute } from './middleware/auth';
@@ -32,6 +33,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<ClientHome />} />
+        <Route path="/products" element={<ClientProducts />} />
         <Route path="/" element={<Layout />}>
           <Route
             path="/profile"

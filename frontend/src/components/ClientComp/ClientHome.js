@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -49,8 +50,13 @@ const products = [
 
 export default function ClientHome() {
   const [{ apiData, isLoading }] = useFetch();
+  const navigate = useNavigate();
   const token = localStorage.getItem('token');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const navigateToProducts = () => {
+    navigate('/products');
+  };
 
   useEffect(() => {
     if (token) {
@@ -278,7 +284,7 @@ export default function ClientHome() {
           duration={1}
         />
       ) : (
-        <div className="">
+        <div>
           <div
             style={{
               backgroundColor: 'black',
@@ -355,7 +361,11 @@ export default function ClientHome() {
             <h2>Digital Products</h2>
             <Slider {...settings}>
               {digitalProducts.map((digitalProduct) => (
-                <div key={digitalProduct.id} className="">
+                <div
+                  key={digitalProduct.id}
+                  className=""
+                  onClick={navigateToProducts}
+                >
                   <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 hover:opacity-75 lg:aspect-none lg:h-80 relative">
                     <h5 className="absolute top-0 left-0 z-10 p-4 text-white">
                       {digitalProduct.title}
