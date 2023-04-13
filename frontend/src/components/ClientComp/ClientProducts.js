@@ -95,7 +95,13 @@ export default function ClientProducts() {
         <Modal.Body>
           <div>
             <p>{item.dpName}</p>
-            <p>{item.dpImg}</p>
+            <div className="max-h-80 w-50 rounded-md bg-gray-200">
+              <img
+                src={item.dpImg}
+                alt="{product.imageAlt}"
+                className="h-50 w-50 object-cover object-center"
+              />
+            </div>
             <p>Items left in stock: {item.dpQuantity}</p>
             <p>{item.dpCategory}</p>
             <p>$ {item.dpPrice}</p>

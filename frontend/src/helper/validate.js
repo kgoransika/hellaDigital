@@ -73,9 +73,6 @@ function addDigitalProductVerify(error = {}, values) {
   if (!values.dpPrice) {
     error.dpPrice = toast.error('Price Required...!');
   }
-  if (!values.dpImg) {
-    error.dpImg = toast.error('Image Required...!');
-  }
 
   return error;
 }

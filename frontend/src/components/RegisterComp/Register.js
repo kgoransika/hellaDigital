@@ -57,7 +57,7 @@ export default function Register() {
     },
   });
 
-  /** formik doensn't support file upload so we need to create this handler */
+  /** Handler to upload files */
   const onUpload = async (e) => {
     const base64 = await convertToBase64(e.target.files[0]);
     setFile(base64);
