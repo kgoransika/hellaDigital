@@ -94,9 +94,17 @@ export default function NavbarComp() {
                           </Nav.Link>
                         </>
                       )}
-                      <Nav.Link as={Link} to={'/messages'}>
-                        <span>Messages</span>
-                      </Nav.Link>
+                      {role === 'client' && (
+                        <>
+                          <Nav.Link as={Link} to={'/'}>
+                            <span>Cart</span>
+                          </Nav.Link>
+
+                          <Nav.Link as={Link} to={'/products'}>
+                            <span>Products</span>
+                          </Nav.Link>
+                        </>
+                      )}
                       <Nav.Link as={Link} to={'/orders'}>
                         <span>Orders</span>
                       </Nav.Link>
@@ -106,6 +114,9 @@ export default function NavbarComp() {
                       >
                         <NavDropdown.Item as={Link} to={'/notifications'}>
                           Notifications
+                        </NavDropdown.Item>
+                        <NavDropdown.Item as={Link} to={'/messages'}>
+                          Messages
                         </NavDropdown.Item>
                         <NavDropdown.Divider />
                         <NavDropdown.Item as={Link} to={'/profile'}>

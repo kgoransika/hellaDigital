@@ -1,45 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import NavbarComponent from '../NavbarComp/NavbarComp';
 import { getAllProducts } from '../../helper/helper';
-
-const products = [
-  {
-    id: 1,
-    name: 'testProduct',
-    href: '#',
-    price: '$$$',
-    imageSrc:
-      'https://images.pexels.com/photos/2693212/pexels-photo-2693212.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    imageAlt: 'testProduct',
-  },
-  {
-    id: 2,
-    name: 'testProduct',
-    href: '#',
-    price: '$$$',
-    imageSrc: '',
-    imageAlt: 'testProduct',
-  },
-  {
-    id: 3,
-    name: 'testProduct',
-    href: '#',
-    price: '$$$',
-    imageSrc: '',
-    imageAlt: 'testProduct',
-  },
-  {
-    id: 4,
-    name: 'testProduct',
-    href: '#',
-    price: '$$$',
-    imageSrc: '',
-    imageAlt: 'testProduct',
-  },
-];
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import FooterComp from '../FooterComp/FooterComp';
 
 export default function ClientProducts() {
   const [product, setProducts] = useState('');
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [modalShow, setModalShow] = React.useState(false);
 
   useEffect(() => {
     getAllProducts()
@@ -51,20 +20,30 @@ export default function ClientProducts() {
       });
   }, []);
 
+  function handleProductClick(item) {
+    setSelectedProduct(item);
+    setModalShow(true);
+    console.log(item);
+  }
+
   return (
     <>
       <NavbarComponent />
       <div className="">
         <div className="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
           <h2 className="tracking-tight text-center">
-            Digital Products available at our store!
+            Browse your desired digital products throughout our store!
           </h2>
 
           <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
             {product &&
               product.data &&
               product.data.map((item) => (
-                <div key={product.id} className="group relative">
+                <div
+                  key={product._id}
+                  className="group relative"
+                  onClick={() => handleProductClick(item)}
+                >
                   <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:aspect-none lg:h-80">
                     <img
                       src={item.dpImg}
@@ -84,7 +63,7 @@ export default function ClientProducts() {
                         </a>
                       </h3>
                       <p className="mt-1 text-sm text-gray-500">
-                        {item.dpQuantity}
+                        Items left in stock: {item.dpQuantity}
                       </p>
                     </div>
                     <p className="text-sm font-medium text-gray-900">
@@ -95,7 +74,40 @@ export default function ClientProducts() {
               ))}
           </div>
         </div>
+        {selectedProduct && (
+          <MyVerticallyCenteredModal
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+            item={selectedProduct}
+          />
+        )}
       </div>
+      <FooterComp />
     </>
   );
+
+  function MyVerticallyCenteredModal({ show, onHide, item }) {
+    return (
+      <Modal size="lg" centered show={show} onHide={onHide}>
+        <Modal.Header closeButton>
+          <Modal.Title>Product Overview</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div>
+            <p>{item.dpName}</p>
+            <p>{item.dpImg}</p>
+            <p>Items left in stock: {item.dpQuantity}</p>
+            <p>{item.dpCategory}</p>
+            <p>$ {item.dpPrice}</p>
+            <button
+              type="submit"
+              className="bg-blue-700 hover:bg-blue-600 text-white py-1 px-3 rounded-lg"
+            >
+              Add to Cart!
+            </button>
+          </div>
+        </Modal.Body>
+      </Modal>
+    );
+  }
 }
