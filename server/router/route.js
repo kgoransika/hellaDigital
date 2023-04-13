@@ -17,6 +17,9 @@ router.route('/login').post(controller.verifyUser, controller.login); // login i
 
 /** POST Methods - Authentication */
 router.route('/addDigitalProduct').post(ProductController.addDigitalProduct); // register user
+router
+  .route('/products/owner/:username')
+  .get(ProductController.getProductsByOwner);
 
 /** GET Methods */
 router.route('/user/:username').get(controller.getUser); // user with username

@@ -33,3 +33,15 @@ export async function addDigitalProduct(req, res) {
     return res.status(500).send(error);
   }
 }
+
+export async function getProductsByOwner(req, res) {
+  const { username } = req.params;
+
+  try {
+    if (!username) return res.status(501).send({ error: 'Invalid Username' });
+    const products = await DPModel.find({ dpOwner: username });
+    res.status(200).send(products);
+  } catch (error) {
+    res.status(500).send({ error });
+  }
+}

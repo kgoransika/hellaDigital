@@ -144,3 +144,13 @@ export async function addDigitalProduct(product) {
     return Promise.reject({ error });
   }
 }
+
+/** get ProductBasedOnOwner */
+export async function getProductBasedOnOwner({ username }) {
+  try {
+    const { data } = await axios.get(`/api/products/owner/${username}`);
+    return { data };
+  } catch (error) {
+    return { error: 'Could not get Product data...!' };
+  }
+}

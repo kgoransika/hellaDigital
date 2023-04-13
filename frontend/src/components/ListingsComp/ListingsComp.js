@@ -1,9 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { PlusIcon } from '@heroicons/react/20/solid';
 import { useNavigate } from 'react-router-dom';
+import { getUsername } from '../../helper/helper';
+import { getProductBasedOnOwner } from '../../helper/helper';
 
 export default function ListingsComp() {
   const navigate = useNavigate();
+  const [username, setUsername] = useState('');
+  const [role, setRole] = useState('');
+  const [listing, setListing] = useState('');
+
+  useEffect(() => {
+    getUsername().then((decodedToken) => {
+      setUsername(decodedToken.username);
+      setRole(decodedToken.role);
+      getProductBasedOnOwner({ username: decodedToken.username })
+        .then((data) => {
+          setListing(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+  }, []);
 
   const handleClick = () => {
     navigate('/listings/addDigitalProduct');
@@ -42,7 +61,7 @@ export default function ListingsComp() {
     borderBottom: '1px solid #dee2e6',
   };
 
-  const listings = [
+  /* const listings = [
     {
       id: 1,
       name: 'testProduct',
@@ -109,7 +128,7 @@ export default function ListingsComp() {
         'https://images.pexels.com/photos/2693212/pexels-photo-2693212.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       imageAlt: 'testProduct',
     },
-  ];
+  ]; */
 
   return (
     <>
@@ -139,21 +158,23 @@ export default function ListingsComp() {
                 </tr>
               </thead>
               <tbody>
-                {listings.map((listing) => (
-                  <tr key={listing.id}>
-                    <td style={tdStyle}>
-                      <img
-                        src={listing.imageSrc}
-                        alt={listing.imageAlt}
-                        className="h-12 w-12 object-cover object-center"
-                      />
-                    </td>
-                    <td style={tdStyle}>{listing.name}</td>
-                    <td style={tdStyle}>{listing.category}</td>
-                    <td style={tdStyle}>{listing.stock}</td>
-                    <td style={tdStyle}>{listing.price}</td>
-                  </tr>
-                ))}
+                {listing &&
+                  listing.data &&
+                  listing.data.map((item) => (
+                    <tr key={item.id}>
+                      <td style={tdStyle}>
+                        <img
+                          src={item.dpImg}
+                          alt={item.imageAlt}
+                          className="h-12 w-12 object-cover object-center"
+                        />
+                      </td>
+                      <td style={tdStyle}>{item.dpName}</td>
+                      <td style={tdStyle}>{item.dpCategory}</td>
+                      <td style={tdStyle}>{item.dpQuantity}</td>
+                      <td style={tdStyle}>{item.dpPrice}</td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
