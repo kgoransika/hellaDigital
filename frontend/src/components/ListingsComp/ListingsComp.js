@@ -1,7 +1,14 @@
 import React from 'react';
 import { PlusIcon } from '@heroicons/react/20/solid';
+import { useNavigate } from 'react-router-dom';
 
 export default function ListingsComp() {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/listings/addDigitalProduct');
+  };
+
   const div1Style = {
     padding: '20px',
     width: '100%',
@@ -48,7 +55,7 @@ export default function ListingsComp() {
       imageAlt: 'testProduct',
     },
     {
-      id: 1,
+      id: 2,
       name: 'testProduct',
       href: '#',
       price: '$$$',
@@ -59,7 +66,7 @@ export default function ListingsComp() {
       imageAlt: 'testProduct',
     },
     {
-      id: 1,
+      id: 3,
       name: 'testProduct',
       href: '#',
       price: '$$$',
@@ -70,7 +77,7 @@ export default function ListingsComp() {
       imageAlt: 'testProduct',
     },
     {
-      id: 1,
+      id: 4,
       name: 'testProduct',
       href: '#',
       price: '$$$',
@@ -81,7 +88,7 @@ export default function ListingsComp() {
       imageAlt: 'testProduct',
     },
     {
-      id: 1,
+      id: 5,
       name: 'testProduct',
       href: '#',
       price: '$$$',
@@ -92,7 +99,7 @@ export default function ListingsComp() {
       imageAlt: 'testProduct',
     },
     {
-      id: 1,
+      id: 6,
       name: 'testProduct',
       href: '#',
       price: '$$$',
@@ -114,6 +121,7 @@ export default function ListingsComp() {
               <button
                 style={{ backgroundColor: '#0066ff' }}
                 className="ms-auto text-white py-2 px-4 rounded-lg inline-flex"
+                onClick={handleClick}
               >
                 <span className="">Add new product</span>
                 <PlusIcon className="ml-1 h-6 w-6" aria-hidden="true" />
@@ -132,7 +140,7 @@ export default function ListingsComp() {
               </thead>
               <tbody>
                 {listings.map((listing) => (
-                  <tr>
+                  <tr key={listing.id}>
                     <td style={tdStyle}>
                       <img
                         src={listing.imageSrc}

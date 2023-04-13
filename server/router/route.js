@@ -3,16 +3,20 @@ const router = Router();
 
 /** import all controllers */
 import * as controller from '../controllers/appController.js';
+import * as ProductController from '../controllers/productController.js';
 import { registerMail } from '../controllers/mailer.js';
 import Auth, { localVariables } from '../middleware/auth.js';
 
-/** POST Methods */
+/** POST Methods - Authentication */
 router.route('/register').post(controller.register); // register user
 router.route('/registerMail').post(registerMail); // send the email
 router
   .route('/authenticate')
   .post(controller.verifyUser, (req, res) => res.end()); // authenticate user
 router.route('/login').post(controller.verifyUser, controller.login); // login in app
+
+/** POST Methods - Authentication */
+router.route('/addDigitalProduct').post(ProductController.addDigitalProduct); // register user
 
 /** GET Methods */
 router.route('/user/:username').get(controller.getUser); // user with username

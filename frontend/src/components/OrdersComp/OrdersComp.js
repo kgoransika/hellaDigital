@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Table } from 'react-bootstrap';
 import { getUsername } from '../../helper/helper';
-import { useNavigate } from 'react-router-dom';
-import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 export default function OrdersComp() {
@@ -10,7 +8,6 @@ export default function OrdersComp() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [username, setUsername] = useState('');
   const [role, setRole] = useState('');
-  const navigate = useNavigate();
 
   function handleRowClick(order) {
     setSelectedOrder(order);
@@ -84,7 +81,7 @@ export default function OrdersComp() {
             </div>
             <div style={div1Style}>
               <h3>Orders</h3>
-              <span>
+              <span className="text-red-600">
                 *click the id of the respective order to view the order summary
               </span>
               <Table striped bordered hover>
@@ -100,7 +97,7 @@ export default function OrdersComp() {
                 <tbody>
                   {orders.map((order) => (
                     <tr key={order.id}>
-                      <td>{order.id}</td>
+                      <td onClick={() => handleRowClick(order)}>{order.id}</td>
                       <td>{order.customerName}</td>
                       <td>{order.dateTime}</td>
                       <td>${order.totalPrice}</td>
@@ -110,6 +107,13 @@ export default function OrdersComp() {
                 </tbody>
               </Table>
             </div>
+            {selectedOrder && (
+              <MyVerticallyCenteredModal
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+                order={selectedOrder}
+              />
+            )}
           </div>
         ) : role === 'dsp' ? (
           <div className="dspOrder" style={{ display: 'flex' }}>

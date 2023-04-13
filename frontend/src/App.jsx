@@ -22,6 +22,7 @@ import OrdersComp from './components/OrdersComp/OrdersComp';
 import ListingsComp from './components/ListingsComp/ListingsComp';
 import FooterComp from './components/FooterComp/FooterComp';
 import MessagesComp from './components/ProfileComp/MessagesComp';
+import AddDigitalProductComp from './components/ListingsComp/AddDigitalProductComp';
 
 /** auth middleware */
 import { AuthorizeUser, ProtectRoute, SellerRoute } from './middleware/auth';
@@ -53,6 +54,14 @@ function App() {
             element={
               <SellerRoute>
                 <ListingsComp />
+              </SellerRoute>
+            }
+          />
+          <Route
+            path="/listings/addDigitalProduct"
+            element={
+              <SellerRoute>
+                <AddDigitalProductComp />
               </SellerRoute>
             }
           />

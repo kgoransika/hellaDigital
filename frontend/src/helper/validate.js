@@ -50,7 +50,35 @@ export async function profileValidation(values) {
   return errors;
 }
 
+/** validate addDigitalProduct form */
+export async function addDigitalProductValidation(values) {
+  const errors = addDigitalProductVerify({}, values);
+
+  return errors;
+}
+
 /** ************************************************* */
+
+/** validate addDigitalProductVerify */
+function addDigitalProductVerify(error = {}, values) {
+  if (!values.dpName) {
+    error.dpName = toast.error('Name Required...!');
+  }
+  if (!values.dpDescription) {
+    error.dpDescription = toast.error('Description Required...!');
+  }
+  if (!values.dpCategory) {
+    error.dpCategory = toast.error('Category Required...!');
+  }
+  if (!values.dpPrice) {
+    error.dpPrice = toast.error('Price Required...!');
+  }
+  if (!values.dpImg) {
+    error.dpImg = toast.error('Image Required...!');
+  }
+
+  return error;
+}
 
 /** validate password */
 function passwordVerify(errors = {}, values) {

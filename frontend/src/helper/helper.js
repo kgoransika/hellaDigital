@@ -135,3 +135,12 @@ export async function resetPassword({ username, password }) {
     return Promise.reject({ error });
   }
 }
+
+/** addDigitalProduct function */
+export async function addDigitalProduct(product) {
+  try {
+    return await axios.post(`/api/addDigitalProduct`, product);
+  } catch (error) {
+    return Promise.reject({ error });
+  }
+}
