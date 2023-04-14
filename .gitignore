@@ -4,11 +4,14 @@
 node_modules
 /.pnp
 .pnp.js
-client/node_modules
-server/node_modules
+frontend/node_modules
+/node_modules
 server/config.js
+config.js
 client/.env
 server/.env
+frontend/.env
+.env
 
 # testing
 /coverage

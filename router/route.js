@@ -7,7 +7,9 @@ import * as ProductController from '../controllers/productController.js';
 import { registerMail } from '../controllers/mailer.js';
 import Auth, { localVariables } from '../middleware/auth.js';
 
-/** POST Methods - Authentication */
+/*****************************************************************/
+/**********************-- AUTHENTICATION --**********************/
+/*POST Methods*/
 router.route('/register').post(controller.register); // register user
 router.route('/registerMail').post(registerMail); // send the email
 router
@@ -15,14 +17,7 @@ router
   .post(controller.verifyUser, (req, res) => res.end()); // authenticate user
 router.route('/login').post(controller.verifyUser, controller.login); // login in app
 
-/** POST Methods - Authentication */
-router.route('/addDigitalProduct').post(ProductController.addDigitalProduct); // register user
-router
-  .route('/products/owner/:username')
-  .get(ProductController.getProductsByOwner);
-router.route('/products/digitalProducts').get(ProductController.getAllProducts);
-
-/** GET Methods */
+/*GET Methods*/
 router.route('/user/:username').get(controller.getUser); // user with username
 router
   .route('/generateOTP')
@@ -35,5 +30,16 @@ router.route('/updateuser').put(Auth, controller.updateUser); // is use to updat
 router
   .route('/resetPassword')
   .put(controller.verifyUser, controller.resetPassword); // use to reset password
+
+/*****************************************************************/
+/**********************-- ADD DIGITAL PRODUCTS --**********************/
+/*POST Methods*/
+router.route('/addDigitalProduct').post(ProductController.addDigitalProduct); // Add product to platform
+
+/** GET Methods - Digital Products */
+router
+  .route('/products/owner/:username')
+  .get(ProductController.getProductsByOwner);
+router.route('/products/digitalProducts').get(ProductController.getAllProducts);
 
 export default router;
