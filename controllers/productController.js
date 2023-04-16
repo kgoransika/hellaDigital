@@ -1,4 +1,5 @@
 import DPModel from '../model/DigitalProducts.model.js';
+import cloudinary from '../middleware/cloudinary.js';
 
 export async function addDigitalProduct(req, res) {
   try {
@@ -12,13 +13,20 @@ export async function addDigitalProduct(req, res) {
       dpOwner,
     } = req.body;
 
+    const result = await cloudinary.uploader.upload(dpImg, {
+      folder: 'dpImgs',
+    });
+
     const product = new DPModel({
       dpName,
       dpDescription,
       dpCategory,
       dpPrice,
       dpQuantity,
-      dpImg,
+      dpImg: {
+        public_id: result.public_id,
+        url: result.secure_url,
+      },
       dpOwner,
     });
 

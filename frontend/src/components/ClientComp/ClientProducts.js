@@ -46,7 +46,7 @@ export default function ClientProducts() {
                 >
                   <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:aspect-none lg:h-80">
                     <img
-                      src={item.dpImg}
+                      src={item.dpImg.url}
                       alt="{product.imageAlt}"
                       className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                     />
@@ -97,7 +97,7 @@ export default function ClientProducts() {
             <p>{item.dpName}</p>
             <div className="max-h-80 w-50 rounded-md bg-gray-200">
               <img
-                src={item.dpImg}
+                src={item.dpImg.url}
                 alt="{product.imageAlt}"
                 className="h-50 w-50 object-cover object-center"
               />
