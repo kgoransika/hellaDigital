@@ -164,3 +164,12 @@ export async function getAllProducts() {
     return { error: 'Could not get Product data...!' };
   }
 }
+
+export async function getProductsCategory({ category }) {
+  try {
+    const { data } = await axios.get(`/api/products/category/${category}`);
+    return { data };
+  } catch (error) {
+    return { error: 'Could not get Product Category...!' };
+  }
+}

@@ -13,20 +13,13 @@ export async function addDigitalProduct(req, res) {
       dpOwner,
     } = req.body;
 
-    const result = await cloudinary.uploader.upload(dpImg, {
-      folder: 'dpImgs',
-    });
-
     const product = new DPModel({
       dpName,
       dpDescription,
       dpCategory,
       dpPrice,
       dpQuantity,
-      dpImg: {
-        public_id: result.public_id,
-        url: result.secure_url,
-      },
+      dpImg,
       dpOwner,
     });
 
@@ -57,6 +50,18 @@ export async function getProductsByOwner(req, res) {
 export async function getAllProducts(req, res) {
   try {
     const products = await DPModel.find();
+    res.status(200).send(products);
+  } catch (error) {
+    res.status(500).send({ error });
+  }
+}
+
+export async function getProductsByCategory(req, res) {
+  const { category } = req.params;
+
+  try {
+    if (!category) return res.status(501).send({ error: 'Invalid Category' });
+    const products = await DPModel.find({ dpCategory: category });
     res.status(200).send(products);
   } catch (error) {
     res.status(500).send({ error });

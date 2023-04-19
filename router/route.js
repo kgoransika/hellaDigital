@@ -41,5 +41,8 @@ router
   .route('/products/owner/:username')
   .get(ProductController.getProductsByOwner);
 router.route('/products/digitalProducts').get(ProductController.getAllProducts);
+router
+  .route('/products/category/:category')
+  .get(ProductController.getProductsByCategory);
 
 export default router;

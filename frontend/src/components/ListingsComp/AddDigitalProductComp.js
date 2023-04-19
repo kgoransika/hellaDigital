@@ -30,11 +30,11 @@ export default function AddDigitalProductComp() {
 
   const formik = useFormik({
     initialValues: {
-      dpName: '',
-      dpDescription: '',
+      dpName: 'product 1',
+      dpDescription: 'this is a product',
       dpcategory: '',
-      dpPrice: '',
-      dpQuantity: '',
+      dpPrice: '32',
+      dpQuantity: '12',
       dpImg: '',
       dpOwner: '',
     },
@@ -134,9 +134,13 @@ export default function AddDigitalProductComp() {
                   id="dpCategory"
                 >
                   <option value="">Select a category</option>
-                  <option value="category1">Category 1</option>
-                  <option value="category2">Category 2</option>
-                  <option value="category3">Category 3</option>
+                  <option value="photos">Photos</option>
+                  <option value="videos">Videos</option>
+                  <option value="music">Music</option>
+                  <option value="webtemplates">Web Templates</option>
+                  <option value="ebooks">E-books</option>
+                  <option value="printable">Printable</option>
+                  <option value="graphicassets">Graphic Assets</option>
                 </select>
               </div>
               <div className="mb-4">

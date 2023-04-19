@@ -164,7 +164,7 @@ export default function ListingsComp() {
                     <tr key={item.id}>
                       <td style={tdStyle}>
                         <img
-                          src={item.dpImg.url}
+                          src={item.dpImg}
                           alt={item.imageAlt}
                           className="h-12 w-12 object-cover object-center"
                         />
