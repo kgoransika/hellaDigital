@@ -28,6 +28,8 @@ import Cart from './components/ClientComp/Cart';
 
 /** auth middleware */
 import { AuthorizeUser, ProtectRoute, SellerRoute } from './middleware/auth';
+import ServicesComp from './components/ServicesComp/ServicesComp';
+import AddDigitalServices from './components/ServicesComp/AddDigitalServices';
 
 function App() {
   return (
@@ -66,6 +68,22 @@ function App() {
             element={
               <SellerRoute>
                 <AddDigitalProductComp />
+              </SellerRoute>
+            }
+          />
+          <Route
+            path="/services"
+            element={
+              <SellerRoute>
+                <ServicesComp />
+              </SellerRoute>
+            }
+          />
+          <Route
+            path="/services/addDigitalService"
+            element={
+              <SellerRoute>
+                <AddDigitalServices />
               </SellerRoute>
             }
           />

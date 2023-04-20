@@ -89,9 +89,20 @@ export default function NavbarComp() {
                           <Nav.Link as={Link} to={'/dashboard'}>
                             <span>Dashboard</span>
                           </Nav.Link>
-                          <Nav.Link as={Link} to={'/listings'}>
-                            <span>Listings</span>
-                          </Nav.Link>
+                          {role === 'dps' && (
+                            <>
+                              <Nav.Link as={Link} to={'/listings'}>
+                                <span>Listings</span>
+                              </Nav.Link>
+                            </>
+                          )}
+                          {role === 'dsp' && (
+                            <>
+                              <Nav.Link as={Link} to={'/services'}>
+                                <span>Services</span>
+                              </Nav.Link>
+                            </>
+                          )}
                         </>
                       )}
                       {role === 'client' && (
