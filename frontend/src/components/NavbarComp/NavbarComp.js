@@ -96,7 +96,7 @@ export default function NavbarComp() {
                       )}
                       {role === 'client' && (
                         <>
-                          <Nav.Link as={Link} to={'/'}>
+                          <Nav.Link as={Link} to={'/cart'}>
                             <span>Cart</span>
                           </Nav.Link>
 

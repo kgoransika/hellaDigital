@@ -24,6 +24,7 @@ import FooterComp from './components/FooterComp/FooterComp';
 import MessagesComp from './components/ProfileComp/MessagesComp';
 import AddDigitalProductComp from './components/ListingsComp/AddDigitalProductComp';
 import ClientProducts from './components/ClientComp/ClientProducts';
+import Cart from './components/ClientComp/Cart';
 
 /** auth middleware */
 import { AuthorizeUser, ProtectRoute, SellerRoute } from './middleware/auth';
@@ -34,6 +35,7 @@ function App() {
       <Routes>
         <Route path="/" element={<ClientHome />} />
         <Route path="/products" element={<ClientProducts />} />
+        <Route path="/cart" element={<Cart />} />
         <Route path="/" element={<Layout />}>
           <Route
             path="/profile"
