@@ -10,6 +10,7 @@ export async function addDigitalProduct(req, res) {
       dpPrice,
       dpQuantity,
       dpImg,
+      dpFile,
       dpOwner,
     } = req.body;
 
@@ -20,6 +21,7 @@ export async function addDigitalProduct(req, res) {
       dpPrice,
       dpQuantity,
       dpImg,
+      dpFile,
       dpOwner,
     });
 

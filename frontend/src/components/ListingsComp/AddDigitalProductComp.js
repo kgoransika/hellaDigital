@@ -9,7 +9,9 @@ import avatar from '../../assets/profile.png';
 import styles from '../../styles/Username.module.css';
 
 export default function AddDigitalProductComp() {
+  const [img, setImg] = useState();
   const [file, setFile] = useState();
+  const [filename, setFileName] = useState();
   const [username, setUsername] = useState('');
   const [role, setRole] = useState('');
 
@@ -42,7 +44,11 @@ export default function AddDigitalProductComp() {
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: async (values) => {
-      values = await Object.assign(values, { dpImg: file || '' });
+      values = await Object.assign(
+        values,
+        { dpImg: img || '' },
+        { dpFile: file || '' }
+      );
       let addDigitalProductPromise = addDigitalProduct(values);
       console.log(values);
       toast.promise(addDigitalProductPromise, {
@@ -55,15 +61,31 @@ export default function AddDigitalProductComp() {
     },
   });
 
-  /** Handler to upload files */
+  /** Handler to preview Image */
   const onUpload = async (e) => {
     const base64 = await convertToBase64(e.target.files[0]);
-    setFile(base64);
+    setImg(base64);
   };
 
+  /** Handler to upload files */
+  const onUploadFiles = async (e) => {
+    const base64 = await convertToBase64(e.target.files[0]);
+    setFile(base64);
+    setFileName(e.target.files[0].name);
+  };
   const div1Style = {
     padding: '20px',
     width: '100%',
+    height: 'auto',
+    margin: '20px',
+    border: '1px solid #dee2e6',
+    boxShadow: '0 0 1px 1px #dee2e6',
+    borderRadius: '10px',
+  };
+
+  const div2Style = {
+    padding: '20px',
+    width: '40vh',
     height: 'auto',
     margin: '20px',
     border: '1px solid #dee2e6',
@@ -174,19 +196,56 @@ export default function AddDigitalProductComp() {
                   placeholder="Product quantity"
                 />
               </div>
-              <div className="w-1/2 max-w-md">
-                <label htmlFor="dpImg">
-                  <img src={file || avatar} alt="avatar" />
-                </label>
-
-                <input
-                  onChange={onUpload}
-                  type="file"
-                  id="dpImg"
-                  name="dpImg"
-                  className="dpImg"
-                  accept="image/*"
-                />
+              <div className="flex">
+                <div className="w-1/2 max-w-md">
+                  <div style={div2Style}>
+                    <label htmlFor="dpImg">
+                      <img src={img} alt="Preview Img" />
+                      <p className="text-blue-500 underline cursor-pointer">
+                        Browse
+                      </p>
+                    </label>
+                    <input
+                      onChange={onUpload}
+                      type="file"
+                      id="dpImg"
+                      name="dpImg"
+                      className="dpImg"
+                      accept="image/*"
+                    />
+                    {!img && (
+                      <>
+                        <p className="text-center text-gray-500">
+                          A preview of your uploaded image will be shown here!
+                        </p>
+                      </>
+                    )}
+                  </div>
+                </div>
+                <div>
+                  <div style={div2Style}>
+                    <label htmlFor="dpFile">
+                      <p className="text-blue-500 underline cursor-pointer">
+                        Browse
+                      </p>
+                    </label>
+                    <input
+                      onChange={onUploadFiles}
+                      type="file"
+                      id="dpFile"
+                      name="dpFile"
+                      className="dpFile"
+                    />
+                    {file && <p>Selected file: {filename}</p>}
+                    {!file && (
+                      <>
+                        <p className="text-center text-gray-500">
+                          Your file name will be shown here!
+                        </p>
+                      </>
+                    )}
+                  </div>
+                </div>
               </div>
               <div className="flex items-center justify-center">
                 <button

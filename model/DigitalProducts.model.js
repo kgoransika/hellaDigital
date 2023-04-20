@@ -28,6 +28,10 @@ export const DPSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  dpFile: {
+    type: String,
+    required: true,
+  },
   dpOwner: {
     type: String,
   },
