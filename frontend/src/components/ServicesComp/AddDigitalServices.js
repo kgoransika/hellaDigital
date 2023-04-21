@@ -5,7 +5,6 @@ import Step from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
 
 const steps = ['Service Overview', 'Pricing', 'Add Photos'];
 

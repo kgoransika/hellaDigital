@@ -10,6 +10,10 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import './NavbarComp.css';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
+import CurrencyExchangeRoundedIcon from '@mui/icons-material/CurrencyExchangeRounded';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 
 export default function NavbarComp() {
   const [username, setUsername] = useState('');
@@ -108,16 +112,20 @@ export default function NavbarComp() {
                       {role === 'client' && (
                         <>
                           <Nav.Link as={Link} to={'/cart'}>
-                            <span>Cart</span>
+                            <ShoppingCartOutlinedIcon className="h-6 w-6" />
                           </Nav.Link>
 
                           <Nav.Link as={Link} to={'/products'}>
-                            <span>Products</span>
+                            <Inventory2OutlinedIcon className="h-6 w-6" />
+                          </Nav.Link>
+
+                          <Nav.Link as={Link} to={'/'}>
+                            <CurrencyExchangeRoundedIcon className="h-6 w-6" />
                           </Nav.Link>
                         </>
                       )}
                       <Nav.Link as={Link} to={'/orders'}>
-                        <span>Orders</span>
+                        <ReceiptLongIcon className="h-6 w-6" />
                       </Nav.Link>
                       <NavDropdown
                         title="Profile"
