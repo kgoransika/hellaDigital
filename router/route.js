@@ -4,6 +4,7 @@ const router = Router();
 /** import all controllers */
 import * as controller from '../controllers/appController.js';
 import * as ProductController from '../controllers/productController.js';
+import * as ServicesController from '../controllers/servicesController.js';
 import { registerMail } from '../controllers/mailer.js';
 import Auth, { localVariables } from '../middleware/auth.js';
 
@@ -44,5 +45,10 @@ router.route('/products/digitalProducts').get(ProductController.getAllProducts);
 router
   .route('/products/category/:category')
   .get(ProductController.getProductsByCategory);
+
+/*****************************************************************/
+/**********************-- ADD DIGITAL SERVICES --**********************/
+/*POST Methods*/
+router.route('/addDigitalService').post(ServicesController.addDigitalService); // Add product to platform
 
 export default router;

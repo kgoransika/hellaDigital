@@ -165,11 +165,21 @@ export async function getAllProducts() {
   }
 }
 
+/** get ProductBasedOnCategory */
 export async function getProductsCategory({ category }) {
   try {
     const { data } = await axios.get(`/api/products/category/${category}`);
     return { data };
   } catch (error) {
     return { error: 'Could not get Product Category...!' };
+  }
+}
+
+/** addDigitalProduct function */
+export async function addDigitalService(service) {
+  try {
+    return await axios.post(`/api/addDigitalService`, service);
+  } catch (error) {
+    return Promise.reject({ error });
   }
 }

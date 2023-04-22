@@ -7,6 +7,10 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Card, CardBody } from '@windmill/react-ui';
 import convertToBase64 from '../../helper/convert';
+import { useFormik } from 'formik';
+import { addDigitalService } from '../../helper/helper';
+import toast, { Toaster } from 'react-hot-toast';
+import { getUsername } from '../../helper/helper';
 
 const steps = ['Service Overview', 'Pricing', 'Add Photos & Portfolio'];
 
@@ -78,30 +82,33 @@ export default function AddDigitalServices() {
   const [completed, setCompleted] = React.useState({});
 
   //Service Overview use States
-  const [serviceName, setServiceName] = React.useState('');
-  const [serviceDescription, setServiceDescription] = React.useState('');
-  const [category, setCategory] = React.useState('');
-  const [subcategory, setSubcategory] = React.useState('');
+  const [serviceName, setServiceName] = React.useState('wqe');
+  const [serviceDescription, setServiceDescription] = React.useState('qwe');
+  const [category, setCategory] = React.useState('Photos');
+  const [subcategory, setSubcategory] = React.useState('Photo Editing');
   const subcategories =
     categories.find((c) => c.name === category)?.subcategories || [];
 
   //Pricing use States
-  const [pkg1Name, setPkg1Name] = React.useState('');
-  const [pkg1Price, setPkg1Price] = React.useState('');
-  const [pkg1Dt, setPkg1Dt] = React.useState('');
-  const [pkg1Revisions, setPkg1Revisions] = React.useState('');
-  const [pkg2Name, setPkg2Name] = React.useState('');
-  const [pkg2Price, setPkg2Price] = React.useState('');
-  const [pkg2Dt, setPkg2Dt] = React.useState('');
-  const [pkg2Revisions, setPkg2Revisions] = React.useState('');
-  const [pkg3Name, setPkg3Name] = React.useState('');
-  const [pkg3Price, setPkg3Price] = React.useState('');
-  const [pkg3Dt, setPkg3Dt] = React.useState('');
-  const [pkg3Revisions, setPkg3Revisions] = React.useState('');
+  const [dsPkg1Name, setPkg1Name] = React.useState('');
+  const [dsPkg1Price, setPkg1Price] = React.useState('');
+  const [dsPkg1Dt, setPkg1Dt] = React.useState('');
+  const [dsPkg1Revisions, setPkg1Revisions] = React.useState('');
+  const [dsPkg2Name, setPkg2Name] = React.useState('');
+  const [dsPkg2Price, setPkg2Price] = React.useState('');
+  const [dsPkg2Dt, setPkg2Dt] = React.useState('');
+  const [dsPkg2Revisions, setPkg2Revisions] = React.useState('');
+  const [dsPkg3Name, setPkg3Name] = React.useState('');
+  const [dsPkg3Price, setPkg3Price] = React.useState('');
+  const [dsPkg3Dt, setPkg3Dt] = React.useState('');
+  const [dsPkg3Revisions, setPkg3Revisions] = React.useState('');
 
   //Add Photos & Portfolio use States
   const [img, setImg] = React.useState();
-  const [portfolioLink, setPortfolioLink] = React.useState();
+  const [portfolioLink, setPortfolioLink] = React.useState('');
+
+  const [username, setUsername] = React.useState('');
+  const [role, setRole] = React.useState('');
 
   const onUpload = async (e) => {
     const base64 = await convertToBase64(e.target.files[0]);
@@ -109,8 +116,96 @@ export default function AddDigitalServices() {
   };
 
   React.useEffect(() => {
-    setCategory('photos');
+    setCategory('Photos');
+
+    getUsername()
+      .then((decodedToken) => {
+        setUsername(decodedToken.username);
+        setRole(decodedToken.role);
+        formik.setValues((values) => ({
+          ...values,
+          dsOwner: decodedToken.username,
+        }));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
+
+  const formik = useFormik({
+    initialValues: {
+      dsName: '',
+      dsDescription: '',
+      dsCategory: '',
+      dsSubCategory: '',
+      dsPkgs: {
+        dsPkg1: {
+          dsPkg1Name: '',
+          dsPkg1Price: '',
+          dsPkg1DeliveryTime: '',
+          dsPkg1Revisions: '',
+        },
+        dsPkg2: {
+          dsPkg2Name: '',
+          dsPkg2Price: '',
+          dsPkg2DeliveryTime: '',
+          dsPkg2Revisions: '',
+        },
+        dsPkg3: {
+          dsPkg3Name: '',
+          dsPkg3Price: '',
+          dsPkg3DeliveryTime: '',
+          dsPkg3Revisions: '',
+        },
+      },
+      dsImg: '',
+      dsPortfolioLink: '',
+      dsOwner: 'dsf',
+    },
+
+    onSubmit: async (values) => {
+      values = await Object.assign(
+        values,
+        { dsName: serviceName },
+        { dsDescription: serviceDescription },
+        { dsCategory: category },
+        { dsSubCategory: subcategory },
+        {
+          dsPkgs: {
+            dsPkg1: {
+              dsPkg1Name: dsPkg1Name,
+              dsPkg1Price: dsPkg1Price,
+              dsPkg1DeliveryTime: dsPkg1Dt,
+              dsPkg1Revisions: dsPkg1Revisions,
+            },
+            dsPkg2: {
+              dsPkg2Name: dsPkg2Name,
+              dsPkg2Price: dsPkg2Price,
+              dsPkg2DeliveryTime: dsPkg2Dt,
+              dsPkg2Revisions: dsPkg2Revisions,
+            },
+            dsPkg3: {
+              dsPkg3Name: dsPkg3Name,
+              dsPkg3Price: dsPkg3Price,
+              dsPkg3DeliveryTime: dsPkg3Dt,
+              dsPkg3Revisions: dsPkg3Revisions,
+            },
+          },
+        },
+        { dsImg: img },
+        { dsPortfolioLink: portfolioLink }
+      );
+      let addDigitalServicePromise = addDigitalService(values);
+      console.log(values);
+      toast.promise(addDigitalServicePromise, {
+        loading: 'Hold on your product is getting added...',
+        success: <b>Product added successfully</b>,
+        error: <b>Product couldn't be added</b>,
+      });
+
+      addDigitalServicePromise.then(function () {});
+    },
+  });
 
   const totalSteps = () => {
     return steps.length;
@@ -146,18 +241,6 @@ export default function AddDigitalServices() {
     setActiveStep(step);
   };
 
-  const handleComplete = () => {
-    const newCompleted = completed;
-    newCompleted[activeStep] = true;
-    setCompleted(newCompleted);
-    handleNext();
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-    setCompleted({});
-  };
-
   return (
     <>
       <style>
@@ -175,6 +258,7 @@ export default function AddDigitalServices() {
     `}
       </style>
       <div className="mt-20 ml-20 mr-20">
+        <Toaster position="top-center" reverseOrder={false}></Toaster>
         <div style={div1Style}>
           <h2>Let's add your service!</h2>
           <br />
@@ -201,21 +285,23 @@ export default function AddDigitalServices() {
                     </Typography>
                     <form>
                       <Box sx={{ width: '50%' }}>
-                        <label htmlFor="serviceName">Service Name:</label>
+                        <label htmlFor="dsName">Service Name:</label>
                         <input
+                          {...formik.getFieldProps('dsName')}
                           type="text"
-                          id="serviceName"
-                          name="serviceName"
+                          id="dsName"
+                          name="dsName"
                           value={serviceName}
                           onChange={(e) => setServiceName(e.target.value)}
                           placeholder="Eg: I can design a logo for you"
                         />
                         <br />
                         <br />
-                        <label htmlFor="description">Description:</label>
+                        <label htmlFor="dsDescription">Description:</label>
                         <textarea
-                          id="description"
-                          name="description"
+                          {...formik.getFieldProps('dsDescription')}
+                          id="dsDescription"
+                          name="dsDescription"
                           value={serviceDescription}
                           onChange={(e) =>
                             setServiceDescription(e.target.value)
@@ -225,11 +311,12 @@ export default function AddDigitalServices() {
                         ></textarea>
                         <br />
                         <br />
-                        <label htmlFor="category">Category:</label>
+                        <label htmlFor="dsCategory">Category:</label>
                         <div className="flex">
                           <select
+                            {...formik.getFieldProps('dsCategory')}
                             className="border rounded w-1/7 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ml-2"
-                            id="category"
+                            id="dsCategory"
                             value={category}
                             onChange={(e) => setCategory(e.target.value)}
                           >
@@ -242,8 +329,9 @@ export default function AddDigitalServices() {
                           </select>
                           {subcategories.length > 0 && (
                             <select
+                              {...formik.getFieldProps('dsSubcategory')}
                               className="border rounded w-1/7 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ml-2"
-                              id="subcategory"
+                              id="dsSubcategory"
                               value={subcategory}
                               onChange={(e) => setSubcategory(e.target.value)}
                             >
@@ -275,11 +363,12 @@ export default function AddDigitalServices() {
                                 Package Name
                               </label>
                               <input
+                                {...formik.getFieldProps('dsPkg1Name')}
                                 type="text"
-                                id="packageName"
+                                id="dsPkg1Name"
                                 placeholder="Eg: Basic"
-                                name="packageName"
-                                value={pkg1Name}
+                                name="dsPkg1Name"
+                                value={dsPkg1Name}
                                 onChange={(e) => setPkg1Name(e.target.value)}
                                 className="w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
                               />
@@ -289,10 +378,11 @@ export default function AddDigitalServices() {
                                 Price:
                               </label>
                               <input
+                                {...formik.getFieldProps('dsPkg1Price')}
                                 type="number"
-                                id="price"
-                                name="price"
-                                value={pkg1Price}
+                                id="dsPkg1Price"
+                                name="dsPkg1Price"
+                                value={dsPkg1Price}
                                 onChange={(e) => setPkg1Price(e.target.value)}
                                 className="w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
                               />
@@ -305,10 +395,11 @@ export default function AddDigitalServices() {
                                 Delivery Time (in days):
                               </label>
                               <input
+                                {...formik.getFieldProps('dsPkg1Dt')}
                                 type="number"
-                                id="deliveryTime"
-                                name="deliveryTime"
-                                value={pkg1Dt}
+                                id="dsPkg1Dt"
+                                name="dsPkg1Dt"
+                                value={dsPkg1Dt}
                                 onChange={(e) => setPkg1Dt(e.target.value)}
                                 className="w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
                               />
@@ -318,10 +409,11 @@ export default function AddDigitalServices() {
                                 Number of revisions:
                               </label>
                               <input
+                                {...formik.getFieldProps('dsPkg1Revisions')}
                                 type="number"
-                                id="revisions"
-                                name="revisions"
-                                value={pkg1Revisions}
+                                id="dsPkg1Revisions"
+                                name="dsPkg1Revisions"
+                                value={dsPkg1Revisions}
                                 onChange={(e) =>
                                   setPkg1Revisions(e.target.value)
                                 }
@@ -337,59 +429,66 @@ export default function AddDigitalServices() {
                           <form>
                             <div className="my-4">
                               <label
-                                htmlFor="packageName"
+                                htmlFor="dsPkg2Name"
                                 className="block mb-2"
                               >
                                 Package Name
                               </label>
                               <input
+                                {...formik.getFieldProps('dsPkg2Name')}
                                 type="text"
-                                id="packageName"
-                                name="packageName"
-                                value={pkg2Name}
+                                id="dsPkg2Name"
+                                name="dsPkg2Name"
+                                value={dsPkg2Name}
                                 onChange={(e) => setPkg2Name(e.target.value)}
                                 placeholder="Eg: Standard"
                                 className="w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
                               />
                             </div>
                             <div className="my-4">
-                              <label htmlFor="price" className="block mb-2">
+                              <label
+                                htmlFor="dsPkg2Price"
+                                className="block mb-2"
+                              >
                                 Price:
                               </label>
                               <input
+                                {...formik.getFieldProps('dsPkg2Price')}
                                 type="number"
-                                id="price"
-                                name="price"
-                                value={pkg2Price}
+                                id="dsPkg2Price"
+                                name="dsPkg2Price"
+                                value={dsPkg2Price}
                                 onChange={(e) => setPkg2Price(e.target.value)}
                                 className="w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
                               />
                             </div>
                             <div className="my-4">
-                              <label
-                                htmlFor="deliveryTime"
-                                className="block mb-2"
-                              >
+                              <label htmlFor="dsPkg2Dt" className="block mb-2">
                                 Delivery Time (in days):
                               </label>
                               <input
+                                {...formik.getFieldProps('dsPkg2Dt')}
                                 type="number"
-                                id="deliveryTime"
-                                name="deliveryTime"
-                                value={pkg2Dt}
+                                id="dsPkg2Dt"
+                                name="dsPkg2Dt"
+                                value={dsPkg2Dt}
                                 onChange={(e) => setPkg2Dt(e.target.value)}
                                 className="w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
                               />
                             </div>
                             <div className="my-4">
-                              <label htmlFor="revisions" className="block mb-2">
+                              <label
+                                htmlFor="dsPkg2Revisions"
+                                className="block mb-2"
+                              >
                                 Number of revisions:
                               </label>
                               <input
+                                {...formik.getFieldProps('dsPkg2Revisions')}
                                 type="number"
-                                id="revisions"
-                                name="revisions"
-                                value={pkg2Revisions}
+                                id="dsPkg2Revisions"
+                                name="dsPkg2Revisions"
+                                value={dsPkg2Revisions}
                                 onChange={(e) =>
                                   setPkg2Revisions(e.target.value)
                                 }
@@ -405,59 +504,66 @@ export default function AddDigitalServices() {
                           <form>
                             <div className="my-4">
                               <label
-                                htmlFor="packageName"
+                                htmlFor="dsPkg3Name"
                                 className="block mb-2"
                               >
                                 Package Name
                               </label>
                               <input
+                                {...formik.getFieldProps('dsPkg3Name')}
                                 type="text"
-                                id="packageName"
-                                name="packageName"
-                                value={pkg3Name}
+                                id="dsPkg3Name"
+                                name="dsPkg3Name"
+                                value={dsPkg3Name}
                                 onChange={(e) => setPkg3Name(e.target.value)}
                                 placeholder="Eg: Premium"
                                 className="w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
                               />
                             </div>
                             <div className="my-4">
-                              <label htmlFor="price" className="block mb-2">
+                              <label
+                                htmlFor="dsPkg3Price"
+                                className="block mb-2"
+                              >
                                 Price:
                               </label>
                               <input
+                                {...formik.getFieldProps('dsPkg3Price')}
                                 type="number"
-                                id="price"
-                                name="price"
-                                value={pkg3Price}
+                                id="dsPkg3Price"
+                                name="dsPkg3Price"
+                                value={dsPkg3Price}
                                 onChange={(e) => setPkg3Price(e.target.value)}
                                 className="w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
                               />
                             </div>
                             <div className="my-4">
-                              <label
-                                htmlFor="deliveryTime"
-                                className="block mb-2"
-                              >
+                              <label htmlFor="dsPkg3Dt" className="block mb-2">
                                 Delivery Time (in days):
                               </label>
                               <input
+                                {...formik.getFieldProps('dsPkg3Dt')}
                                 type="number"
-                                id="deliveryTime"
-                                name="deliveryTime"
-                                value={pkg3Dt}
+                                id="dsPkg3Dt"
+                                name="dsPkg3Dt"
+                                value={dsPkg3Dt}
                                 onChange={(e) => setPkg3Dt(e.target.value)}
                                 className="w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
                               />
                             </div>
                             <div className="my-4">
-                              <label htmlFor="revisions" className="block mb-2">
+                              <label
+                                htmlFor="dsPkg3Revisions"
+                                className="block mb-2"
+                              >
                                 Number of revisions:
                               </label>
                               <input
+                                {...formik.getFieldProps('dsPkg3Revisions')}
                                 type="number"
-                                id="revisions"
-                                name="revisions"
-                                value={pkg3Revisions}
+                                id="dsPkg3Revisions"
+                                name="dsPkg3Revisions"
+                                value={dsPkg3Revisions}
                                 onChange={(e) =>
                                   setPkg3Revisions(e.target.value)
                                 }
@@ -479,7 +585,7 @@ export default function AddDigitalServices() {
                       <Box sx={{ width: '100%' }}>
                         <div className="w-1/2">
                           <div style={div2Style}>
-                            <label htmlFor="dpImg">
+                            <label htmlFor="dsImg">
                               <img src={img} alt="Preview Img" />
                               <p className="text-blue-500 underline cursor-pointer">
                                 Browse
@@ -488,9 +594,9 @@ export default function AddDigitalServices() {
                             <input
                               onChange={onUpload}
                               type="file"
-                              id="dpImg"
-                              name="dpImg"
-                              className="dpImg"
+                              id="dsImg"
+                              name="dsImg"
+                              className="dsImg"
                               accept="image/*"
                             />
                             {!img && (
@@ -504,15 +610,16 @@ export default function AddDigitalServices() {
                           </div>
                         </div>
                         <div className="w-1/2">
-                          <label htmlFor="portfolio">
+                          <label htmlFor="dsPortfolioLink">
                             Add Portfolio link to show your previous work to the
                             customers
                           </label>
                           <input
+                            {...formik.getFieldProps('dsPortfolioLink')}
                             className="w-2/3"
                             type="text"
-                            id="portfolioLink"
-                            name="portfolioLink"
+                            id="dsPortfolioLink"
+                            name="dsPortfolioLink"
                             value={portfolioLink}
                             onChange={(e) => setPortfolioLink(e.target.value)}
                             placeholder="Note: You can add Google Drive link or Onedrive link as well"
@@ -525,7 +632,12 @@ export default function AddDigitalServices() {
                 <div sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                   <Box sx={{ flex: '1 1 auto' }} />
                   {activeStep === totalSteps() - 1 ? (
-                    <Button sx={{ float: 'right' }}>Submit</Button>
+                    <Button
+                      sx={{ float: 'right' }}
+                      onClick={formik.handleSubmit}
+                    >
+                      Submit
+                    </Button>
                   ) : (
                     <Button onClick={handleNext} sx={{ mr: 1, float: 'right' }}>
                       Next
