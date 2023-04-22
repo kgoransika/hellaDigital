@@ -55,11 +55,6 @@ const categories = [
 ];
 
 export default function AddDigitalServices() {
-  const [category, setCategory] = React.useState('');
-  const [subcategory, setSubcategory] = React.useState('');
-  const subcategories =
-    categories.find((c) => c.name === category)?.subcategories || [];
-
   const div1Style = {
     padding: '20px',
     width: '100%',
@@ -79,12 +74,34 @@ export default function AddDigitalServices() {
     borderRadius: '10px',
   };
 
-  const [img, setImg] = React.useState();
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState({});
-  const [serviceOverview, setServiceOverview] = React.useState('');
-  const [price, setPrice] = React.useState('');
-  const [image, setImage] = React.useState(null);
+
+  //Service Overview use States
+  const [serviceName, setServiceName] = React.useState('');
+  const [serviceDescription, setServiceDescription] = React.useState('');
+  const [category, setCategory] = React.useState('');
+  const [subcategory, setSubcategory] = React.useState('');
+  const subcategories =
+    categories.find((c) => c.name === category)?.subcategories || [];
+
+  //Pricing use States
+  const [pkg1Name, setPkg1Name] = React.useState('');
+  const [pkg1Price, setPkg1Price] = React.useState('');
+  const [pkg1Dt, setPkg1Dt] = React.useState('');
+  const [pkg1Revisions, setPkg1Revisions] = React.useState('');
+  const [pkg2Name, setPkg2Name] = React.useState('');
+  const [pkg2Price, setPkg2Price] = React.useState('');
+  const [pkg2Dt, setPkg2Dt] = React.useState('');
+  const [pkg2Revisions, setPkg2Revisions] = React.useState('');
+  const [pkg3Name, setPkg3Name] = React.useState('');
+  const [pkg3Price, setPkg3Price] = React.useState('');
+  const [pkg3Dt, setPkg3Dt] = React.useState('');
+  const [pkg3Revisions, setPkg3Revisions] = React.useState('');
+
+  //Add Photos & Portfolio use States
+  const [img, setImg] = React.useState();
+  const [portfolioLink, setPortfolioLink] = React.useState();
 
   const onUpload = async (e) => {
     const base64 = await convertToBase64(e.target.files[0]);
@@ -141,18 +158,6 @@ export default function AddDigitalServices() {
     setCompleted({});
   };
 
-  const handleServiceOverviewChange = (event) => {
-    setServiceOverview(event.target.value);
-  };
-
-  const handlePriceChange = (event) => {
-    setPrice(event.target.value);
-  };
-
-  const handleImageChange = (event) => {
-    setImage(event.target.files[0]);
-  };
-
   return (
     <>
       <style>
@@ -201,6 +206,8 @@ export default function AddDigitalServices() {
                           type="text"
                           id="serviceName"
                           name="serviceName"
+                          value={serviceName}
+                          onChange={(e) => setServiceName(e.target.value)}
                           placeholder="Eg: I can design a logo for you"
                         />
                         <br />
@@ -209,6 +216,10 @@ export default function AddDigitalServices() {
                         <textarea
                           id="description"
                           name="description"
+                          value={serviceDescription}
+                          onChange={(e) =>
+                            setServiceDescription(e.target.value)
+                          }
                           rows="5"
                           cols="50"
                         ></textarea>
@@ -268,6 +279,8 @@ export default function AddDigitalServices() {
                                 id="packageName"
                                 placeholder="Eg: Basic"
                                 name="packageName"
+                                value={pkg1Name}
+                                onChange={(e) => setPkg1Name(e.target.value)}
                                 className="w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
                               />
                             </div>
@@ -279,6 +292,8 @@ export default function AddDigitalServices() {
                                 type="number"
                                 id="price"
                                 name="price"
+                                value={pkg1Price}
+                                onChange={(e) => setPkg1Price(e.target.value)}
                                 className="w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
                               />
                             </div>
@@ -293,6 +308,8 @@ export default function AddDigitalServices() {
                                 type="number"
                                 id="deliveryTime"
                                 name="deliveryTime"
+                                value={pkg1Dt}
+                                onChange={(e) => setPkg1Dt(e.target.value)}
                                 className="w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
                               />
                             </div>
@@ -304,6 +321,10 @@ export default function AddDigitalServices() {
                                 type="number"
                                 id="revisions"
                                 name="revisions"
+                                value={pkg1Revisions}
+                                onChange={(e) =>
+                                  setPkg1Revisions(e.target.value)
+                                }
                                 className="w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
                               />
                             </div>
@@ -325,6 +346,8 @@ export default function AddDigitalServices() {
                                 type="text"
                                 id="packageName"
                                 name="packageName"
+                                value={pkg2Name}
+                                onChange={(e) => setPkg2Name(e.target.value)}
                                 placeholder="Eg: Standard"
                                 className="w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
                               />
@@ -337,6 +360,8 @@ export default function AddDigitalServices() {
                                 type="number"
                                 id="price"
                                 name="price"
+                                value={pkg2Price}
+                                onChange={(e) => setPkg2Price(e.target.value)}
                                 className="w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
                               />
                             </div>
@@ -351,6 +376,8 @@ export default function AddDigitalServices() {
                                 type="number"
                                 id="deliveryTime"
                                 name="deliveryTime"
+                                value={pkg2Dt}
+                                onChange={(e) => setPkg2Dt(e.target.value)}
                                 className="w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
                               />
                             </div>
@@ -362,6 +389,10 @@ export default function AddDigitalServices() {
                                 type="number"
                                 id="revisions"
                                 name="revisions"
+                                value={pkg2Revisions}
+                                onChange={(e) =>
+                                  setPkg2Revisions(e.target.value)
+                                }
                                 className="w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
                               />
                             </div>
@@ -383,6 +414,8 @@ export default function AddDigitalServices() {
                                 type="text"
                                 id="packageName"
                                 name="packageName"
+                                value={pkg3Name}
+                                onChange={(e) => setPkg3Name(e.target.value)}
                                 placeholder="Eg: Premium"
                                 className="w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
                               />
@@ -395,6 +428,8 @@ export default function AddDigitalServices() {
                                 type="number"
                                 id="price"
                                 name="price"
+                                value={pkg3Price}
+                                onChange={(e) => setPkg3Price(e.target.value)}
                                 className="w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
                               />
                             </div>
@@ -409,6 +444,8 @@ export default function AddDigitalServices() {
                                 type="number"
                                 id="deliveryTime"
                                 name="deliveryTime"
+                                value={pkg3Dt}
+                                onChange={(e) => setPkg3Dt(e.target.value)}
                                 className="w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
                               />
                             </div>
@@ -420,6 +457,10 @@ export default function AddDigitalServices() {
                                 type="number"
                                 id="revisions"
                                 name="revisions"
+                                value={pkg3Revisions}
+                                onChange={(e) =>
+                                  setPkg3Revisions(e.target.value)
+                                }
                                 className="w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
                               />
                             </div>
@@ -472,6 +513,8 @@ export default function AddDigitalServices() {
                             type="text"
                             id="portfolioLink"
                             name="portfolioLink"
+                            value={portfolioLink}
+                            onChange={(e) => setPortfolioLink(e.target.value)}
                             placeholder="Note: You can add Google Drive link or Onedrive link as well"
                           />
                         </div>
