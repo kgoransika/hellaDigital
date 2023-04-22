@@ -5,8 +5,6 @@ import { addDigitalProductValidation } from '../../helper/validate';
 import { getUsername } from '../../helper/helper';
 import { addDigitalProduct } from '../../helper/helper';
 import convertToBase64 from '../../helper/convert';
-import avatar from '../../assets/profile.png';
-import styles from '../../styles/Username.module.css';
 
 export default function AddDigitalProductComp() {
   const [img, setImg] = useState();

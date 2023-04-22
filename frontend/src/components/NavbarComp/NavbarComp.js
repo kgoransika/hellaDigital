@@ -14,6 +14,9 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import CurrencyExchangeRoundedIcon from '@mui/icons-material/CurrencyExchangeRounded';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
+import PostAddRoundedIcon from '@mui/icons-material/PostAddRounded';
+import { GiWallet } from 'react-icons/gi';
 
 export default function NavbarComp() {
   const [username, setUsername] = useState('');
@@ -91,19 +94,22 @@ export default function NavbarComp() {
                       {role !== 'client' && (
                         <>
                           <Nav.Link as={Link} to={'/dashboard'}>
-                            <span>Dashboard</span>
+                            <DashboardRoundedIcon className="h-6 w-6" />
+                          </Nav.Link>
+                          <Nav.Link as={Link} to={'/'}>
+                            <GiWallet className="h-6 w-6" />
                           </Nav.Link>
                           {role === 'dps' && (
                             <>
                               <Nav.Link as={Link} to={'/listings'}>
-                                <span>Listings</span>
+                                <Inventory2OutlinedIcon className="h-6 w-6" />
                               </Nav.Link>
                             </>
                           )}
                           {role === 'dsp' && (
                             <>
                               <Nav.Link as={Link} to={'/services'}>
-                                <span>Services</span>
+                                <PostAddRoundedIcon className="h-8 w-6" />
                               </Nav.Link>
                             </>
                           )}
