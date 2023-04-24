@@ -11,6 +11,7 @@ import { useFormik } from 'formik';
 import { addDigitalService } from '../../helper/helper';
 import toast, { Toaster } from 'react-hot-toast';
 import { getUsername } from '../../helper/helper';
+import { useNavigate } from 'react-router-dom';
 
 const steps = ['Service Overview', 'Pricing', 'Add Photos & Portfolio'];
 
@@ -59,6 +60,8 @@ const categories = [
 ];
 
 export default function AddDigitalServices() {
+  const navigate = useNavigate();
+
   const div1Style = {
     padding: '20px',
     width: '100%',
@@ -203,7 +206,9 @@ export default function AddDigitalServices() {
         error: <b>Product couldn't be added</b>,
       });
 
-      addDigitalServicePromise.then(function () {});
+      addDigitalServicePromise.then(function () {
+        navigate('/services');
+      });
     },
   });
 

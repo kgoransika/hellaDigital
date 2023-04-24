@@ -15,10 +15,10 @@ export const DSSchema = new mongoose.Schema({
   dsCategory: {
     type: String,
     required: [true, 'Please select a category'],
-    dsSubCategory: {
-      type: String,
-      required: [true, 'Please select a sub category'],
-    },
+  },
+  dsSubCategory: {
+    type: String,
+    required: [true, 'Please select a sub category'],
   },
   dsPkgs: {
     dsPkg1: {

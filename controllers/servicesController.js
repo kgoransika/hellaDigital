@@ -6,6 +6,7 @@ export async function addDigitalService(req, res) {
       dsName,
       dsDescription,
       dsCategory,
+      dsSubCategory,
       dsPkgs: {
         dsPkg1: { dsPkg1Name, dsPkg1Price, dsPkg1Dt, dsPkg1Revisions },
         dsPkg2: { dsPkg2Name, dsPkg2Price, dsPkg2Dt, dsPkg2Revisions },
@@ -20,6 +21,7 @@ export async function addDigitalService(req, res) {
       dsName,
       dsDescription,
       dsCategory,
+      dsSubCategory,
       dsPkgs: {
         dsPkg1: {
           dsPkg1Name,
