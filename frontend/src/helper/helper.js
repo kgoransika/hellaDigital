@@ -175,11 +175,21 @@ export async function getProductsCategory({ category }) {
   }
 }
 
-/** addDigitalProduct function */
+/** addDigitalService function */
 export async function addDigitalService(service) {
   try {
     return await axios.post(`/api/addDigitalService`, service);
   } catch (error) {
     return Promise.reject({ error });
+  }
+}
+
+/** get ServicesBasedOnOwner */
+export async function getServicesBasedOnOwner({ username }) {
+  try {
+    const { data } = await axios.get(`/api/services/owner/${username}`);
+    return { data };
+  } catch (error) {
+    return { error: 'Could not get Services data...!' };
   }
 }

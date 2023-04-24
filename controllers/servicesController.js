@@ -56,3 +56,15 @@ export async function addDigitalService(req, res) {
     return res.status(500).send(error);
   }
 }
+
+export async function getServicesByOwner(req, res) {
+  const { username } = req.params;
+
+  try {
+    if (!username) return res.status(501).send({ error: 'Invalid Username' });
+    const services = await DSModel.find({ dpOwner: username });
+    res.status(200).send(services);
+  } catch (error) {
+    res.status(500).send({ error });
+  }
+}

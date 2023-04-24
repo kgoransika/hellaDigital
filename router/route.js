@@ -51,4 +51,7 @@ router
 /*POST Methods*/
 router.route('/addDigitalService').post(ServicesController.addDigitalService); // Add product to platform
 
+/** GET Methods - Digital Services */
+router.route('/services/owner/:username').get(ServicesController.getServicesByOwner);
+
 export default router;

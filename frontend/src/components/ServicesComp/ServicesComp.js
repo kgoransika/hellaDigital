@@ -1,18 +1,39 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { PlusIcon } from '@heroicons/react/20/solid';
 import { useNavigate } from 'react-router-dom';
+import { getUsername } from '../../helper/helper';
+import { getServicesBasedOnOwner } from '../../helper/helper';
 
 export default function ServicesComp() {
   const navigate = useNavigate();
+  const [service, setService] = useState([]);
+  const [username, setUsername] = useState('');
+  const [role, setRole] = useState('');
 
   const handleClick = () => {
     navigate('/services/addDigitalService');
   };
 
+  useEffect(() => {
+    getUsername().then((decodedToken) => {
+      setUsername(decodedToken.username);
+      setRole(decodedToken.role);
+      getServicesBasedOnOwner({ username: decodedToken.username })
+        .then((data) => {
+          setService(data);
+          console.log(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+  }, []);
+
+
   const div1Style = {
     padding: '20px',
     width: '100%',
-    height: '60vh',
+    height: 'auto',
     margin: '20px',
     border: '1px solid #dee2e6',
     boxShadow: '0 0 1px 1px #dee2e6',
@@ -45,6 +66,16 @@ export default function ServicesComp() {
                 <span className="">Add new service</span>
                 <PlusIcon className="ml-1 h-6 w-6" aria-hidden="true" />
               </button>
+            </div>
+            <div>
+            {service &&
+                  service.data &&
+                  service.data.map((item) => (
+                <div key={item.id} style={{ margin: '20px 0' }}>
+                  <img src={item.dsImg} alt={item.dsName} style={{ width: '100px', height: '100px', marginRight: '20px' }} />
+                  <span>{item.dsName}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
