@@ -30,6 +30,7 @@ import Cart from './components/ClientComp/Cart';
 import { AuthorizeUser, ProtectRoute, SellerRoute } from './middleware/auth';
 import ServicesComp from './components/ServicesComp/ServicesComp';
 import AddDigitalServices from './components/ServicesComp/AddDigitalServices';
+import ClientServices from './components/ClientComp/ClientServices';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
       <Routes>
         <Route path="/" element={<ClientHome />} />
         <Route path="/products" element={<ClientProducts />} />
+        <Route path="/services" element={<ClientServices />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/" element={<Layout />}>
           <Route
@@ -72,7 +74,7 @@ function App() {
             }
           />
           <Route
-            path="/services"
+            path="/serviceListings"
             element={
               <SellerRoute>
                 <ServicesComp />

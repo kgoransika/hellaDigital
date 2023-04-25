@@ -179,19 +179,19 @@ export default function AddDigitalServices() {
             dsPkg1: {
               dsPkg1Name: dsPkg1Name,
               dsPkg1Price: dsPkg1Price,
-              dsPkg1DeliveryTime: dsPkg1Dt,
+              dsPkg1Dt: dsPkg1Dt,
               dsPkg1Revisions: dsPkg1Revisions,
             },
             dsPkg2: {
               dsPkg2Name: dsPkg2Name,
               dsPkg2Price: dsPkg2Price,
-              dsPkg2DeliveryTime: dsPkg2Dt,
+              dsPkg2Dt: dsPkg2Dt,
               dsPkg2Revisions: dsPkg2Revisions,
             },
             dsPkg3: {
               dsPkg3Name: dsPkg3Name,
               dsPkg3Price: dsPkg3Price,
-              dsPkg3DeliveryTime: dsPkg3Dt,
+              dsPkg3Dt: dsPkg3Dt,
               dsPkg3Revisions: dsPkg3Revisions,
             },
           },
@@ -208,7 +208,7 @@ export default function AddDigitalServices() {
       });
 
       addDigitalServicePromise.then(function () {
-        navigate('/services');
+        navigate('/serviceListings');
       });
     },
   });

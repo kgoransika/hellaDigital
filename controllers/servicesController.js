@@ -70,3 +70,24 @@ export async function getServicesByOwner(req, res) {
     res.status(500).send({ error });
   }
 }
+
+export async function getAllServices(req, res) {
+  try {
+    const services = await DSModel.find();
+    res.status(200).send(services);
+  } catch (error) {
+    res.status(500).send({ error });
+  }
+}
+
+export async function getServicesByCategory(req, res) {
+  const { category } = req.params;
+
+  try {
+    if (!category) return res.status(501).send({ error: 'Invalid Category' });
+    const services = await DSModel.find({ dsCategory: category });
+    res.status(200).send(services);
+  } catch (error) {
+    res.status(500).send({ error });
+  }
+}

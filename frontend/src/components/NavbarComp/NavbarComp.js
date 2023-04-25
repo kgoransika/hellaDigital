@@ -108,7 +108,7 @@ export default function NavbarComp() {
                           )}
                           {role === 'dsp' && (
                             <>
-                              <Nav.Link as={Link} to={'/services'}>
+                              <Nav.Link as={Link} to={'/serviceListings'}>
                                 <PostAddRoundedIcon className="h-8 w-6" />
                               </Nav.Link>
                             </>

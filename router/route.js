@@ -52,6 +52,14 @@ router
 router.route('/addDigitalService').post(ServicesController.addDigitalService); // Add product to platform
 
 /** GET Methods - Digital Services */
-router.route('/services/owner/:username').get(ServicesController.getServicesByOwner);
+router
+  .route('/services/owner/:username')
+  .get(ServicesController.getServicesByOwner);
+router
+  .route('/services/digitalServices')
+  .get(ServicesController.getAllServices);
+router
+  .route('/services/category/:category')
+  .get(ServicesController.getServicesByCategory);
 
 export default router;

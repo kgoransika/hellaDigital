@@ -155,7 +155,7 @@ export async function getProductBasedOnOwner({ username }) {
   }
 }
 
-/** get ProductBasedOnOwner */
+/** get getAllProducts */
 export async function getAllProducts() {
   try {
     const { data } = await axios.get(`/api/products/digitalProducts`);
@@ -191,5 +191,25 @@ export async function getServicesBasedOnOwner({ username }) {
     return { data };
   } catch (error) {
     return { error: 'Could not get Services data...!' };
+  }
+}
+
+/** get getAllServices */
+export async function getAllServices() {
+  try {
+    const { data } = await axios.get(`/api/services/digitalServices`);
+    return { data };
+  } catch (error) {
+    return { error: 'Could not get Services data...!' };
+  }
+}
+
+/** get ServicesBasedOnCategory */
+export async function getServicesCategory({ category }) {
+  try {
+    const { data } = await axios.get(`/api/services/category/${category}`);
+    return { data };
+  } catch (error) {
+    return { error: 'Could not get Services Category...!' };
   }
 }
