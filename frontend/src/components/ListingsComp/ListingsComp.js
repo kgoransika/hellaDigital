@@ -3,6 +3,7 @@ import { PlusIcon } from '@heroicons/react/20/solid';
 import { useNavigate } from 'react-router-dom';
 import { getUsername } from '../../helper/helper';
 import { getProductBasedOnOwner } from '../../helper/helper';
+import NoServicesAdded from '../../assets/Curious-bro.png';
 
 export default function ListingsComp() {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ export default function ListingsComp() {
   const div1Style = {
     padding: '20px',
     width: '100%',
-    height: '100vh',
+    height: 'auto',
     margin: '20px',
     border: '1px solid #dee2e6',
     boxShadow: '0 0 1px 1px #dee2e6',
@@ -147,36 +148,54 @@ export default function ListingsComp() {
               </button>
             </div>
 
-            <table style={tableStyle}>
-              <thead>
-                <tr>
-                  <th style={thStyle}>Product Image</th>
-                  <th style={thStyle}>Product Name</th>
-                  <th style={thStyle}>Product Category</th>
-                  <th style={thStyle}>Stocks</th>
-                  <th style={thStyle}>Product Price</th>
-                </tr>
-              </thead>
-              <tbody>
-                {listing &&
-                  listing.data &&
-                  listing.data.map((item) => (
-                    <tr key={item.id}>
-                      <td style={tdStyle}>
-                        <img
-                          src={item.dpImg}
-                          alt={item.imageAlt}
-                          className="h-12 w-12 object-cover object-center"
-                        />
-                      </td>
-                      <td style={tdStyle}>{item.dpName}</td>
-                      <td style={tdStyle}>{item.dpCategory}</td>
-                      <td style={tdStyle}>{item.dpQuantity}</td>
-                      <td style={tdStyle}>{item.dpPrice}</td>
+            {listing && listing.data && listing.data.length === 0 ? ( //if no listings
+              <>
+                <div className="text-center mt-20">
+                  <img
+                    className="h-60 w-60 justify-center m-auto"
+                    src={NoServicesAdded}
+                    alt="No Services Added"
+                  />
+                  <p className="text-gray-500 text-xl text-center m-10">
+                    You have not added any products yet!
+                  </p>
+                </div>
+              </>
+            ) : (
+              //if there are listings
+              <>
+                <table style={tableStyle}>
+                  <thead>
+                    <tr>
+                      <th style={thStyle}>Product Image</th>
+                      <th style={thStyle}>Product Name</th>
+                      <th style={thStyle}>Product Category</th>
+                      <th style={thStyle}>Stocks</th>
+                      <th style={thStyle}>Product Price</th>
                     </tr>
-                  ))}
-              </tbody>
-            </table>
+                  </thead>
+                  <tbody>
+                    {listing &&
+                      listing.data &&
+                      listing.data.map((item) => (
+                        <tr key={item.id}>
+                          <td style={tdStyle}>
+                            <img
+                              src={item.dpImg}
+                              alt={item.imageAlt}
+                              className="h-12 w-12 object-cover object-center"
+                            />
+                          </td>
+                          <td style={tdStyle}>{item.dpName}</td>
+                          <td style={tdStyle}>{item.dpCategory}</td>
+                          <td style={tdStyle}>{item.dpQuantity}</td>
+                          <td style={tdStyle}>{item.dpPrice}</td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </>
+            )}
           </div>
         </div>
       </div>

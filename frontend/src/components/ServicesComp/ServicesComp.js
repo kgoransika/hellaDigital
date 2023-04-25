@@ -6,6 +6,7 @@ import { getUsername } from '../../helper/helper';
 import { getServicesBasedOnOwner } from '../../helper/helper';
 import Modal from 'react-bootstrap/Modal';
 import { Card, CardBody } from '@windmill/react-ui';
+import NoServicesAdded from '../../assets/Curious-bro.png';
 
 export default function ServicesComp() {
   const navigate = useNavigate();
@@ -77,44 +78,64 @@ export default function ServicesComp() {
                 <PlusIcon className="ml-1 h-6 w-6" aria-hidden="true" />
               </button>
             </div>
-            <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-              {service &&
-                service.data &&
-                service.data.map((item) => (
-                  <div
-                    key={item._id}
-                    className="group relative"
-                    /* onClick={() => handleProductClick(item)} */
-                  >
-                    <div
-                      style={div2Style}
-                      className="min-h-80 lg:h-80 w-100 m-1"
-                    >
-                      <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md group-hover:opacity-75 bg-gray-200 lg:aspect-none lg:h-80">
-                        <img
-                          src={item.dsImg}
-                          alt={item.dpName}
-                          className="h-full w-full object-cover object-center lg:h-full lg:w-full"
-                        />
-                      </div>
-                      <hr />
-                      <h4 className="text-center text-gray-700 mb-2">
-                        <span aria-hidden="true" className="absolute inset-0" />
-                        {item.dsName}
-                      </h4>
-                      <div className="flex gap-2 text-center m-1 items-center justify-center">
-                        <button
-                          className="bg-blue-600  text-white py-2 px-4 rounded z-10 flex items-center justify-center"
-                          onClick={() => handleProductClick(item)}
+            {service && service.data && service.data.length === 0 ? (
+              <>
+                <div className="text-center mt-20">
+                  <img
+                    className="h-60 w-60 justify-center m-auto"
+                    src={NoServicesAdded}
+                    alt="No Services Added"
+                  />
+                  <p className="text-gray-500 text-xl text-center m-10">
+                    You have not added any services yet!
+                  </p>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                  {service &&
+                    service.data &&
+                    service.data.map((item) => (
+                      <div
+                        key={item._id}
+                        className="group relative"
+                        /* onClick={() => handleProductClick(item)} */
+                      >
+                        <div
+                          style={div2Style}
+                          className="min-h-80 lg:h-80 w-100 m-1"
                         >
-                          View
-                          <EyeIcon className="h-4 w-4 ml-3" />
-                        </button>
+                          <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md group-hover:opacity-75 bg-gray-200 lg:aspect-none lg:h-80">
+                            <img
+                              src={item.dsImg}
+                              alt={item.dpName}
+                              className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                            />
+                          </div>
+                          <hr />
+                          <h4 className="text-center text-gray-700 mb-2">
+                            <span
+                              aria-hidden="true"
+                              className="absolute inset-0"
+                            />
+                            {item.dsName}
+                          </h4>
+                          <div className="flex gap-2 text-center m-1 items-center justify-center">
+                            <button
+                              className="bg-blue-600  text-white py-2 px-4 rounded z-10 flex items-center justify-center"
+                              onClick={() => handleProductClick(item)}
+                            >
+                              View
+                              <EyeIcon className="h-4 w-4 ml-3" />
+                            </button>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                ))}
-            </div>
+                    ))}
+                </div>
+              </>
+            )}
           </div>
         </div>
         {selectedService && (

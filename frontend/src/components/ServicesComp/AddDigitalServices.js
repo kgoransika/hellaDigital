@@ -12,6 +12,7 @@ import { addDigitalService } from '../../helper/helper';
 import toast, { Toaster } from 'react-hot-toast';
 import { getUsername } from '../../helper/helper';
 import { useNavigate } from 'react-router-dom';
+import ServicesGuy from '../../assets/servicesGuy.png';
 
 const steps = ['Service Overview', 'Pricing', 'Add Photos & Portfolio'];
 
@@ -85,8 +86,8 @@ export default function AddDigitalServices() {
   const [completed, setCompleted] = React.useState({});
 
   //Service Overview use States
-  const [serviceName, setServiceName] = React.useState('wqe');
-  const [serviceDescription, setServiceDescription] = React.useState('qwe');
+  const [serviceName, setServiceName] = React.useState('');
+  const [serviceDescription, setServiceDescription] = React.useState('');
   const [category, setCategory] = React.useState('Photos');
   const [subcategory, setSubcategory] = React.useState('Photo Editing');
   const subcategories =
@@ -163,7 +164,7 @@ export default function AddDigitalServices() {
       },
       dsImg: '',
       dsPortfolioLink: '',
-      dsOwner: 'dsf',
+      dsOwner: '',
     },
 
     onSubmit: async (values) => {
@@ -288,8 +289,8 @@ export default function AddDigitalServices() {
                     <Typography sx={{ mt: 2, mb: 1 }}>
                       Please provide an overview of your service
                     </Typography>
-                    <form>
-                      <Box sx={{ width: '50%' }}>
+                    <form className="flex">
+                      <Box sx={{ width: '200vh' }}>
                         <label htmlFor="dsName">Service Name:</label>
                         <input
                           {...formik.getFieldProps('dsName')}
@@ -350,6 +351,13 @@ export default function AddDigitalServices() {
                           )}
                         </div>
                       </Box>
+                      <div>
+                        <img
+                          src={ServicesGuy}
+                          alt="servicesGuy"
+                          className="w-3/4 ml-40"
+                        />
+                      </div>
                     </form>
                   </div>
                 )}
