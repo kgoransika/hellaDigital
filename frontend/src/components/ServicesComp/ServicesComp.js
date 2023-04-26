@@ -195,7 +195,7 @@ export default function ServicesComp() {
                       <span>{item.dsPkgs.dsPkg1.dsPkg1Name}</span>
                       <br />
                       <span className="font-bold">Package Price: </span>
-                      <span>${item.dsPkgs.dsPkg1.dsPkg1Price}</span>
+                      <span>{item.dsPkgs.dsPkg1.dsPkg1Price} HK</span>
                       <br />
                       <span className="font-bold">Package Revisions: </span>
                       <span>{item.dsPkgs.dsPkg1.dsPkg1Revisions}</span>
@@ -211,7 +211,7 @@ export default function ServicesComp() {
                       <span>{item.dsPkgs.dsPkg2.dsPkg2Name}</span>
                       <br />
                       <span className="font-bold">Package Price: </span>
-                      <span>{item.dsPkgs.dsPkg2.dsPkg2Price}</span>
+                      <span>{item.dsPkgs.dsPkg2.dsPkg2Price} HK</span>
                       <br />
                       <span className="font-bold">Package Revisions: </span>
                       <span>{item.dsPkgs.dsPkg2.dsPkg2Revisions}</span>
@@ -226,10 +226,10 @@ export default function ServicesComp() {
                       <span className="font-bold">Package Name: </span>
                       <span>{item.dsPkgs.dsPkg3.dsPkg3Name}</span>
                       <br />
-                      <span className="font-bold">Package Name: </span>
-                      <span>{item.dsPkgs.dsPkg3.dsPkg3Price}</span>
+                      <span className="font-bold">Package Price: </span>
+                      <span>{item.dsPkgs.dsPkg3.dsPkg3Price} HK</span>
                       <br />
-                      <span className="font-bold">Package Name: </span>
+                      <span className="font-bold">Package Revisions: </span>
                       <span>{item.dsPkgs.dsPkg3.dsPkg3Revisions}</span>
                       <br />
                     </CardBody>

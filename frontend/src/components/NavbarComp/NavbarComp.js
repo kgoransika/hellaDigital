@@ -17,6 +17,7 @@ import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import PostAddRoundedIcon from '@mui/icons-material/PostAddRounded';
 import { GiWallet } from 'react-icons/gi';
+import ContactMailRoundedIcon from '@mui/icons-material/ContactMailRounded';
 
 export default function NavbarComp() {
   const [username, setUsername] = useState('');
@@ -125,6 +126,10 @@ export default function NavbarComp() {
                             <Inventory2OutlinedIcon className="h-6 w-6" />
                           </Nav.Link>
 
+                          <Nav.Link as={Link} to={'/services'}>
+                            <ContactMailRoundedIcon className="h-6 w-6" />
+                          </Nav.Link>
+
                           <Nav.Link as={Link} to={'/buyCredits'}>
                             <CurrencyExchangeRoundedIcon className="h-6 w-6" />
                           </Nav.Link>
@@ -137,6 +142,7 @@ export default function NavbarComp() {
                         title="Profile"
                         id={`offcanvasNavbarDropdown-expand-${expand}`}
                       >
+                        <NavDropdown.Item>Balance: 0 HK</NavDropdown.Item>
                         <NavDropdown.Item as={Link} to={'/notifications'}>
                           Notifications
                         </NavDropdown.Item>

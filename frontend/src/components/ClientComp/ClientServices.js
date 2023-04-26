@@ -106,7 +106,7 @@ export default function ClientServices() {
           <div className="">
             <div className="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
               <h2 className="tracking-tight text-center">
-                Browse your desired digital products throughout our store!
+                Browse your desired digital services throughout our store!
               </h2>
               <hr />
               <div className="flex">
