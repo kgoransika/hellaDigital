@@ -125,7 +125,7 @@ export default function NavbarComp() {
                             <Inventory2OutlinedIcon className="h-6 w-6" />
                           </Nav.Link>
 
-                          <Nav.Link as={Link} to={'/'}>
+                          <Nav.Link as={Link} to={'/buyCredits'}>
                             <CurrencyExchangeRoundedIcon className="h-6 w-6" />
                           </Nav.Link>
                         </>

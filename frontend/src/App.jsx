@@ -31,6 +31,7 @@ import { AuthorizeUser, ProtectRoute, SellerRoute } from './middleware/auth';
 import ServicesComp from './components/ServicesComp/ServicesComp';
 import AddDigitalServices from './components/ServicesComp/AddDigitalServices';
 import ClientServices from './components/ClientComp/ClientServices';
+import BuyHK from './components/ClientComp/BuyHK';
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
         <Route path="/products" element={<ClientProducts />} />
         <Route path="/services" element={<ClientServices />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/buyCredits" element={<BuyHK />} />
         <Route path="/" element={<Layout />}>
           <Route
             path="/profile"
