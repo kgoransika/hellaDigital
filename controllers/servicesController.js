@@ -91,3 +91,20 @@ export async function getServicesByCategory(req, res) {
     res.status(500).send({ error });
   }
 }
+
+export async function deleteService(req, res) {
+  const { _id } = req.params;
+
+  try {
+    const service = await DSModel.findById(_id);
+
+    if (!service) {
+      return res.status(404).send({ error: 'Service not found' });
+    }
+
+    await service.delete();
+    res.status(200).send({ msg: 'Service deleted successfully' });
+  } catch (error) {
+    res.status(500).send({ error });
+  }
+}

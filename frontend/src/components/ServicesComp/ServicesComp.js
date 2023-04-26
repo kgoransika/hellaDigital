@@ -4,6 +4,7 @@ import { EyeIcon } from '@heroicons/react/20/solid';
 import { useNavigate } from 'react-router-dom';
 import { getUsername } from '../../helper/helper';
 import { getServicesBasedOnOwner } from '../../helper/helper';
+import { deleteService } from '../../helper/helper';
 import Modal from 'react-bootstrap/Modal';
 import { Card, CardBody } from '@windmill/react-ui';
 import NoServicesAdded from '../../assets/Curious-bro.png';
@@ -19,7 +20,6 @@ export default function ServicesComp() {
   function handleProductClick(item) {
     setSelectedService(item);
     setModalShow(true);
-    console.log(item);
   }
 
   const handleClick = () => {
@@ -270,13 +270,17 @@ export default function ServicesComp() {
                 Are you sure you want to delete your service named "
                 <span className="font-bold">{item.dsName}</span>" ?
               </p>
+              <p className="text-red-500 uppercase text-xs	 ">
+                Note: This action will be permanent and cannot be reverted
+              </p>
             </Modal.Body>
             <Modal.Footer>
               <button
                 className="btn btn-danger"
                 onClick={() => {
-                  // handle delete logic
+                  deleteService(item._id);
                   setShowDeleteModal(false);
+                  window.location.reload();
                 }}
               >
                 Delete

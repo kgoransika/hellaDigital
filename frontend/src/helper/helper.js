@@ -213,3 +213,12 @@ export async function getServicesCategory({ category }) {
     return { error: 'Could not get Services Category...!' };
   }
 }
+
+/** get ServicesBasedOnCategory */
+export async function deleteService(id) {
+  try {
+    await axios.delete(`/api/services/${id}`);
+  } catch (error) {
+    return { error: 'Could not delete Service...!' };
+  }
+}

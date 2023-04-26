@@ -62,4 +62,6 @@ router
   .route('/services/category/:category')
   .get(ServicesController.getServicesByCategory);
 
+router.route('/services/:_id').delete(ServicesController.deleteService);
+
 export default router;
