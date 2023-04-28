@@ -8,6 +8,7 @@ frontend/node_modules
 /node_modules
 server/config.js
 config.js
+public/uploads
 client/.env
 server/.env
 frontend/.env

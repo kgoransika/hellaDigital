@@ -5,11 +5,12 @@ import { addDigitalProductValidation } from '../../helper/validate';
 import { getUsername } from '../../helper/helper';
 import { addDigitalProduct } from '../../helper/helper';
 import convertToBase64 from '../../helper/convert';
+import { useNavigate } from 'react-router-dom';
 
 export default function AddDigitalProductComp() {
+  const navigate = useNavigate();
   const [img, setImg] = useState();
-  const [file, setFile] = useState();
-  const [filename, setFileName] = useState();
+  const [selectedFile, setSelectedFile] = useState();
   const [username, setUsername] = useState('');
   const [role, setRole] = useState('');
 
@@ -42,12 +43,19 @@ export default function AddDigitalProductComp() {
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: async (values) => {
-      values = await Object.assign(
-        values,
-        { dpImg: img || '' },
-        { dpFile: file || '' }
-      );
-      let addDigitalProductPromise = addDigitalProduct(values);
+      const formData = new FormData();
+      formData.append('dpImg', img);
+
+      // Remove the dpImg property from values since it's already included in formData
+      const { dpImg, ...otherValues } = values;
+
+      // Merge the remaining form data with the formData object
+      for (const key in otherValues) {
+        formData.append(key, otherValues[key]);
+      }
+
+      // Make the API request with the formData object
+      let addDigitalProductPromise = addDigitalProduct(formData);
       console.log(values);
       toast.promise(addDigitalProductPromise, {
         loading: 'Hold on your product is getting added...',
@@ -55,22 +63,19 @@ export default function AddDigitalProductComp() {
         error: <b>Product couldn't be added</b>,
       });
 
-      addDigitalProductPromise.then(function () {});
+      addDigitalProductPromise.then(function () {
+        navigate('/listings');
+      });
     },
   });
 
   /** Handler to preview Image */
   const onUpload = async (e) => {
+    setImg(e.target.files[0]);
     const base64 = await convertToBase64(e.target.files[0]);
-    setImg(base64);
+    setSelectedFile(base64);
   };
 
-  /** Handler to upload files */
-  const onUploadFiles = async (e) => {
-    const base64 = await convertToBase64(e.target.files[0]);
-    setFile(base64);
-    setFileName(e.target.files[0].name);
-  };
   const div1Style = {
     padding: '20px',
     width: '100%',
@@ -196,6 +201,12 @@ export default function AddDigitalProductComp() {
               </div>
               <div className="flex">
                 <div className="w-1/2 max-w-md">
+                  <label
+                    className="block text-gray-700 font-bold mb-2"
+                    htmlFor="dpImg"
+                  >
+                    Upload your image
+                  </label>
                   <div style={div2Style}>
                     <label htmlFor="dpImg">
                       <img src={img} alt="Preview Img" />
@@ -203,6 +214,7 @@ export default function AddDigitalProductComp() {
                         Browse
                       </p>
                     </label>
+                    <img src={selectedFile} alt="" className="dpImg" />
                     <input
                       onChange={onUpload}
                       type="file"
@@ -211,37 +223,6 @@ export default function AddDigitalProductComp() {
                       className="dpImg"
                       accept="image/*"
                     />
-                    {!img && (
-                      <>
-                        <p className="text-center text-gray-500">
-                          A preview of your uploaded image will be shown here!
-                        </p>
-                      </>
-                    )}
-                  </div>
-                </div>
-                <div>
-                  <div style={div2Style}>
-                    <label htmlFor="dpFile">
-                      <p className="text-blue-500 underline cursor-pointer">
-                        Browse
-                      </p>
-                    </label>
-                    <input
-                      onChange={onUploadFiles}
-                      type="file"
-                      id="dpFile"
-                      name="dpFile"
-                      className="dpFile"
-                    />
-                    {file && <p>Selected file: {filename}</p>}
-                    {!file && (
-                      <>
-                        <p className="text-center text-gray-500">
-                          Your file name will be shown here!
-                        </p>
-                      </>
-                    )}
                   </div>
                 </div>
               </div>

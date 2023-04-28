@@ -181,8 +181,8 @@ export default function ListingsComp() {
                         <tr key={item.id}>
                           <td style={tdStyle}>
                             <img
-                              src={item.dpImg}
-                              alt={item.imageAlt}
+                              src={`http://localhost:8080/api/products/digitalProducts/${item.dpImg}`}
+                              alt={item.dpImg}
                               className="h-12 w-12 object-cover object-center"
                             />
                           </td>

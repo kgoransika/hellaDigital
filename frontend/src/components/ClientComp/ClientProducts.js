@@ -6,6 +6,7 @@ import Modal from 'react-bootstrap/Modal';
 import FooterComp from '../FooterComp/FooterComp';
 import useFetch from '../../hooks/fetch.hook';
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
+/* import picture from '../../../../public/uploads/3eb62259-f443-4d1d-aa55-76dbbda0b098.png'; */
 
 export default function ClientProducts() {
   const [{ isLoading }] = useFetch();
@@ -38,6 +39,15 @@ export default function ClientProducts() {
     setSelectedProduct(item);
     setModalShow(true);
     console.log(item);
+  }
+
+  function downloadImage(dpImg) {
+    const link = document.createElement('a');
+    link.href = `http://localhost:8080/api/products/digitalProducts/${dpImg}`;
+    link.download = 'image.png';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
   return (
@@ -82,14 +92,14 @@ export default function ClientProducts() {
                   product.data &&
                   product.data.map((item) => (
                     <div
-                      key={product._id}
+                      key={item._id}
                       className="group relative"
                       onClick={() => handleProductClick(item)}
                     >
                       <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:aspect-none lg:h-80">
                         <img
-                          src={item.dpImg}
-                          alt="{product.imageAlt}"
+                          src={`http://localhost:8080/api/products/digitalProducts/${item.dpImg}`}
+                          alt={item.dpImg}
                           className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                         />
                       </div>
@@ -147,13 +157,14 @@ export default function ClientProducts() {
                 <button
                   type="submit"
                   className="bg-blue-700 hover:bg-blue-600 text-white py-1 px-3 rounded-lg"
+                  onClick={() => downloadImage(item.dpImg)}
                 >
                   Add to Cart!
                 </button>
               </div>
               <div className="float-right">
                 <img
-                  src={item.dpImg}
+                  src={`http://localhost:8080/api/products/digitalProducts/${item.dpImg}`}
                   alt="{product.imageAlt}"
                   className="h-80 w-80 object-cover object-center rounded-md"
                 />
