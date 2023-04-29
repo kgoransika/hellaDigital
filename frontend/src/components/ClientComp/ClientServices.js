@@ -139,8 +139,8 @@ export default function ClientServices() {
                     >
                       <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:aspect-none lg:h-80">
                         <img
-                          src={item.dsImg}
-                          alt="{service.imageAlt}"
+                          src={`http://localhost:8080/api/services/digitalServices/${item.dsImg}`}
+                          alt={item.dsImg}
                           className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                         />
                       </div>
@@ -159,7 +159,7 @@ export default function ClientServices() {
                           <span className="text-sm">
                             PACKAGES STARTING AT{' '}
                             <span className="font-bold">
-                              {item.dsPkgs.dsPkg1.dsPkg1Price} HK
+                              {item.dsPkg1Price} HK
                             </span>
                           </span>
                         </div>
@@ -211,42 +211,42 @@ export default function ClientServices() {
               <div className="flex">
                 <div style={pkgDivStyle} className="pkgDiv">
                   <h4 className="text-center text-gray-700 mb-2">
-                    {item.dsPkgs.dsPkg1.dsPkg1Name} Package
+                    {item.dsPkg1Name} Package
                   </h4>
                   <span className="font-bold">Delivey Time: </span>
-                  <span>{item.dsPkgs.dsPkg1.dsPkg1Dt}</span>
+                  <span>{item.dsPkg1Dt}</span>
                   <br />
                   <span className="font-bold">Price: </span>
-                  <span>{item.dsPkgs.dsPkg1.dsPkg1Price} HK</span>
+                  <span>{item.dsPkg1Price} HK</span>
                   <br />
                   <span className="font-bold">Revisions: </span>
-                  <span>{item.dsPkgs.dsPkg1.dsPkg1Revisions}</span>
+                  <span>{item.dsPkg1Revisions}</span>
                 </div>
                 <div style={pkgDivStyle} className="pkgDiv">
                   <h4 className="text-center text-gray-700 mb-2">
-                    {item.dsPkgs.dsPkg2.dsPkg2Name} Package
+                    {item.dsPkg2Name} Package
                   </h4>
                   <span className="font-bold">Delivey Time: </span>
-                  <span>{item.dsPkgs.dsPkg2.dsPkg2Dt}</span>
+                  <span>{item.dsPkg2Dt}</span>
                   <br />
                   <span className="font-bold">Price: </span>
-                  <span>{item.dsPkgs.dsPkg2.dsPkg2Price} HK</span>
+                  <span>{item.dsPkg2Price} HK</span>
                   <br />
                   <span className="font-bold">Revisions: </span>
-                  <span>{item.dsPkgs.dsPkg2.dsPkg2Revisions}</span>
+                  <span>{item.dsPkg2Revisions}</span>
                 </div>
                 <div style={pkgDivStyle} className="pkgDiv">
                   <h4 className="text-center text-gray-700 mb-2">
-                    {item.dsPkgs.dsPkg3.dsPkg3Name} Package
+                    {item.dsPkg3Name} Package
                   </h4>
                   <span className="font-bold">Delivey Time: </span>
-                  <span>{item.dsPkgs.dsPkg3.dsPkg3Dt}</span>
+                  <span>{item.dsPkg3Dt}</span>
                   <br />
                   <span className="font-bold">Price: </span>
-                  <span>{item.dsPkgs.dsPkg3.dsPkg3Price} HK</span>
+                  <span>{item.dsPkg3Price} HK</span>
                   <br />
                   <span className="font-bold">Revisions: </span>
-                  <span>{item.dsPkgs.dsPkg3.dsPkg3Revisions}</span>
+                  <span>{item.dsPkg3Revisions}</span>
                 </div>
               </div>
             </div>

@@ -15,6 +15,7 @@ import Auth, { localVariables } from '../middleware/auth.js';
 import uploadMiddleware from '../middleware/multer.js';
 /* import UploadModel from '../model/UploadModel.js'; */
 import DigitalProductsModel from '../model/DigitalProducts.model.js';
+import DigitalServicesModel from '../model/DigitalServices.model.js';
 
 /*****************************************************************/
 /**********************-- AUTHENTICATION --**********************/
@@ -109,9 +110,19 @@ router
 /*****************************************************************/
 /**********************-- ADD DIGITAL SERVICES --**********************/
 /*POST Methods*/
-router.route('/addDigitalService').post(ServicesController.addDigitalService); // Add product to platform
+
+router.route('/addDigitalService').post(ServicesController.addDigitalService);
 
 /** GET Methods - Digital Services */
+
+/* Get serviceImages */
+router.route('/services/digitalServices/:servicesId').get((req, res) => {
+  const servicesId = req.params.servicesId;
+  const imagePath = path.join(__dirname, `../public/uploads/${servicesId}`);
+  const fileStream = fs.createReadStream(imagePath);
+  fileStream.pipe(res);
+});
+
 router
   .route('/services/owner/:username')
   .get(ServicesController.getServicesByOwner);

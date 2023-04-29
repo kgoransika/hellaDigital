@@ -142,26 +142,18 @@ export default function AddDigitalServices() {
       dsDescription: '',
       dsCategory: '',
       dsSubCategory: '',
-      dsPkgs: {
-        dsPkg1: {
-          dsPkg1Name: '',
-          dsPkg1Price: '',
-          dsPkg1DeliveryTime: '',
-          dsPkg1Revisions: '',
-        },
-        dsPkg2: {
-          dsPkg2Name: '',
-          dsPkg2Price: '',
-          dsPkg2DeliveryTime: '',
-          dsPkg2Revisions: '',
-        },
-        dsPkg3: {
-          dsPkg3Name: '',
-          dsPkg3Price: '',
-          dsPkg3DeliveryTime: '',
-          dsPkg3Revisions: '',
-        },
-      },
+      dsPkg1Name: '',
+      dsPkg1Price: '',
+      dsPkg1Dt: '',
+      dsPkg1Revisions: '',
+      dsPkg2Name: '',
+      dsPkg2Price: '',
+      dsPkg2Dt: '',
+      dsPkg2Revisions: '',
+      dsPkg3Name: '',
+      dsPkg3Price: '',
+      dsPkg3Dt: '',
+      dsPkg3Revisions: '',
       dsImg: '',
       dsPortfolioLink: '',
       dsOwner: '',
@@ -174,32 +166,35 @@ export default function AddDigitalServices() {
         { dsDescription: serviceDescription },
         { dsCategory: category },
         { dsSubCategory: subcategory },
-        {
-          dsPkgs: {
-            dsPkg1: {
-              dsPkg1Name: dsPkg1Name,
-              dsPkg1Price: dsPkg1Price,
-              dsPkg1Dt: dsPkg1Dt,
-              dsPkg1Revisions: dsPkg1Revisions,
-            },
-            dsPkg2: {
-              dsPkg2Name: dsPkg2Name,
-              dsPkg2Price: dsPkg2Price,
-              dsPkg2Dt: dsPkg2Dt,
-              dsPkg2Revisions: dsPkg2Revisions,
-            },
-            dsPkg3: {
-              dsPkg3Name: dsPkg3Name,
-              dsPkg3Price: dsPkg3Price,
-              dsPkg3Dt: dsPkg3Dt,
-              dsPkg3Revisions: dsPkg3Revisions,
-            },
-          },
-        },
-        { dsImg: img },
+
+        { dsPkg1Name: dsPkg1Name },
+        { dsPkg1Price: dsPkg1Price },
+        { dsPkg1Dt: dsPkg1Dt },
+        { dsPkg1Revisions: dsPkg1Revisions },
+
+        { dsPkg2Name: dsPkg2Name },
+        { dsPkg2Price: dsPkg2Price },
+        { dsPkg2Dt: dsPkg2Dt },
+        { dsPkg2Revisions: dsPkg2Revisions },
+
+        { dsPkg3Name: dsPkg3Name },
+        { dsPkg3Price: dsPkg3Price },
+        { dsPkg3Dt: dsPkg3Dt },
+        { dsPkg3Revisions: dsPkg3Revisions },
+
         { dsPortfolioLink: portfolioLink }
       );
-      let addDigitalServicePromise = addDigitalService(values);
+      const formData = new FormData();
+      formData.append('dsImg', img);
+
+      // Remove the dpImg property from values since it's already included in formData
+      const { dsImg, ...otherValues } = values;
+
+      // Merge the remaining form data with the formData object
+      for (const key in otherValues) {
+        formData.append(key, otherValues[key]);
+      }
+      let addDigitalServicePromise = addDigitalService(formData);
       console.log(values);
       toast.promise(addDigitalServicePromise, {
         loading: 'Hold on your product is getting added...',
@@ -605,7 +600,9 @@ export default function AddDigitalServices() {
                               </p>
                             </label>
                             <input
-                              onChange={onUpload}
+                              onChange={(e) => {
+                                setImg(e.target.files[0]);
+                              }}
                               type="file"
                               id="dsImg"
                               name="dsImg"

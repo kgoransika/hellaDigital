@@ -84,7 +84,7 @@ function App() {
             }
           />
           <Route
-            path="/services/addDigitalService"
+            path="/serviceListings/addDigitalService"
             element={
               <SellerRoute>
                 <AddDigitalServices />

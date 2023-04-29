@@ -23,7 +23,7 @@ export default function ServicesComp() {
   }
 
   const handleClick = () => {
-    navigate('/services/addDigitalService');
+    navigate('/serviceListings/addDigitalService');
   };
 
   useEffect(() => {
@@ -108,7 +108,7 @@ export default function ServicesComp() {
                         >
                           <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md group-hover:opacity-75 bg-gray-200 lg:aspect-none lg:h-80">
                             <img
-                              src={item.dsImg}
+                              src={`http://localhost:8080/api/services/digitalServices/${item.dsImg}`}
                               alt={item.dpName}
                               className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                             />
@@ -179,7 +179,7 @@ export default function ServicesComp() {
                 <br />
                 <span className="font-bold">Your Thumbnail </span>
                 <img
-                  src={item.dsImg}
+                  src={`http://localhost:8080/api/services/digitalServices/${item.dsImg}`}
                   alt="{product.imageAlt}"
                   className="h-80 w-80 object-cover object-center rounded-md"
                 />
@@ -192,13 +192,13 @@ export default function ServicesComp() {
                         Package 1
                       </h3>
                       <span className="font-bold">Package Name: </span>
-                      <span>{item.dsPkgs.dsPkg1.dsPkg1Name}</span>
+                      <span>{item.dsPkg1Name}</span>
                       <br />
                       <span className="font-bold">Package Price: </span>
-                      <span>{item.dsPkgs.dsPkg1.dsPkg1Price} HK</span>
+                      <span>{item.dsPkg1Price} HK</span>
                       <br />
                       <span className="font-bold">Package Revisions: </span>
-                      <span>{item.dsPkgs.dsPkg1.dsPkg1Revisions}</span>
+                      <span>{item.dsPkg1Revisions}</span>
                       <br />
                     </CardBody>
                   </Card>
@@ -208,13 +208,13 @@ export default function ServicesComp() {
                         Package 2
                       </h3>
                       <span className="font-bold">Package Name: </span>
-                      <span>{item.dsPkgs.dsPkg2.dsPkg2Name}</span>
+                      <span>{item.dsPkg2Name}</span>
                       <br />
                       <span className="font-bold">Package Price: </span>
-                      <span>{item.dsPkgs.dsPkg2.dsPkg2Price} HK</span>
+                      <span>{item.dsPkg2Price} HK</span>
                       <br />
                       <span className="font-bold">Package Revisions: </span>
-                      <span>{item.dsPkgs.dsPkg2.dsPkg2Revisions}</span>
+                      <span>{item.dsPkg2Revisions}</span>
                       <br />
                     </CardBody>
                   </Card>
@@ -224,13 +224,13 @@ export default function ServicesComp() {
                         Package 1
                       </h3>
                       <span className="font-bold">Package Name: </span>
-                      <span>{item.dsPkgs.dsPkg3.dsPkg3Name}</span>
+                      <span>{item.dsPkg3Name}</span>
                       <br />
                       <span className="font-bold">Package Price: </span>
-                      <span>{item.dsPkgs.dsPkg3.dsPkg3Price} HK</span>
+                      <span>{item.dsPkg3Price} HK</span>
                       <br />
                       <span className="font-bold">Package Revisions: </span>
-                      <span>{item.dsPkgs.dsPkg3.dsPkg3Revisions}</span>
+                      <span>{item.dsPkg3Revisions}</span>
                       <br />
                     </CardBody>
                   </Card>
