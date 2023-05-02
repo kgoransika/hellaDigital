@@ -1,19 +1,13 @@
 import DPModel from '../model/DigitalProducts.model.js';
 import cloudinary from '../middleware/cloudinary.js';
 
-/* export async function addDigitalProduct(req, res) {
+export async function addDigitalProduct(req, res) {
   try {
-    const dpImg = req.file.filename;
+    const dpImg = req.files['dpImg'][0].filename;
+    const dpFile = req.files['dpFile'][0].filename;
 
-    const {
-      dpName,
-      dpDescription,
-      dpCategory,
-      dpPrice,
-      dpQuantity,
-      dpFile,
-      dpOwner,
-    } = req.body;
+    const { dpName, dpDescription, dpCategory, dpPrice, dpQuantity, dpOwner } =
+      req.body;
 
     const product = new DPModel({
       dpName,
@@ -37,7 +31,7 @@ import cloudinary from '../middleware/cloudinary.js';
     return res.status(500).send(error);
   }
 }
- */
+
 export async function getProductsByOwner(req, res) {
   const { username } = req.params;
 

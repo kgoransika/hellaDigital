@@ -55,11 +55,21 @@ router
 
 router.post(
   '/addDigitalProduct',
-  uploadMiddleware.single('dpImg'),
+  uploadMiddleware,
+  ProductController.addDigitalProduct
+);
+
+/* router.post(
+  '/addDigitalProduct',
+  uploadMiddleware.single([
+    { name: 'dpImg', maxCount: 1 },
+    { name: 'dpFile', maxCount: 1 },
+  ]),
   (req, res) => {
     try {
-      const dpImg = req.file.filename;
-      console.log(dpImg);
+      const dpImg = req.files['dpImg'][0].filename;
+      const dpFile = req.files['dpFile'][0].filename;
+      console.log(dpImg, dpFile);
 
       const {
         dpName,
@@ -77,6 +87,7 @@ router.post(
         dpPrice,
         dpQuantity,
         dpImg,
+        dpFile,
         dpOwner,
       }).then((data) => {
         console.log('Uploaded Successfully...!');
@@ -88,14 +99,21 @@ router.post(
       console.log(err);
     }
   }
-);
+); */
 
 /** GET Methods - Digital Products */
 /* Get productImages */
-router.route('/products/digitalProducts/:productId').get((req, res) => {
+router.route('/products/digitalProducts/image/:productId').get((req, res) => {
   const productId = req.params.productId;
   const imagePath = path.join(__dirname, `../public/uploads/${productId}`);
   const fileStream = fs.createReadStream(imagePath);
+  fileStream.pipe(res);
+});
+
+router.route('/products/digitalProducts/file/:fileId').get((req, res) => {
+  const fileId = req.params.fileId;
+  const filePath = path.join(__dirname, `../public/uploads/${fileId}`);
+  const fileStream = fs.createReadStream(filePath);
   fileStream.pipe(res);
 });
 

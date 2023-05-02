@@ -6,7 +6,6 @@ import Modal from 'react-bootstrap/Modal';
 import FooterComp from '../FooterComp/FooterComp';
 import useFetch from '../../hooks/fetch.hook';
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
-/* import picture from '../../../../public/uploads/3eb62259-f443-4d1d-aa55-76dbbda0b098.png'; */
 
 export default function ClientProducts() {
   const [{ isLoading }] = useFetch();
@@ -42,12 +41,49 @@ export default function ClientProducts() {
   }
 
   function downloadImage(dpImg) {
-    const link = document.createElement('a');
-    link.href = `http://localhost:8080/api/products/digitalProducts/${dpImg}`;
-    link.download = 'image.png';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    const xhr = new XMLHttpRequest();
+    xhr.open(
+      'GET',
+      `http://localhost:8080/api/products/digitalProducts/file/${dpImg}`,
+      true
+    );
+    xhr.responseType = 'blob';
+
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        const blob = xhr.response;
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = dpImg;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    };
+    xhr.send();
+  }
+
+  function downloadFile(dpFile) {
+    const xhr = new XMLHttpRequest();
+    xhr.open(
+      'GET',
+      `http://localhost:8080/api/products/digitalProducts/file/${dpFile}`,
+      true
+    );
+    xhr.responseType = 'blob';
+
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        const blob = xhr.response;
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = dpFile;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    };
+    xhr.send();
   }
 
   return (
@@ -98,7 +134,7 @@ export default function ClientProducts() {
                     >
                       <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:aspect-none lg:h-80">
                         <img
-                          src={`http://localhost:8080/api/products/digitalProducts/${item.dpImg}`}
+                          src={`http://localhost:8080/api/products/digitalProducts/image/${item.dpImg}`}
                           alt={item.dpImg}
                           className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                         />
@@ -154,21 +190,61 @@ export default function ClientProducts() {
                 <p>Items left in stock: {item.dpQuantity}</p>
                 <p>{item.dpCategory}</p>
                 <p>$ {item.dpPrice}</p>
-                <button
-                  type="submit"
-                  className="bg-blue-700 hover:bg-blue-600 text-white py-1 px-3 rounded-lg"
-                  onClick={() => downloadImage(item.dpImg)}
-                >
-                  Add to Cart!
-                </button>
+                {item.dpCategory === 'music' && (
+                  <div className="mb-5">
+                    <audio controls>
+                      <source
+                        src={`http://localhost:8080/api/products/digitalProducts/file/${item.dpFile}`}
+                        type="audio/mpeg"
+                      />
+                    </audio>
+                  </div>
+                )}
+                {item.dpCategory === 'photos' ? (
+                  <button
+                    type="submit"
+                    className="bg-blue-700 hover:bg-blue-600 text-white py-1 px-3 rounded-lg"
+                    onClick={() => downloadImage(item.dpImg)}
+                  >
+                    Add to Cart!
+                  </button>
+                ) : (
+                  <>
+                    <button
+                      type="submit"
+                      className="bg-blue-700 hover:bg-blue-600 text-white py-1 px-3 rounded-lg"
+                      onClick={() => downloadFile(item.dpFile)}
+                    >
+                      Add to Cart!
+                    </button>
+                  </>
+                )}
               </div>
-              <div className="float-right">
-                <img
-                  src={`http://localhost:8080/api/products/digitalProducts/${item.dpImg}`}
-                  alt="{product.imageAlt}"
-                  className="h-80 w-80 object-cover object-center rounded-md"
-                />
-              </div>
+
+              {item.dpCategory === 'videos' ? (
+                <div className="h-80 w-50">
+                  <video
+                    className="min-h-80 w-full overflow-hidden rounded-md lg:aspect-none lg:h-80"
+                    controls
+                    poster={`http://localhost:8080/api/products/digitalProducts/image/${item.dpImg}`}
+                  >
+                    <source
+                      src={`http://localhost:8080/api/products/digitalProducts/file/${item.dpFile}`}
+                      type="video/mp4"
+                    />
+                  </video>
+                </div>
+              ) : (
+                <>
+                  <div className="float-right">
+                    <img
+                      src={`http://localhost:8080/api/products/digitalProducts/image/${item.dpImg}`}
+                      alt="{product.imageAlt}"
+                      className="h-80 w-80 object-cover object-center rounded-md"
+                    />
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </Modal.Body>

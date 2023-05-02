@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 export default function AddDigitalProductComp() {
   const navigate = useNavigate();
   const [img, setImg] = useState();
+  const [file, setFile] = useState();
   const [selectedFile, setSelectedFile] = useState();
   const [username, setUsername] = useState('');
   const [role, setRole] = useState('');
@@ -45,6 +46,7 @@ export default function AddDigitalProductComp() {
     onSubmit: async (values) => {
       const formData = new FormData();
       formData.append('dpImg', img);
+      formData.append('dpFile', file);
 
       // Remove the dpImg property from values since it's already included in formData
       const { dpImg, ...otherValues } = values;
@@ -74,6 +76,11 @@ export default function AddDigitalProductComp() {
     setImg(e.target.files[0]);
     const base64 = await convertToBase64(e.target.files[0]);
     setSelectedFile(base64);
+  };
+
+  /** Handler to preview Image */
+  const onUploadFile = async (e) => {
+    setFile(e.target.files[0]);
   };
 
   const div1Style = {
@@ -222,6 +229,28 @@ export default function AddDigitalProductComp() {
                       name="dpImg"
                       className="dpImg"
                       accept="image/*"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label
+                    className="block text-gray-700 font-bold mb-2"
+                    htmlFor="dpFile"
+                  >
+                    Upload your file
+                  </label>
+                  <div style={div2Style}>
+                    <label htmlFor="dpFile">
+                      <p className="text-blue-500 underline cursor-pointer">
+                        Browse
+                      </p>
+                    </label>
+                    <input
+                      onChange={onUploadFile}
+                      type="file"
+                      id="dpFile"
+                      name="dpFile"
+                      className="dpFile"
                     />
                   </div>
                 </div>
