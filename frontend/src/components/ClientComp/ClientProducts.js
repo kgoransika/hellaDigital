@@ -226,6 +226,7 @@ export default function ClientProducts() {
                   <video
                     className="min-h-80 w-full overflow-hidden rounded-md lg:aspect-none lg:h-80"
                     controls
+                    controlsList="nodownload"
                     poster={`http://localhost:8080/api/products/digitalProducts/image/${item.dpImg}`}
                   >
                     <source

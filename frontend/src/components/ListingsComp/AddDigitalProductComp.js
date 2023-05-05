@@ -6,11 +6,13 @@ import { getUsername } from '../../helper/helper';
 import { addDigitalProduct } from '../../helper/helper';
 import convertToBase64 from '../../helper/convert';
 import { useNavigate } from 'react-router-dom';
+import digitalProductImg from '../../assets/Creativity-bro.png';
 
 export default function AddDigitalProductComp() {
   const navigate = useNavigate();
   const [img, setImg] = useState();
   const [file, setFile] = useState();
+  const [fileName, setFileName] = useState('');
   const [selectedFile, setSelectedFile] = useState();
   const [username, setUsername] = useState('');
   const [role, setRole] = useState('');
@@ -81,6 +83,7 @@ export default function AddDigitalProductComp() {
   /** Handler to preview Image */
   const onUploadFile = async (e) => {
     setFile(e.target.files[0]);
+    setFileName(e.target.files[0].name);
   };
 
   const div1Style = {
@@ -122,8 +125,8 @@ export default function AddDigitalProductComp() {
         <Toaster position="top-center" reverseOrder={false}></Toaster>
         <div style={div1Style}>
           <h2>Add your digital product</h2>
-          <div className="container mx-auto my-5">
-            <form onSubmit={formik.handleSubmit}>
+          <div className="container mx-auto my-5 flex">
+            <form onSubmit={formik.handleSubmit} className="w-1/2">
               <div className="mb-4">
                 <label
                   className="block text-gray-700 font-bold mb-2"
@@ -216,7 +219,6 @@ export default function AddDigitalProductComp() {
                   </label>
                   <div style={div2Style}>
                     <label htmlFor="dpImg">
-                      <img src={img} alt="Preview Img" />
                       <p className="text-blue-500 underline cursor-pointer">
                         Browse
                       </p>
@@ -230,6 +232,17 @@ export default function AddDigitalProductComp() {
                       className="dpImg"
                       accept="image/*"
                     />
+                    {img ? (
+                      <>
+                        <img src={img} alt="Preview Img" />
+                      </>
+                    ) : (
+                      <>
+                        <p className="text-gray-500 text-sm text-center">
+                          A preview of your selected image will be shown here!
+                        </p>
+                      </>
+                    )}
                   </div>
                 </div>
                 <div>
@@ -245,6 +258,22 @@ export default function AddDigitalProductComp() {
                         Browse
                       </p>
                     </label>
+                    <br />
+
+                    {file ? (
+                      <>
+                        <span>
+                          Your selected file:
+                          <span className="font-bold"> {fileName}</span>
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <p className="text-gray-500 text-sm text-center">
+                          The file you selected will be shown here!
+                        </p>
+                      </>
+                    )}
                     <input
                       onChange={onUploadFile}
                       type="file"
@@ -257,13 +286,16 @@ export default function AddDigitalProductComp() {
               </div>
               <div className="flex items-center justify-center">
                 <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  class="bg-blue-600 text-white py-3 px-5 rounded focus:outline-none focus:shadow-outline mt-10 transition duration-900 ease-in-out hover:bg-black"
                   type="submit"
                 >
                   Add Product
                 </button>
               </div>
             </form>
+            <div>
+              <img src={digitalProductImg} alt="digitalProductImg" />
+            </div>
           </div>
         </div>
       </div>
