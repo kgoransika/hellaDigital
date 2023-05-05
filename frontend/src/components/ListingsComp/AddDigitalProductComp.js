@@ -98,8 +98,8 @@ export default function AddDigitalProductComp() {
 
   const div2Style = {
     padding: '20px',
-    width: '40vh',
-    height: 'auto',
+    width: '50vh',
+    height: '50vh',
     margin: '20px',
     border: '1px solid #dee2e6',
     boxShadow: '0 0 1px 1px #dee2e6',
@@ -111,8 +111,8 @@ export default function AddDigitalProductComp() {
       <style>
         {`
           .dpImg {
-            @apply border-4 border-gray-100 w-[135px] rounded-full shadow-lg cursor-pointer;
-            @apply hover:border-gray-200;
+
+          height: 80%;
           }
 
           input[type='file'] {
@@ -209,19 +209,30 @@ export default function AddDigitalProductComp() {
                   placeholder="Product quantity"
                 />
               </div>
-              <div className="flex">
+              <div className="flex gap-16">
                 <div className="w-1/2 max-w-md">
                   <label
                     className="block text-gray-700 font-bold mb-2"
                     htmlFor="dpImg"
                   >
-                    Upload your image
+                    Upload your cover image
                   </label>
                   <div style={div2Style}>
                     <label htmlFor="dpImg">
                       <p className="text-blue-500 underline cursor-pointer">
                         Browse
                       </p>
+                      {img ? (
+                        <>
+                          <img src={img} alt={'Img Preview'} />
+                        </>
+                      ) : (
+                        <>
+                          <p className="text-gray-500 text-sm text-center">
+                            A preview of your selected image will be shown here!
+                          </p>
+                        </>
+                      )}
                     </label>
                     <img src={selectedFile} alt="" className="dpImg" />
                     <input
@@ -232,17 +243,6 @@ export default function AddDigitalProductComp() {
                       className="dpImg"
                       accept="image/*"
                     />
-                    {img ? (
-                      <>
-                        <img src={img} alt="Preview Img" />
-                      </>
-                    ) : (
-                      <>
-                        <p className="text-gray-500 text-sm text-center">
-                          A preview of your selected image will be shown here!
-                        </p>
-                      </>
-                    )}
                   </div>
                 </div>
                 <div>
@@ -274,6 +274,10 @@ export default function AddDigitalProductComp() {
                         </p>
                       </>
                     )}
+                    <p className="text-red-500 text-sm text-center mt-5">
+                      NOTE: This is the file which the customer will recieve
+                      after purchasing your product!
+                    </p>
                     <input
                       onChange={onUploadFile}
                       type="file"

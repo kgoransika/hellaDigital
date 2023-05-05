@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "hella-digital",
+  "private_key_id": "ab7ec4dbba2e23c43924a5a700d6af9e01b21018",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCd9DI+C/0Jp8Mj\n4sHkwHJIzA8cZ/bg1LmxjrxKTeZHChKF+2ZTPUoMrEsOCm59+4La/2hxcI7hZq6i\nG89VJuW6Q2BxAQooB0FfnYbIViQb7E9EnKbYHiMsTLZjXvR0UcAgrmRlLzhPAT6T\nIjFPdXEYGy10ATzTfvQP3GJtSii6R9KwzjTn2emcpmI5zpF9dsGK6BeO3CpDBSdo\nAv7W7aZSohsY8oSoOdttn0Vw0Qa3kXPkR6h47ipdDAU0qQEdtW/bZw0TiatTeYWl\n0o0zTRSJ7PRVLaa/4g0dT0qDm4dFruuLNPlzgLy9fPfEamKNRSlAXO8WJsT3Hup9\nzIljNwyrAgMBAAECggEAM1g3Ysrz2Ikjmk0yOQFDxR0sBlBXRJNxv2GGHGNBKTOB\nfPMROpqwMPlqtmg2rZYt3bFrioCLuYJu3vxKQ8ROpeMT/PfZDNT677FdqE60Ey2Y\nQNXpOFRnm5VeLmQl84/Fc/osYWXdmHTvmdViERG8jxj6h/yFAL0Cagt6JUuXfKGs\ngudJ3MEEugepNCktVbteqE4WDaI+FBZZONGdI6a32gaI10Z3nPsBMNXk4+5hyAD5\nWp8tuXU0iz4haSbQqCiaYypOJDPdoLvcBwN05+MUiyIW5oOwh/biWaW2S7iG1c0/\nGgNKkxYrsAMM3zp7qYeEmJkt+/AwHK5hOy0z0B0x/QKBgQDKzKRtkWU6TWvjlYiK\nv2viUNbxKOpPjb5XYR7SCGZt/6CzQFzrw9fff5dyqmbsyP6CrHFodF+SJF2/mvWt\nidSPP0Zw66P1fOiHhvStkPM/H2mjjnhGMrHLUgwmPDpA2z1w8nJu2dpSq1ow/NMX\nwCgOyAWJC8m7sKq/iL5CY5zQ1wKBgQDHY9/LREabSfXhxsZ0u7b6XVt/6i4cK/SY\njiqcrhWkpZSQpsDDT+PB7TZfrJfUJU0spWTLldjXJeV5qOk662M/RN79ELX2rHKX\nz58/vATbj2KKDx7la2LhSWJHJwPNOncXhu2jfQwPqo3cEGcNUrbf+58mYtQ+CVxG\nABmacgIkTQKBgEtZaaaEJRZaecGfZ5IVuWHnI1WLHDPeuGAC586l7FjmZ7DyMxQu\nOeECqSSjh4Zmz5mBtMlYo8HK3UI5sxp9YYqvud5uzwaBGGxyiiqK9rX3V+q7HpkG\ncOTYYUc7jXFXhCaZDkd9jg61N9eHuG7UqI2FZ/kZdiTUaTys8/P6yuMVAoGAFBqt\n5gDsXZwHfsxcFkkXGgdvwmYKYCzObNNo2IN1CzTm1e76YLcdb+BLKzpr1KguL+I9\nV4m0Y30etjWhzp8NUsPO+BVHQ6f/pe75T6PVmY3LkcAUjW1WewC7OBFnALp0Z5rj\nOyjQnoPD6fx9Z4p/hfYJBgXRALBQ7X31Fu2H6cECgYEAslJwPM6A8KcGfJpAIcKl\npoQrxQASPWKg1oukqbMp3C4sZOz7AHTmBI1tjmgOntBu/m80QhGf7pDGkH5xDj2z\nQUiKwjEwXA0Jw8KmCQVUKV3WgmBMCJ/AZsJIHx/mcrwaC29QYni9kknNoA3Cv/D3\n6483qB49iOtraqOCKh8mTkg=\n-----END PRIVATE KEY-----\n",
+  "client_email": "ransika@hella-digital.iam.gserviceaccount.com",
+  "client_id": "111065882859415518639",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/ransika%40hella-digital.iam.gserviceaccount.com"
+}

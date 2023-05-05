@@ -1,11 +1,24 @@
 import DPModel from '../model/DigitalProducts.model.js';
 import cloudinary from '../middleware/cloudinary.js';
+import vision from '@google-cloud/vision';
 
 export async function addDigitalProduct(req, res) {
-  try {
-    const dpImg = req.files['dpImg'][0].filename;
-    const dpFile = req.files['dpFile'][0].filename;
+  const client = new vision.ImageAnnotatorClient({
+    keyFilename: './hella-digital-ab7ec4dbba2e.json', // Replace with the path to your API key file
+  });
 
+  const dpImg = req.files['dpImg'][0].filename;
+  const dpFile = req.files['dpFile'][0].filename;
+
+  const [result] = await client.webDetection(
+    './public/uploads/' + dpFile // Replace with the path to your image file
+  );
+  console.log(result);
+  const webDetection = result.webDetection;
+  console.log(webDetection);
+
+  if (webDetection.pagesWithMatchingImages.length === 0) {
+    // No matching image source found, proceed with saving the product
     const { dpName, dpDescription, dpCategory, dpPrice, dpQuantity, dpOwner } =
       req.body;
 
@@ -27,8 +40,9 @@ export async function addDigitalProduct(req, res) {
         res.status(201).send({ msg: 'Product added successfully' })
       )
       .catch((error) => res.status(500).send({ error }));
-  } catch (error) {
-    return res.status(500).send(error);
+  } else {
+    // Matching image source found, return an error response
+    res.status(400).send({ error: 'File source already exists' });
   }
 }
 
