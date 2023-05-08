@@ -53,6 +53,8 @@ export default function Password() {
             navigate('/dashboard');
           } else if (res.data.role === 'client') {
             navigate('/');
+          } else if (res.data.role === 'admin') {
+            navigate('/admin');
           }
           window.location.reload();
         }

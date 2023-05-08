@@ -10,6 +10,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 import * as controller from '../controllers/appController.js';
 import * as ProductController from '../controllers/productController.js';
 import * as ServicesController from '../controllers/servicesController.js';
+import * as AdminController from '../controllers/adminController.js';
 import { registerMail } from '../controllers/mailer.js';
 import Auth, { localVariables } from '../middleware/auth.js';
 import uploadMiddleware from '../middleware/multer.js';
@@ -166,4 +167,11 @@ router.route('/services/:_id').delete(ServicesController.deleteService);
     })
     .catch((err) => console.log(err));
 }); */
+
+/*****************************************************************/
+/**********************-- ADMIN ROUTES --**********************/
+router.route('/admin/getAllUsers').get(AdminController.getAllUsers); // admin page
+router.route('/admin/getAllProducts').get(AdminController.getAllProductsAdmin); // admin page
+router.route('/admin/getAllServices').get(AdminController.getAllServicesAdmin); // admin page
+
 export default router;

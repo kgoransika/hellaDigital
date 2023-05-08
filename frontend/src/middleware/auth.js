@@ -21,6 +21,28 @@ export const ProtectRoute = ({ children }) => {
   return children;
 };
 
+export const AdminRoute = ({ children }) => {
+  const [username, setUsername] = useState('');
+  const [role, setRole] = useState('');
+
+  const token = localStorage.getItem('token');
+
+  useEffect(() => {
+    getUsername()
+      .then((decodedToken) => {
+        setUsername(decodedToken.username);
+        setRole(decodedToken.role);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+  if (!token && role !== 'admin') {
+    return <Navigate to={'/'} replace={true}></Navigate>;
+  }
+  return children;
+};
+
 export const SellerRoute = ({ children }) => {
   const [username, setUsername] = useState('');
   const [role, setRole] = useState('');

@@ -27,11 +27,20 @@ import ClientProducts from './components/ClientComp/ClientProducts';
 import Cart from './components/ClientComp/Cart';
 
 /** auth middleware */
-import { AuthorizeUser, ProtectRoute, SellerRoute } from './middleware/auth';
+import {
+  AuthorizeUser,
+  ProtectRoute,
+  SellerRoute,
+  AdminRoute,
+} from './middleware/auth';
 import ServicesComp from './components/ServicesComp/ServicesComp';
 import AddDigitalServices from './components/ServicesComp/AddDigitalServices';
 import ClientServices from './components/ClientComp/ClientServices';
 import BuyHK from './components/ClientComp/BuyHK';
+import AdminPanel from './components/AdminComp/AdminPanel';
+import ManageUser from './components/AdminComp/ManageUser';
+import ManageProducts from './components/AdminComp/ManageProducts';
+import ManageServices from './components/AdminComp/ManageServices';
 
 function App() {
   return (
@@ -108,6 +117,39 @@ function App() {
         />
         <Route path="/recovery" element={<Recovery />} />
         <Route path="/reset" element={<Reset />} />
+
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <AdminPanel />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/manageUsers"
+          element={
+            <AdminRoute>
+              <ManageUser />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/manageProducts"
+          element={
+            <AdminRoute>
+              <ManageProducts />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/manageServices"
+          element={
+            <AdminRoute>
+              <ManageServices />
+            </AdminRoute>
+          }
+        />
       </Routes>
     </Router>
   );

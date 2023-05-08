@@ -222,3 +222,33 @@ export async function deleteService(id) {
     return { error: 'Could not delete Service...!' };
   }
 }
+
+/** get getAllUsers-admin */
+export async function getAllUsers() {
+  try {
+    const { data } = await axios.get(`/api/admin/getAllUsers`);
+    return { data };
+  } catch (error) {
+    return { error: 'Could not get user data...!' };
+  }
+}
+
+/** get getAllProducts-admin */
+export async function getAllProductsAdmin() {
+  try {
+    const { data } = await axios.get(`/api/admin/getAllProducts`);
+    return { data };
+  } catch (error) {
+    return { error: 'Could not get Product data...!' };
+  }
+}
+
+/** get getAllServices-admin */
+export async function getAllServicesAdmin() {
+  try {
+    const { data } = await axios.get(`/api/admin/getAllServices`);
+    return { data };
+  } catch (error) {
+    return { error: 'Could not get Services data...!' };
+  }
+}
