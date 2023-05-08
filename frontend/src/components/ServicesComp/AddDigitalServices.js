@@ -90,6 +90,7 @@ export default function AddDigitalServices() {
   const [serviceDescription, setServiceDescription] = React.useState('');
   const [category, setCategory] = React.useState('Photos');
   const [subcategory, setSubcategory] = React.useState('Photo Editing');
+  const [selectedFile, setSelectedFile] = React.useState();
   const subcategories =
     categories.find((c) => c.name === category)?.subcategories || [];
 
@@ -114,9 +115,11 @@ export default function AddDigitalServices() {
   const [username, setUsername] = React.useState('');
   const [role, setRole] = React.useState('');
 
+  /** Handler to preview Image */
   const onUpload = async (e) => {
+    setImg(e.target.files[0]);
     const base64 = await convertToBase64(e.target.files[0]);
-    setImg(base64);
+    setSelectedFile(base64);
   };
 
   React.useEffect(() => {
@@ -594,15 +597,13 @@ export default function AddDigitalServices() {
                         <div className="w-1/2">
                           <div style={div2Style}>
                             <label htmlFor="dsImg">
-                              <img src={img} alt="Preview Img" />
+                              <img src={selectedFile} alt="Preview Img" />
                               <p className="text-blue-500 underline cursor-pointer">
                                 Browse
                               </p>
                             </label>
                             <input
-                              onChange={(e) => {
-                                setImg(e.target.files[0]);
-                              }}
+                              onChange={onUpload}
                               type="file"
                               id="dsImg"
                               name="dsImg"

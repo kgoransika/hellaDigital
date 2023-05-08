@@ -130,7 +130,11 @@ router
 /**********************-- ADD DIGITAL SERVICES --**********************/
 /*POST Methods*/
 
-router.route('/addDigitalService').post(ServicesController.addDigitalService);
+router.post(
+  '/addDigitalService',
+  uploadMiddleware,
+  ServicesController.addDigitalService
+);
 
 /** GET Methods - Digital Services */
 

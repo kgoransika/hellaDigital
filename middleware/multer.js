@@ -34,6 +34,7 @@ const fileFilter = (req, file, cb) => {
 
 const uploadMiddleware = multer({ storage, fileFilter }).fields([
   { name: 'dpImg', maxCount: 1 },
+  { name: 'dsImg', maxCount: 1 },
   { name: 'dpFile', maxCount: 1 },
 ]);
 

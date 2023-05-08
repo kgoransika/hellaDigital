@@ -2,72 +2,63 @@ import DSModel from '../model/DigitalServices.model.js';
 import uploadMiddleware from '../middleware/multer.js';
 
 export async function addDigitalService(req, res) {
-  try {
-    uploadMiddleware.single('dsImg')(req, res, async (err) => {
-      if (err) {
-        return res.status(500).send({ error: err });
-      }
-      const {
-        dsName,
-        dsDescription,
-        dsCategory,
-        dsSubCategory,
-        dsPkg1Name,
-        dsPkg1Price,
-        dsPkg1Dt,
-        dsPkg1Revisions,
-        dsPkg2Name,
-        dsPkg2Price,
-        dsPkg2Dt,
-        dsPkg2Revisions,
-        dsPkg3Name,
-        dsPkg3Price,
-        dsPkg3Dt,
-        dsPkg3Revisions,
-        dsPortfolioLink,
-        dsOwner,
-      } = req.body;
+  const dsImg = req.files['dsImg'][0].filename;
+  const {
+    dsName,
+    dsDescription,
+    dsCategory,
+    dsSubCategory,
+    dsPkg1Name,
+    dsPkg1Price,
+    dsPkg1Dt,
+    dsPkg1Revisions,
+    dsPkg2Name,
+    dsPkg2Price,
+    dsPkg2Dt,
+    dsPkg2Revisions,
+    dsPkg3Name,
+    dsPkg3Price,
+    dsPkg3Dt,
+    dsPkg3Revisions,
+    dsPortfolioLink,
+    dsOwner,
+  } = req.body;
 
-      console.log(req.file);
-      const dsImg = req.file.filename;
+  console.log(req.file);
 
-      const service = new DSModel({
-        dsName,
-        dsDescription,
-        dsCategory,
-        dsSubCategory,
-        dsPkg1Name,
-        dsPkg1Price,
-        dsPkg1Dt,
-        dsPkg1Revisions,
-        dsPkg2Name,
-        dsPkg2Price,
-        dsPkg2Dt,
-        dsPkg2Revisions,
-        dsPkg3Name,
-        dsPkg3Price,
-        dsPkg3Dt,
-        dsPkg3Revisions,
-        dsImg,
-        dsPortfolioLink,
-        dsOwner,
-      });
+  const service = new DSModel({
+    dsName,
+    dsDescription,
+    dsCategory,
+    dsSubCategory,
+    dsPkg1Name,
+    dsPkg1Price,
+    dsPkg1Dt,
+    dsPkg1Revisions,
+    dsPkg2Name,
+    dsPkg2Price,
+    dsPkg2Dt,
+    dsPkg2Revisions,
+    dsPkg3Name,
+    dsPkg3Price,
+    dsPkg3Dt,
+    dsPkg3Revisions,
+    dsImg,
+    dsPortfolioLink,
+    dsOwner,
+  });
 
-      console.log(dsPkg1Name, dsPkg1Price, dsPkg1Dt, dsPkg1Revisions);
-      console.log(dsPkg2Name, dsPkg2Price, dsPkg2Dt, dsPkg2Revisions);
+  console.log(dsPkg1Name, dsPkg1Price, dsPkg1Dt, dsPkg1Revisions);
+  console.log(dsPkg2Name, dsPkg2Price, dsPkg2Dt, dsPkg2Revisions);
 
-      service
-        .save()
-        .then((result) => {
-          res.status(201).send({ msg: 'Service added successfully' });
-        })
-        .catch((error) => {
-          res.status(500).send({ error });
-        });
+  service
+    .save()
+    .then((result) => {
+      res.status(201).send({ msg: 'Service added successfully' });
+    })
+    .catch((error) => {
+      res.status(500).send({ error });
     });
-  } catch (error) {
-    return res.status(500).send({ error });
-  }
 }
 
 export async function getServicesByOwner(req, res) {
