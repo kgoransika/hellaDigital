@@ -1,6 +1,7 @@
 import React from 'react';
 import { getAllUsers } from '../../helper/helper';
 import Pagination from '@mui/material/Pagination';
+import AdminNavbar from './AdminNavbar.js';
 
 export default function ManageUser() {
   const [users, setUsers] = React.useState([]);
@@ -56,6 +57,7 @@ export default function ManageUser() {
         }
         `}
       </style>
+      <AdminNavbar />
       <div className="text-center">
         <h2>Manage Users</h2>
       </div>

@@ -1,6 +1,7 @@
 import React from 'react';
-import { getAllProductsAdmin } from '../../helper/helper';
+import { getAllServicesAdmin } from '../../helper/helper';
 import Pagination from '@mui/material/Pagination';
+import AdminNavbar from './AdminNavbar.js';
 
 export default function ManageServices() {
   const [services, setServices] = React.useState([]);
@@ -8,7 +9,7 @@ export default function ManageServices() {
   const [itemsPerPage, setItemsPerPage] = React.useState(10);
 
   React.useEffect(() => {
-    getAllProductsAdmin()
+    getAllServicesAdmin()
       .then((data) => {
         setServices(data);
         console.log(data);
@@ -58,11 +59,12 @@ export default function ManageServices() {
         }
         `}
       </style>
+      <AdminNavbar />
       <div className="text-center">
         <h2>Manage Services</h2>
       </div>
       <div style={div1Style}>
-        <h3>Users</h3>
+        <h3>Services</h3>
         <table style={tableStyle}>
           <thead>
             <tr>
@@ -70,7 +72,9 @@ export default function ManageServices() {
               <th>Preview Image</th>
               <th>Name</th>
               <th>Category</th>
-              <th>Price</th>
+              <th>Package 1</th>
+              <th>Package 2</th>
+              <th>Package 3</th>
               <th>Violation</th>
             </tr>
           </thead>
@@ -81,24 +85,44 @@ export default function ManageServices() {
                   <td>{service._id}</td>
                   <td>
                     <img
-                      src={`http://localhost:8080/api/services/digitalProducts/image/${service.dsImg}`}
+                      src={`http://localhost:8080/api/services/digitalServices/${service.dsImg}`}
                       alt={service.dsImg}
                       className="h-20 w-20 object-cover object-center lg:h-20 lg:w-20"
                     />
                   </td>
                   <td>{service.dsName}</td>
                   <td>{service.dsSubCategory}</td>
-                  <td>{service.dsPrice}</td>
+                  <td>
+                    {service.dsPkg1Name}
+                    <br />
+                    Delivery time: {service.dsPkg1Dt} Days
+                    <br />
+                    Revisions: {service.dsPkg1Revisions}
+                  </td>
+                  <td>
+                    {service.dsPkg2Name}
+                    <br />
+                    Delivery time: {service.dsPkg2Dt} Days
+                    <br />
+                    Revisions: {service.dsPkg2Revisions}
+                  </td>
+                  <td>
+                    {service.dsPkg3Name}
+                    <br />
+                    Delivery time: {service.dsPkg3Dt} Days
+                    <br />
+                    Revisions: {service.dsPkg3Revisions}
+                  </td>
                   <td>false</td>
                   <td
-                    className="text-blue-500"
+                    className="text-red-500"
                     style={{
                       textDecoration: 'underline',
                       textUnderlineOffset: '2px',
                       cursor: 'pointer',
                     }}
                   >
-                    View
+                    Delete
                   </td>
                 </tr>
               ))}

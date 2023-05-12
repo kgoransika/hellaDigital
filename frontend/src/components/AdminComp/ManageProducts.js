@@ -1,6 +1,7 @@
 import React from 'react';
 import { getAllProductsAdmin } from '../../helper/helper';
 import Pagination from '@mui/material/Pagination';
+import AdminNavbar from './AdminNavbar.js';
 
 export default function ManageProducts() {
   const [products, setProducts] = React.useState([]);
@@ -58,11 +59,12 @@ export default function ManageProducts() {
         }
         `}
       </style>
+      <AdminNavbar />
       <div className="text-center">
         <h2>Manage Products</h2>
       </div>
       <div style={div1Style}>
-        <h3>Users</h3>
+        <h3>Products</h3>
         <table style={tableStyle}>
           <thead>
             <tr>

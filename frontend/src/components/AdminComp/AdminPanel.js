@@ -3,6 +3,7 @@ import React from 'react';
 import ManageUser from './ManageUser.js';
 import ManageProducts from './ManageProducts.js';
 import ManageServices from './ManageServices.js';
+import AdminNavbar from './AdminNavbar.js';
 import { ChevronLeftIcon } from '@heroicons/react/20/solid';
 import { useNavigate } from 'react-router-dom';
 
@@ -38,21 +39,7 @@ export default function AdminPanel() {
 
   return (
     <>
-      <div
-        className="header mb-5 flex"
-        style={{
-          backgroundColor: '#000000',
-          color: '#ffffff',
-        }}
-      >
-        <h1 className="p-4">Hella Digital - Admin Panel</h1>
-        <button className="btn btn-primary ms-auto me-5 mt-4 mb-4 py-2 px-4 rounded shadow border-0">
-          <span className="flex items-center">
-            <ChevronLeftIcon className="h-6 w-6" />
-            <span>Back</span>
-          </span>
-        </button>
-      </div>
+      <AdminNavbar />
       <div className="mt-10 ml-20 mr-20">
         <>
           <Card style={cardStyle} onClick={handleManageUserClick}>

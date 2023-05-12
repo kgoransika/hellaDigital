@@ -252,3 +252,13 @@ export async function getAllServicesAdmin() {
     return { error: 'Could not get Services data...!' };
   }
 }
+
+/** delete ServicesBasedOnCategory-Admin */
+export async function deleteServiceAdmin(id) {
+  try {
+    await axios.delete(`/api/admin/deleteService/${id}`);
+  } catch (error) {
+    console.log(error);
+    return { error: 'Could not delete Service...!' };
+  }
+}

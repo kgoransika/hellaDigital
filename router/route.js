@@ -177,5 +177,8 @@ router.route('/services/:_id').delete(ServicesController.deleteService);
 router.route('/admin/getAllUsers').get(AdminController.getAllUsers); // admin page
 router.route('/admin/getAllProducts').get(AdminController.getAllProductsAdmin); // admin page
 router.route('/admin/getAllServices').get(AdminController.getAllServicesAdmin); // admin page
+router
+  .route('/admin/deleteService/:_id')
+  .get(AdminController.deleteServiceAdmin); // admin page
 
 export default router;

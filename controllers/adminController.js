@@ -28,3 +28,22 @@ export async function getAllServicesAdmin(req, res) {
     res.status(500).send({ error });
   }
 }
+
+export async function deleteServiceAdmin(req, res) {
+  const { _id } = req.params;
+
+  try {
+    const service = await DSModel.findById(_id);
+
+    if (!service) {
+      console.log('Service not found');
+      return res.status(404).send({ error: 'Service not found' });
+    }
+
+    await service.delete();
+    res.status(200).send({ msg: 'Service deleted successfully' });
+  } catch (error) {
+    res.status(500).send({ error });
+    console.log(error);
+  }
+}
