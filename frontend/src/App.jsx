@@ -41,6 +41,7 @@ import AdminPanel from './components/AdminComp/AdminPanel';
 import ManageUser from './components/AdminComp/ManageUser';
 import ManageProducts from './components/AdminComp/ManageProducts';
 import ManageServices from './components/AdminComp/ManageServices';
+import SellerProfileView from './components/ClientComp/SellerProfileView';
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
         <Route path="/services" element={<ClientServices />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/buyCredits" element={<BuyHK />} />
+        <Route path="/sellerProfileView" element={<SellerProfileView />} />
         <Route path="/" element={<Layout />}>
           <Route
             path="/profile"
