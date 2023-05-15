@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import ENV from '../config.js';
 import otpGenerator from 'otp-generator';
+import Token from '../model/token.js';
 
 /** middleware for verify user */
 export async function verifyUser(req, res, next) {
@@ -32,7 +33,17 @@ export async function verifyUser(req, res, next) {
 */
 export async function register(req, res) {
   try {
-    const { username, password, profile, email, role } = req.body;
+    const {
+      username,
+      password,
+      profile,
+      email,
+      role,
+      verified,
+      emailVerified,
+      idVerified,
+      paymentVerified,
+    } = req.body;
 
     // check the existing user
     const existUsername = new Promise((resolve, reject) => {
@@ -66,6 +77,10 @@ export async function register(req, res) {
                 profile: profile || '',
                 email,
                 role,
+                verified,
+                emailVerified,
+                idVerified,
+                paymentVerified,
               });
 
               // return save result as a response
@@ -117,7 +132,7 @@ export async function login(req, res) {
                 role: user.role,
               },
               ENV.JWT_SECRET,
-              { expiresIn: '1h' }
+              { expiresIn: '1s' }
             );
 
             return res.status(200).send({

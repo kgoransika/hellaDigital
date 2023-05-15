@@ -20,6 +20,22 @@ export const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  verified: {
+    type: Boolean,
+    default: false,
+  },
+  emailVerified: {
+    type: Boolean,
+    default: false,
+  },
+  idVerified: {
+    type: Boolean,
+    default: false,
+  },
+  paymentVerified: {
+    type: Boolean,
+    default: false,
+  },
   firstName: { type: String },
   lastName: { type: String },
   mobile: { type: Number },

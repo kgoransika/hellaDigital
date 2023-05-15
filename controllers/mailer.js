@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer';
 import Mailgen from 'mailgen';
-
+import crypto from 'crypto';
+import TokenModel from '../model/token.js';
 import ENV from '../config.js';
 
 // https://ethereal.email/create
@@ -34,34 +35,57 @@ let MailGenerator = new Mailgen({
 export const registerMail = async (req, res) => {
   const { username, userEmail, text, subject } = req.body;
 
-  // body of the email
-  var email = {
-    body: {
-      name: username,
-      intro:
-        text ||
-        "Welcome to Hella Digital! We're very excited to have you on board.",
-      outro:
-        "Need help, or have questions? Just reply to this email, we'd love to help.",
-    },
-  };
+  const token = new TokenModel({
+    username: username,
+    token: crypto.randomBytes(16).toString('hex'),
+  });
 
-  var emailBody = MailGenerator.generate(email);
+  token.save((err) => {
+    if (err) {
+      return res.status(500).send({
+        error: 'Unable to save token',
+      });
+    }
+    console.log(token);
+    const verifyLink = `http://localhost:8080/api/users/confirmation/${token.token}`;
 
-  let message = {
-    from: ENV.EMAIL,
-    to: userEmail,
-    subject: subject || 'Signup Successful',
-    html: emailBody,
-  };
+    // body of the email
+    var email = {
+      body: {
+        name: username,
+        intro:
+          text ||
+          "Welcome to Hella Digital! We're very excited to have you on board.",
+        outro:
+          "Need help, or have questions? Just reply to this email, we'd love to help.",
+      },
+    };
 
-  // send mail
-  transporter
-    .sendMail(message)
-    .then(() => {
-      return res
-        .status(200)
-        .send({ msg: 'You should receive an email from us.' });
-    })
-    .catch((error) => res.status(500).send({ error }));
+    var emailBody = MailGenerator.generate(email);
+
+    let message = {
+      from: ENV.EMAIL,
+      to: userEmail,
+      subject: subject || 'Signup Successful',
+      html: `
+      <div>
+        <h1>Hi, ${username}</h1>
+        <p>Welcome to Hella Digital! We're very excited to have you on board.</p>
+        <a href="${verifyLink}">Click here to verify your account</a>
+        <p>Need help, or have questions? Just reply to this email, we'd love to help.</p>
+      </div>
+      
+      `,
+    };
+
+    // send mail
+    transporter
+      .sendMail(message)
+      .then(() => {
+        return res
+          .status(200)
+          .send({ msg: 'You should receive an email from us.' });
+      })
+      .catch((error) => res.status(500).send({ error }));
+  });
 };
