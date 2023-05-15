@@ -3,7 +3,6 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import ENV from '../config.js';
 import otpGenerator from 'otp-generator';
-import Token from '../model/token.js';
 
 /** middleware for verify user */
 export async function verifyUser(req, res, next) {

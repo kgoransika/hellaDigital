@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
 import Mailgen from 'mailgen';
 import crypto from 'crypto';
-import TokenModel from '../model/token.js';
+import TokenModel from '../model/Token.model.js';
 import ENV from '../config.js';
 
 // https://ethereal.email/create
@@ -47,7 +47,7 @@ export const registerMail = async (req, res) => {
       });
     }
     console.log(token);
-    const verifyLink = `http://localhost:8080/api/users/confirmation/${token.token}`;
+    const verifyLink = `http://localhost:8080/api/users/${token.username}/confirmation/${token.token}`;
 
     // body of the email
     var email = {

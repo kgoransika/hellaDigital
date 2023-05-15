@@ -17,7 +17,7 @@ import uploadMiddleware from '../middleware/multer.js';
 /* import UploadModel from '../model/UploadModel.js'; */
 import DigitalProductsModel from '../model/DigitalProducts.model.js';
 import DigitalServicesModel from '../model/DigitalServices.model.js';
-import Token from '../model/token.js';
+import TokenModel from '../model/Token.model.js';
 import UserModel from '../model/User.model.js';
 
 /*****************************************************************/
@@ -25,15 +25,15 @@ import UserModel from '../model/User.model.js';
 /*POST Methods*/
 router.route('/register').post(controller.register); // register user
 router.route('/registerMail').post(registerMail); // send the email
-router.get('/users/confirmation/:token', async (req, res) => {
+router.get('/users/:username/confirmation/:token', async (req, res) => {
   try {
-    const token = await Token.findOne({ token: req.params.token });
+    const token = await TokenModel.findOne({ token: req.params.token });
     console.log(token);
     await UserModel.updateOne(
       { username: token.username },
       { $set: { emailVerified: true } }
     );
-    await Token.findByIdAndRemove(token._id);
+    await TokenModel.findByIdAndRemove(token._id);
     res.send('Email verified successfully');
   } catch (error) {
     res.send(error.message);
