@@ -15,7 +15,18 @@ export default function Profile() {
   const [file, setFile] = useState();
   const [{ isLoading, apiData, serverError }] = useFetch();
   const [verified, setVerified] = useState(false);
+  const [emailVerified, setEmailVerified] = useState(false);
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    checkEmailVerified();
+  });
+
+  function checkEmailVerified() {
+    if (apiData?.emailVerified) {
+      setEmailVerified(true);
+    }
+  }
 
   const username = apiData?.username || '';
 
@@ -55,6 +66,10 @@ export default function Profile() {
     navigate('/');
   }
 
+  function handleVerifyNow() {
+    navigate('/accountVerify');
+  }
+
   if (isLoading) return <h1>Loading...</h1>;
   if (serverError)
     return <h1 className="text-xl text-red-500">{serverError.message}</h1>;
@@ -65,6 +80,8 @@ export default function Profile() {
         <NavBar />
         <div>
           <div class="flex items-center justify-center h-screen bg-gray-100 gap-10 mt-20">
+            <Toaster position="top-center" reverseOrder={false}></Toaster>
+
             <form onSubmit={formik.handleSubmit}>
               <div class="bg-white p-8 rounded-lg shadow-lg">
                 <div class="flex items-center">
@@ -113,7 +130,10 @@ export default function Profile() {
                     <label class="text-xl">Verification Status</label>
                     {!verified && (
                       <>
-                        <button class="bg-blue-600 text-white py-1 px-3 rounded-lg text-sm ms-auto">
+                        <button
+                          class="bg-blue-600 text-white py-1 px-3 rounded-lg text-sm ms-auto"
+                          onClick={handleVerifyNow}
+                        >
                           Verify Now
                         </button>
                       </>
@@ -121,7 +141,7 @@ export default function Profile() {
                   </span>
                   <div class="mt-6 flex gap-4">
                     <span className="flex gap-2">
-                      {verified ? (
+                      {emailVerified ? (
                         <>
                           <CheckCircleIcon className="h-5 w-5 text-green-500" />
                         </>
@@ -146,20 +166,6 @@ export default function Profile() {
                       )}
                       <p class="text-gray-500 font-medium">
                         Identity Verification
-                      </p>
-                    </span>
-                    <span className="flex gap-2">
-                      {verified ? (
-                        <>
-                          <CheckCircleIcon className="h-5 w-5 text-green-500" />
-                        </>
-                      ) : (
-                        <>
-                          <XCircleIcon className="h-5 w-5 text-red-500" />
-                        </>
-                      )}
-                      <p class="text-gray-500 font-medium">
-                        Payment Verification
                       </p>
                     </span>
                   </div>
@@ -215,7 +221,10 @@ export default function Profile() {
                   />
                 </div>
                 <div class="mt-6 mx-auto">
-                  <button class="bg-blue-600 text-white py-3 px-6 rounded-lg font-medium">
+                  <button
+                    class="bg-blue-600 text-white py-3 px-6 rounded-lg font-medium"
+                    type="submit"
+                  >
                     Update Profile
                   </button>
                 </div>
