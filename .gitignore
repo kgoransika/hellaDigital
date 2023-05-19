@@ -11,6 +11,8 @@ client/.env
 server/.env
 frontend/.env
 .env
+hella-digital-ab7ec4dbba2e.json
+config.js
 
 # testing
 /coverage
