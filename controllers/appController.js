@@ -36,6 +36,7 @@ export async function register(req, res) {
       username,
       password,
       profile,
+      idImg,
       email,
       role,
       verified,
@@ -74,6 +75,7 @@ export async function register(req, res) {
                 username,
                 password: hashedPassword,
                 profile: profile || '',
+                idImg: idImg || '',
                 email,
                 role,
                 verified,
@@ -131,7 +133,7 @@ export async function login(req, res) {
                 role: user.role,
               },
               ENV.JWT_SECRET,
-              { expiresIn: '1s' }
+              { expiresIn: '5h' }
             );
 
             return res.status(200).send({

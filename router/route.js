@@ -197,4 +197,27 @@ router
   .route('/admin/deleteService/:_id')
   .get(AdminController.deleteServiceAdmin); // admin page
 
+router.put('/admin/users/:id/verify', async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    // Find the user document by ID
+    const user = await UserModel.findByIdAndUpdate(
+      userId,
+      { idVerified: true, verified: true },
+      { new: true } // Return the updated user document
+    );
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Send a success response
+    res.json({ message: 'User ID verified successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 export default router;

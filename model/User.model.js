@@ -41,6 +41,7 @@ export const UserSchema = new mongoose.Schema({
   mobile: { type: Number },
   address: { type: String },
   profile: { type: String },
+  idImg: { type: String },
 });
 
 export default mongoose.model.Users || mongoose.model('User', UserSchema);

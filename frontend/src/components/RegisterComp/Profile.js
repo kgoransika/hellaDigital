@@ -13,6 +13,7 @@ import { XCircleIcon } from '@heroicons/react/20/solid';
 
 export default function Profile() {
   const [file, setFile] = useState();
+  const [identity, setIdentity] = useState();
   const [{ isLoading, apiData, serverError }] = useFetch();
   const [verified, setVerified] = useState(false);
   const [emailVerified, setEmailVerified] = useState(false);
@@ -45,6 +46,7 @@ export default function Profile() {
     onSubmit: async (values) => {
       values = await Object.assign(values, {
         profile: file || apiData?.profile || '',
+        idImg: identity || apiData?.idImg || '',
       });
       let updatePromise = updateUser(values);
 
@@ -59,6 +61,11 @@ export default function Profile() {
   const onUpload = async (e) => {
     const base64 = await convertToBase64(e.target.files[0]);
     setFile(base64);
+  };
+
+  const onUploadId = async (e) => {
+    const base64 = await convertToBase64(e.target.files[0]);
+    setIdentity(base64);
   };
 
   function userLogout() {
@@ -79,11 +86,11 @@ export default function Profile() {
       <div>
         <NavBar />
         <div>
-          <div class="flex items-center justify-center h-screen bg-gray-100 gap-10 mt-20">
+          <div class="h-screen gap-10 m-40">
             <Toaster position="top-center" reverseOrder={false}></Toaster>
 
             <form onSubmit={formik.handleSubmit}>
-              <div class="bg-white p-8 rounded-lg shadow-lg">
+              <div class="">
                 <div class="flex items-center">
                   <label htmlFor="profile">
                     <img
@@ -128,16 +135,6 @@ export default function Profile() {
                   <hr />
                   <span className="flex">
                     <label class="text-xl">Verification Status</label>
-                    {!verified && (
-                      <>
-                        <button
-                          class="bg-blue-600 text-white py-1 px-3 rounded-lg text-sm ms-auto"
-                          onClick={handleVerifyNow}
-                        >
-                          Verify Now
-                        </button>
-                      </>
-                    )}
                   </span>
                   <div class="mt-6 flex gap-4">
                     <span className="flex gap-2">
@@ -169,6 +166,25 @@ export default function Profile() {
                       </p>
                     </span>
                   </div>
+                  {!verified && (
+                    <>
+                      <label htmlFor="idImg" className="text-blue-500">
+                        Upload ID Image
+                      </label>
+
+                      <input
+                        onChange={onUploadId}
+                        type="file"
+                        id="idImg"
+                        name="idImg"
+                      />
+                      <img
+                        className="w-50 h-32 object-cover"
+                        src={identity}
+                        alt={'Img Preview'}
+                      />
+                    </>
+                  )}
                   <hr />
                 </div>
                 <div class="mt-6 flex">
