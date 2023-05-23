@@ -17,10 +17,13 @@ export default function Profile() {
   const [{ isLoading, apiData, serverError }] = useFetch();
   const [verified, setVerified] = useState(false);
   const [emailVerified, setEmailVerified] = useState(false);
+  const [idVerified, setIdVerified] = useState(false);
   const navigate = useNavigate();
 
   React.useEffect(() => {
     checkEmailVerified();
+    checkIdVerified();
+    checkverified();
   });
 
   function checkEmailVerified() {
@@ -28,6 +31,27 @@ export default function Profile() {
       setEmailVerified(true);
     }
   }
+
+  function checkIdVerified() {
+    if (apiData?.idVerified) {
+      setIdVerified(true);
+    }
+  }
+
+  function checkverified() {
+    if (apiData?.verified) {
+      setVerified(true);
+    }
+  }
+
+  const div1Style = {
+    width: '100%',
+    height: 'auto',
+    padding: '40px',
+    border: '1px solid #dee2e6',
+    boxShadow: '0 0 1px 1px #dee2e6',
+    borderRadius: '10px',
+  };
 
   const username = apiData?.username || '';
 
@@ -68,15 +92,6 @@ export default function Profile() {
     setIdentity(base64);
   };
 
-  function userLogout() {
-    localStorage.removeItem('token');
-    navigate('/');
-  }
-
-  function handleVerifyNow() {
-    navigate('/accountVerify');
-  }
-
   if (isLoading) return <h1>Loading...</h1>;
   if (serverError)
     return <h1 className="text-xl text-red-500">{serverError.message}</h1>;
@@ -86,10 +101,10 @@ export default function Profile() {
       <div>
         <NavBar />
         <div>
-          <div class="h-screen gap-10 m-40">
+          <div class="h-screen gap-10 m-20 mt-30 mb-40">
             <Toaster position="top-center" reverseOrder={false}></Toaster>
-
-            <form onSubmit={formik.handleSubmit}>
+            <form onSubmit={formik.handleSubmit} style={div1Style}>
+              <h2 className="text-center">Edit Profile</h2>
               <div class="">
                 <div class="flex items-center">
                   <label htmlFor="profile">
@@ -152,7 +167,7 @@ export default function Profile() {
                       </p>
                     </span>
                     <span className="flex gap-2">
-                      {verified ? (
+                      {idVerified ? (
                         <>
                           <CheckCircleIcon className="h-5 w-5 text-green-500" />
                         </>
