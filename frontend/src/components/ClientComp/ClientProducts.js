@@ -106,6 +106,22 @@ export default function ClientProducts() {
       }
     };
     xhr.send();
+
+    try {
+      // Make the API request to update HKBalance
+      const response = axios.post('/api/buyDp', {
+        clientName: apiData.username, // Replace with the client's ID or username
+        dpOwnerName: seller, // Replace with the dpOwner's ID or username
+        dpPrice: price, // Pass the price of the digital product
+      });
+
+      // Handle the response
+      console.log(response.data); // Log the response data
+      // Perform any necessary actions after the transaction is successful
+    } catch (error) {
+      console.error('Buy Now error:', error.response.data); // Log the error response
+      // Handle the error as per your requirements
+    }
   }
 
   return (

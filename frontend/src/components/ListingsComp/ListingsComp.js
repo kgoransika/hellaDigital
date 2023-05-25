@@ -29,6 +29,10 @@ export default function ListingsComp() {
     navigate('/listings/addDigitalProduct');
   };
 
+  const handleEdit = () => {
+    navigate('/listings/addDigitalProduct');
+  };
+
   const div1Style = {
     padding: '20px',
     width: '100%',
@@ -170,8 +174,9 @@ export default function ListingsComp() {
                       <th style={thStyle}>Product Image</th>
                       <th style={thStyle}>Product Name</th>
                       <th style={thStyle}>Product Category</th>
-                      <th style={thStyle}>Stocks</th>
+                      <th style={thStyle}>License Type</th>
                       <th style={thStyle}>Product Price</th>
+                      <th style={thStyle}></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -188,8 +193,15 @@ export default function ListingsComp() {
                           </td>
                           <td style={tdStyle}>{item.dpName}</td>
                           <td style={tdStyle}>{item.dpCategory}</td>
-                          <td style={tdStyle}>{item.dpQuantity}</td>
+                          <td style={tdStyle}>{item.dpLicense}</td>
                           <td style={tdStyle}>{item.dpPrice}</td>
+                          <td
+                            style={tdStyle}
+                            className="text-blue-500 cursor-pointer underline"
+                            onClick={handleEdit}
+                          >
+                            Edit
+                          </td>
                         </tr>
                       ))}
                   </tbody>

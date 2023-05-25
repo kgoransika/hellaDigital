@@ -71,7 +71,9 @@ export default function DashboardComp() {
                     aria-hidden="true"
                   />
                   <Card.Title>Total Sales</Card.Title>
-                  <Card.Text>$ ----</Card.Text>
+                  <Card.Text className="text-blue-500 font-bold">
+                    {apiData?.HKBalance} HK
+                  </Card.Text>
                 </Card.Body>
               </Card>
               <Card style={cardStyle}>
@@ -113,14 +115,11 @@ export default function DashboardComp() {
 
         <div style={{ display: 'flex' }}>
           <div style={div1Style}>
-            <h3>Income Statistics</h3>
+            <h3>Recent Orders</h3>
           </div>
           <div style={div2Style}>
             <h3>Recent Orders</h3>
           </div>
-        </div>
-        <div style={div3Style}>
-          <h3>Recent Reviews</h3>
         </div>
       </div>
     </>
