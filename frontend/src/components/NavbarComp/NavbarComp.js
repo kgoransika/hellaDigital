@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { getUsername } from '../../helper/helper';
+import { getUserDetails } from '../../helper/helper';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
@@ -21,6 +22,7 @@ import ContactMailRoundedIcon from '@mui/icons-material/ContactMailRounded';
 
 export default function NavbarComp() {
   const [username, setUsername] = useState('');
+  const [userDetails, setUserDetails] = useState('');
   const [role, setRole] = useState('');
   const navigate = useNavigate();
 
@@ -35,7 +37,17 @@ export default function NavbarComp() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+
+    getUserDetails(username)
+      .then((data) => {
+        console.log(data);
+        setUserDetails(data);
+        console.log(userDetails.username);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [username]);
 
   // logout handler function
   function userLogout() {
@@ -97,7 +109,7 @@ export default function NavbarComp() {
                           <Nav.Link as={Link} to={'/dashboard'}>
                             <DashboardRoundedIcon className="h-6 w-6" />
                           </Nav.Link>
-                          <Nav.Link as={Link} to={'/'}>
+                          <Nav.Link as={Link} to={'/sellerWallet'}>
                             <GiWallet className="h-6 w-6" />
                           </Nav.Link>
                           {role === 'dps' && (
@@ -142,7 +154,14 @@ export default function NavbarComp() {
                         title="Profile"
                         id={`offcanvasNavbarDropdown-expand-${expand}`}
                       >
-                        <NavDropdown.Item>Balance: 0 HK</NavDropdown.Item>
+                        <NavDropdown.Item>
+                          Balance:{' '}
+                          {userDetails &&
+                            userDetails.data &&
+                            userDetails.data.HKBalance}
+                          HK
+                        </NavDropdown.Item>
+
                         <NavDropdown.Item as={Link} to={'/notifications'}>
                           Notifications
                         </NavDropdown.Item>

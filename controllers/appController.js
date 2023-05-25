@@ -43,6 +43,7 @@ export async function register(req, res) {
       emailVerified,
       idVerified,
       paymentVerified,
+      HKBalance,
     } = req.body;
 
     // check the existing user
@@ -82,6 +83,7 @@ export async function register(req, res) {
                 emailVerified,
                 idVerified,
                 paymentVerified,
+                HKBalance,
               });
 
               // return save result as a response
@@ -159,6 +161,27 @@ export async function login(req, res) {
 export async function getUser(req, res) {
   const { username } = req.params;
 
+  try {
+    if (!username) return res.status(501).send({ error: 'Invalid Username' });
+
+    UserModel.findOne({ username }, function (err, user) {
+      if (err) return res.status(500).send({ err });
+      if (!user)
+        return res.status(501).send({ error: "Couldn't Find the User" });
+
+      /** remove password from user */
+      // mongoose return unnecessary data with object so convert it into json
+      const { password, ...rest } = Object.assign({}, user.toJSON());
+
+      return res.status(201).send(rest);
+    });
+  } catch (error) {
+    return res.status(404).send({ error: 'Cannot Find User Data' });
+  }
+}
+
+export async function getUserDetails(req, res) {
+  const { username } = req.params;
   try {
     if (!username) return res.status(501).send({ error: 'Invalid Username' });
 

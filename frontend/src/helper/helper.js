@@ -22,13 +22,23 @@ export async function authenticate(username) {
   }
 }
 
-/** get User details */
+/** get User */
 export async function getUser({ username }) {
   try {
     const { data } = await axios.get(`/api/user/${username}`);
     return { data };
   } catch (error) {
     return { error: "Password doesn't Match...!" };
+  }
+}
+
+/** get User details */
+export async function getUserDetails(username) {
+  try {
+    const { data } = await axios.get(`/api/userDetails/${username}`);
+    return { data };
+  } catch (error) {
+    return { error: 'User not Found...!' };
   }
 }
 

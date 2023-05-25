@@ -43,6 +43,7 @@ import ManageProducts from './components/AdminComp/ManageProducts';
 import ManageServices from './components/AdminComp/ManageServices';
 import SellerProfileView from './components/ClientComp/SellerProfileView';
 import AccountVerify from './components/RegisterComp/AccountVerify';
+import SellerWallet from './components/ProfileComp/SellerWallet';
 
 function App() {
   return (
@@ -56,6 +57,14 @@ function App() {
         <Route path="/sellerProfileView" element={<SellerProfileView />} />
         <Route path="/accountVerify" element={<AccountVerify />} />
         <Route path="/" element={<Layout />}>
+          <Route
+            path="/sellerWallet"
+            element={
+              <AuthorizeUser>
+                <SellerWallet />
+              </AuthorizeUser>
+            }
+          />
           <Route
             path="/profile"
             element={

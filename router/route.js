@@ -3,6 +3,10 @@ const router = Router();
 import { fileURLToPath } from 'url';
 import path from 'path';
 import fs from 'fs';
+import paypal from '@paypal/checkout-server-sdk';
+import { PayPalClient } from '../middleware/paypalClient.js';
+import ENV from '../config.js';
+import axios from 'axios';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -19,6 +23,185 @@ import DigitalProductsModel from '../model/DigitalProducts.model.js';
 import DigitalServicesModel from '../model/DigitalServices.model.js';
 import TokenModel from '../model/Token.model.js';
 import UserModel from '../model/User.model.js';
+
+/******************************************************************/
+/**************************-- PAYPAL --***************************/
+const payPalClient = new PayPalClient();
+
+// Define the route for creating a PayPal order
+router.post('/paypal/checkout', async (req, res) => {
+  try {
+    // Extract package details from the request body
+    const { packageId, price } = req.body;
+
+    // Create a new PayPal order
+    const request = new paypal.orders.OrdersCreateRequest();
+    request.prefer('return=representation');
+    request.requestBody({
+      intent: 'CAPTURE',
+      purchase_units: [
+        {
+          amount: {
+            currency_code: 'USD',
+            value: price.toString(),
+          },
+          custom_id: packageId, // Pass the packageId as custom_id
+        },
+      ],
+    });
+
+    // Send the request to PayPal to create the order
+    const order = await payPalClient.client().execute(request);
+
+    // Extract the PayPal order ID from the response
+    const orderId = order.result.id;
+
+    // Save the order ID to your database or session for reference
+
+    // Return the PayPal payment URL to the frontend
+    const approvalUrl = order.result.links.find(
+      (link) => link.rel === 'approve'
+    ).href;
+    res.json({ orderId, approvalUrl });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Something went wrong' });
+  }
+});
+
+router.post('/paypal/transaction-complete', async (req, res) => {
+  try {
+    // Update the user's HKBalance
+    const userId = '6408619b11cd2ccb3de954e6'; // Assuming the authenticated user is available in req.user
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // add 10 to HK balance
+    user.HKBalance += 2000;
+    await user.save();
+
+    res.json({ success: true });
+  } catch (error) {
+    if (
+      error.statusCode === 404 &&
+      error.message === 'The specified resource does not exist.'
+    ) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+    console.error(error);
+    res.status(500).json({ error: 'Something went wrong' });
+  }
+});
+
+router.post('/paypal/withdraw', async (req, res) => {
+  // Extract the withdrawal amount from the request body
+  const { withdrawalAmount } = req.body;
+
+  // Perform the PayPal withdrawal logic here
+  async function initiateWithdrawal() {
+    try {
+      // Calculate the amount to be withdrawn
+      const conversionRate = 0.12; // Example conversion rate
+      const withdrawalAmountHKD = Number(withdrawalAmount);
+      const withdrawalAmountUSD = withdrawalAmountHKD * conversionRate;
+
+      // Update the HKBalance by deducting the withdrawal amount
+
+      const username = dsphella; // Assuming the username is stored in req.user.username
+      const user = await UserModel.findOne({ username });
+
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+
+      const currentHKBalance = user.HKBalance;
+      const updatedHKBalance = currentHKBalance - withdrawalAmountHKD;
+
+      user.HKBalance = updatedHKBalance;
+      await user.save();
+
+      // Prepare the PayPal API request payload
+      const payload = {
+        sender_batch_header: {
+          sender_batch_id: 'batch_1284992080000', // Example batch ID
+          email_subject: 'Withdrawal from HKBalance', // Example email subject
+        },
+        items: [
+          {
+            recipient_type: 'EMAIL',
+            amount: {
+              value: withdrawalAmountUSD.toFixed(2), // Limit to 2 decimal places
+              currency: 'USD',
+            },
+            note: 'Withdrawal from HKBalance', // Example note
+            receiver: 'dsphella@gmail.com', // PayPal sandbox account email
+          },
+        ],
+      };
+
+      // Make the API request
+      const accessToken = await getAccessToken();
+      const response = await axios.post(
+        'https://api.sandbox.paypal.com/v1/payments/payouts',
+        payload,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      // Handle the response
+      console.log(response.data); // Log the response data
+      // Process the response as per your requirements
+    } catch (error) {
+      console.error(
+        'Withdrawal error:',
+        error.response ? error.response.data : error.message
+      ); // Log the error response
+      // Handle the error as per your requirements
+    }
+  }
+
+  // Function to obtain the access token
+  async function getAccessToken() {
+    try {
+      const clientId = ENV.PAYPAL_CLIENT_ID; // Replace with your PayPal Client ID
+      const clientSecret = ENV.PAYPAL_CLIENT_SECRET; // Replace with your PayPal Client Secret
+
+      const authString = `${clientId}:${clientSecret}`;
+      const encodedAuthString = Buffer.from(authString).toString('base64');
+
+      const headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `Basic ${encodedAuthString}`,
+      };
+
+      const data = 'grant_type=client_credentials';
+
+      const response = await axios.post(
+        'https://api.sandbox.paypal.com/v1/oauth2/token',
+        data,
+        { headers }
+      );
+
+      return response.data.access_token;
+    } catch (error) {
+      console.error('Access token error:', error.response.data); // Log the error response
+      // Handle the error as per your requirements
+    }
+  }
+
+  // Call the function to initiate the withdrawal
+  initiateWithdrawal();
+
+  // Send a response back to the client
+  res.status(200).json({ message: 'Withdrawal successful' });
+});
 
 /*****************************************************************/
 /**********************-- AUTHENTICATION --**********************/
@@ -46,6 +229,7 @@ router.route('/login').post(controller.verifyUser, controller.login); // login i
 
 /*GET Methods*/
 router.route('/user/:username').get(controller.getUser); // user with username
+router.route('/userDetails/:username').get(controller.getUserDetails); // user with username
 router
   .route('/generateOTP')
   .get(controller.verifyUser, localVariables, controller.generateOTP); // generate random OTP

@@ -58,6 +58,10 @@ export default function ClientHome() {
     navigate('/products');
   };
 
+  const navigateToServices = () => {
+    navigate('/services');
+  };
+
   useEffect(() => {
     if (token) {
       setIsLoggedIn(true);
@@ -386,7 +390,7 @@ export default function ClientHome() {
             <h2>Digital Services</h2>
             <Slider {...settings}>
               {digitalServices.map((digitalService) => (
-                <div key={digitalService.id}>
+                <div key={digitalService.id} onClick={navigateToServices}>
                   <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 hover:opacity-75 lg:aspect-none lg:h-80 relative">
                     <h5 className="absolute top-0 left-0 z-10 p-4 text-white">
                       {digitalService.title1}
