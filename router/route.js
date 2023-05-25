@@ -43,7 +43,7 @@ router.post('/paypal/checkout', async (req, res) => {
         {
           amount: {
             currency_code: 'USD',
-            value: price.toString(),
+            value: 60,
           },
           custom_id: packageId, // Pass the packageId as custom_id
         },
@@ -80,7 +80,7 @@ router.post('/paypal/transaction-complete', async (req, res) => {
     }
 
     // add 10 to HK balance
-    user.HKBalance += 2000;
+    user.HKBalance += 450;
     await user.save();
 
     res.json({ success: true });

@@ -69,8 +69,10 @@ export default function BuyHK() {
               <div style={div2Style}>
                 <h3>Hella Kaasi Package 1</h3>
                 <div>
-                  <h4 className="text-gray-500">2000 HK</h4>
-
+                  <h4 className="text-gray-500 mt-2 mb-20">
+                    Buy <span className="text-blue-500">450 HK</span> for{' '}
+                    <span className="text-blue-500">60 USD</span>
+                  </h4>
                   <PayPalScriptProvider
                     options={{
                       'client-id':
@@ -85,7 +87,7 @@ export default function BuyHK() {
                             {
                               amount: {
                                 currency_code: 'USD',
-                                value: '10',
+                                value: '60',
                               },
                               custom_id: 'package1',
                             },
