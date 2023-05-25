@@ -16,6 +16,11 @@ export default function AddDigitalProductComp() {
   const [selectedFile, setSelectedFile] = useState();
   const [username, setUsername] = useState('');
   const [role, setRole] = useState('');
+  const [dpLicense, setDpLicense] = useState('');
+
+  const handleChange = (e) => {
+    setDpLicense(e.target.value);
+  };
 
   useEffect(() => {
     getUsername()
@@ -38,7 +43,7 @@ export default function AddDigitalProductComp() {
       dpDescription: 'this is a product',
       dpcategory: '',
       dpPrice: '32',
-      dpQuantity: '12',
+      dpLicense: '12',
       dpImg: '',
       dpOwner: '',
     },
@@ -194,20 +199,36 @@ export default function AddDigitalProductComp() {
                 />
               </div>
 
-              <div className="mb-4">
-                <label
-                  className="block text-gray-700 font-bold mb-2"
-                  htmlFor="dpQuantity"
+              <div className="mb-5 mt-5">
+                <div
+                  {...formik.getFieldProps('dpLicense')}
+                  className="flex flex-col mr-10"
                 >
-                  Quantity
-                </label>
-                <input
-                  {...formik.getFieldProps('dpQuantity')}
-                  className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="dpQuantity"
-                  type="number"
-                  placeholder="Product quantity"
-                />
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      className="form-radio text-indigo-600 h-5 w-5"
+                      name="dpLicense"
+                      value="standardLicense"
+                      onChange={handleChange}
+                      checked={dpLicense === 'standardLicense'}
+                    />
+                    <span className="ml-2">Standard License</span>
+                  </label>
+                  <br />
+                  <label className="inline-flex items-center">
+                    <input
+                      {...formik.getFieldProps('dpLicense')}
+                      type="radio"
+                      className="form-radio text-indigo-600 h-5 w-5"
+                      name="dpLicense"
+                      value="ultimateLicense"
+                      onChange={handleChange}
+                      checked={dpLicense === 'ultimateLicense'}
+                    />
+                    <span className="ml-2">Ultimate License</span>
+                  </label>
+                </div>
               </div>
               <div className="flex gap-16">
                 <div className="w-1/2 max-w-md">

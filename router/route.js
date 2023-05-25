@@ -98,7 +98,7 @@ router.post('/paypal/transaction-complete', async (req, res) => {
 
 router.post('/paypal/withdraw', async (req, res) => {
   // Extract the withdrawal amount from the request body
-  const { withdrawalAmount } = req.body;
+  const { withdrawalAmount, sellerUserName } = req.body;
 
   // Perform the PayPal withdrawal logic here
   async function initiateWithdrawal() {
@@ -109,9 +109,8 @@ router.post('/paypal/withdraw', async (req, res) => {
       const withdrawalAmountUSD = withdrawalAmountHKD * conversionRate;
 
       // Update the HKBalance by deducting the withdrawal amount
-
-      const username = dsphella; // Assuming the username is stored in req.user.username
-      const user = await UserModel.findOne({ username });
+      const user = await UserModel.findOne({ username: sellerUserName });
+      console.log(sellerUserName);
 
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
@@ -126,7 +125,7 @@ router.post('/paypal/withdraw', async (req, res) => {
       // Prepare the PayPal API request payload
       const payload = {
         sender_batch_header: {
-          sender_batch_id: 'batch_1284992080000', // Example batch ID
+          sender_batch_id: 'batch_1234992080000', // Example batch ID
           email_subject: 'Withdrawal from HKBalance', // Example email subject
         },
         items: [
@@ -201,6 +200,45 @@ router.post('/paypal/withdraw', async (req, res) => {
 
   // Send a response back to the client
   res.status(200).json({ message: 'Withdrawal successful' });
+});
+
+// Define the POST route for updating HKBalance
+router.post('/buyDp', async (req, res) => {
+  try {
+    const { clientName, dpOwnerName, dpPrice } = req.body;
+
+    // Fetch the client and dpOwner documents from the database
+
+    const client = await UserModel.findOne({ username: clientName });
+    const dpOwner = await UserModel.findOne({ username: dpOwnerName });
+    console.log('Price: ' + dpPrice);
+    console.log('Seller: ' + dpOwner.username);
+    console.log('Client: ' + client.username);
+
+    if (!client || !dpOwner) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Ensure the client has sufficient HKBalance to make the purchase
+    if (client.HKBalance < dpPrice) {
+      return res.status(400).json({ error: 'Insufficient HKBalance' });
+    }
+
+    const price = parseFloat(dpPrice);
+
+    // Update HKBalances
+    client.HKBalance -= price;
+    dpOwner.HKBalance += price;
+
+    // Save the updated documents
+    await client.save();
+    await dpOwner.save();
+
+    return res.status(200).json({ message: 'Transaction successful' });
+  } catch (error) {
+    console.error('HKBalance update error:', error);
+    return res.status(500).json({ error: 'An error occurred' });
+  }
 });
 
 /*****************************************************************/

@@ -53,6 +53,7 @@ export async function profileValidation(values) {
 /** validate addDigitalProduct form */
 export async function addDigitalProductValidation(values) {
   const errors = addDigitalProductVerify({}, values);
+  licenseVerify(errors, values);
 
   return errors;
 }
@@ -127,5 +128,13 @@ function roleVerify(error = {}, values) {
     error.role = toast.error('Please select user type...!');
   }
 
+  return error;
+}
+
+/** validate License */
+function licenseVerify(error = {}, values) {
+  if (!values.dpLicense) {
+    error.dpLicense = toast.error('License Required...!');
+  }
   return error;
 }

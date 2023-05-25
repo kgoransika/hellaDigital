@@ -21,7 +21,7 @@ export const DPSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please include the price'],
     },
-    dpQuantity: {
+    dpLicense: {
       type: String,
       required: true,
     },

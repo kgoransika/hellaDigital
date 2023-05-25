@@ -6,13 +6,17 @@ import Modal from 'react-bootstrap/Modal';
 import FooterComp from '../FooterComp/FooterComp';
 import useFetch from '../../hooks/fetch.hook';
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
+import axios from 'axios';
 
 export default function ClientProducts() {
-  const [{ isLoading }] = useFetch();
+  const [{ isLoading, apiData }] = useFetch();
   const [product, setProducts] = useState('');
   const [category, setCategory] = useState('');
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [modalShow, setModalShow] = React.useState(false);
+
+  const [price, setPrice] = useState('');
+  const [seller, setSeller] = useState('');
 
   useEffect(() => {
     if (category) {
@@ -36,6 +40,8 @@ export default function ClientProducts() {
 
   function handleProductClick(item) {
     setSelectedProduct(item);
+    setPrice(item.dpPrice);
+    setSeller(item.dpOwner);
     setModalShow(true);
     console.log(item);
   }
@@ -61,6 +67,22 @@ export default function ClientProducts() {
       }
     };
     xhr.send();
+
+    try {
+      // Make the API request to update HKBalance
+      const response = axios.post('/api/buyDp', {
+        clientName: apiData.username, // Replace with the client's ID or username
+        dpOwnerName: seller, // Replace with the dpOwner's ID or username
+        dpPrice: price, // Pass the price of the digital product
+      });
+
+      // Handle the response
+      console.log(response.data); // Log the response data
+      // Perform any necessary actions after the transaction is successful
+    } catch (error) {
+      console.error('Buy Now error:', error.response.data); // Log the error response
+      // Handle the error as per your requirements
+    }
   }
 
   function downloadFile(dpFile) {
@@ -151,11 +173,11 @@ export default function ClientProducts() {
                             </a>
                           </h3>
                           <p className="mt-1 text-sm text-gray-500">
-                            Items left in stock: {item.dpQuantity}
+                            {item.dpLicense}
                           </p>
                         </div>
                         <p className="text-sm font-medium text-gray-900">
-                          $ {item.dpPrice}
+                          {item.dpPrice} HK
                         </p>
                       </div>
                     </div>
@@ -187,9 +209,10 @@ export default function ClientProducts() {
             <div className="flex">
               <div className="mt-5 ml-5 w-1/2 mr-50">
                 <h2>{item.dpName}</h2>
-                <p>Items left in stock: {item.dpQuantity}</p>
+                <p>{item.dpDescription}</p>
+                <p>{item.dpLicense}</p>
                 <p>{item.dpCategory}</p>
-                <p>$ {item.dpPrice}</p>
+                <p>{item.dpPrice} HK</p>
                 {item.dpCategory === 'music' && (
                   <div className="mb-5">
                     <audio controls>
@@ -206,7 +229,7 @@ export default function ClientProducts() {
                     className="bg-blue-700 hover:bg-blue-600 text-white py-1 px-3 rounded-lg"
                     onClick={() => downloadImage(item.dpImg)}
                   >
-                    Add to Cart!
+                    Buy Now!
                   </button>
                 ) : (
                   <>
@@ -215,7 +238,7 @@ export default function ClientProducts() {
                       className="bg-blue-700 hover:bg-blue-600 text-white py-1 px-3 rounded-lg"
                       onClick={() => downloadFile(item.dpFile)}
                     >
-                      Add to Cart!
+                      Buy Now!
                     </button>
                   </>
                 )}

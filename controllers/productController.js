@@ -85,7 +85,7 @@ export async function addDigitalProduct(req, res) {
   }
  */
   // No matching image source or copyrighted video/music found, proceed with saving the product
-  const { dpName, dpDescription, dpCategory, dpPrice, dpQuantity, dpOwner } =
+  const { dpName, dpDescription, dpCategory, dpPrice, dpLicense, dpOwner } =
     req.body;
 
   const product = new DPModel({
@@ -93,7 +93,7 @@ export async function addDigitalProduct(req, res) {
     dpDescription,
     dpCategory,
     dpPrice,
-    dpQuantity,
+    dpLicense,
     dpImg,
     dpFile,
     dpOwner,

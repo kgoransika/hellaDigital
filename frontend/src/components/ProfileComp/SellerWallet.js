@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import withdrawalImg from '../../assets/Withdrawal.jpg';
+import useFetch from '../../hooks/fetch.hook';
 
 const SellerWallet = () => {
   const [withdrawalAmount, setWithdrawalAmount] = useState('');
   const [loading, setLoading] = useState(false);
+  const [{ apiData }] = useFetch();
   const [error, setError] = useState('');
   const [withdrawalAmountUSD, setWithdrawalAmountUSD] = useState('');
 
@@ -43,6 +45,7 @@ const SellerWallet = () => {
       // Make a request to the backend to initiate the withdrawal
       const response = await axios.post('/api/paypal/withdraw', {
         withdrawalAmount: withdrawalAmountHKD,
+        sellerUserName: apiData.username,
       });
 
       // Handle the successful withdrawal
