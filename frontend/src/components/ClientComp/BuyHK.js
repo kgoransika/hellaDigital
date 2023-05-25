@@ -6,25 +6,6 @@ import hkExchange from '../../assets/hkExchange.jpg';
 import axios from 'axios';
 
 export default function BuyHK() {
-  const div1Style = {
-    padding: '20px',
-    width: '100%',
-    height: 'auto',
-    margin: '20px',
-    border: '1px solid #dee2e6',
-    boxShadow: '0 0 1px 1px #dee2e6',
-    borderRadius: '10px',
-  };
-
-  const div2Style = {
-    padding: '20px',
-    width: '40%',
-    height: 'auto',
-    margin: '20px',
-    border: '1px solid #dee2e6',
-    boxShadow: '0 0 1px 1px #dee2e6',
-    borderRadius: '10px',
-  };
 
   useEffect(() => {
     const handleTransactionComplete = async () => {
@@ -55,6 +36,27 @@ export default function BuyHK() {
     handleTransactionComplete();
   }, []);
 
+  const div1Style = {
+    padding: '20px',
+    width: '100%',
+    height: 'auto',
+    margin: '20px',
+    border: '1px solid #dee2e6',
+    boxShadow: '0 0 1px 1px #dee2e6',
+    borderRadius: '10px',
+  };
+
+  const div2Style = {
+    padding: '20px',
+    width: '40%',
+    height: 'auto',
+    margin: '20px',
+    border: '1px solid #dee2e6',
+    boxShadow: '0 0 1px 1px #dee2e6',
+    borderRadius: '10px',
+  };
+
+  
   return (
     <>
       <NavbarComp />
