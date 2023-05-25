@@ -112,9 +112,12 @@ export default function BuyHK() {
                   </PayPalScriptProvider>
                 </div>
               </div>
-              {/* Repeat the above code for other packages */}
+              <img
+                src={hkExchange}
+                alt="hkExchange"
+                className="w-1/2 mx-auto"
+              />
             </div>
-            <img src={hkExchange} alt="hkExchange" className="w-1/2 mx-auto" />
           </div>
         </div>
       </div>

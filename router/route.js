@@ -72,7 +72,7 @@ router.post('/paypal/checkout', async (req, res) => {
 router.post('/paypal/transaction-complete', async (req, res) => {
   try {
     // Update the user's HKBalance
-    const userId = '6408619b11cd2ccb3de954e6'; // Assuming the authenticated user is available in req.user
+    const userId = '646fa977267668bf758a39d7'; // Assuming the authenticated user is available in req.user
     const user = await UserModel.findById(userId);
 
     if (!user) {

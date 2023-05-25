@@ -40,7 +40,7 @@ export const UserSchema = new mongoose.Schema({
   address: { type: String },
   profile: { type: String },
   idImg: { type: String },
-  HKBalance: { type: Number },
+  HKBalance: { type: Number, default: 0 },
 });
 
 export default mongoose.model.Users || mongoose.model('User', UserSchema);
