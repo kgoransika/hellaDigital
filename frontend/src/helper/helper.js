@@ -272,3 +272,23 @@ export async function deleteServiceAdmin(id) {
     return { error: 'Could not delete Service...!' };
   }
 }
+
+/** get ProductBasedOnOwner */
+export async function getOrderBasedOnSeller({ username }) {
+  try {
+    const { data } = await axios.get(`/api/orders/seller/${username}`);
+    return { data };
+  } catch (error) {
+    return { error: 'Could not get Order data...!' };
+  }
+}
+
+/** get ProductBasedOnCustomer */
+export async function getOrderBasedOnCustomer({ username }) {
+  try {
+    const { data } = await axios.get(`/api/orders/customer/${username}`);
+    return { data };
+  } catch (error) {
+    return { error: 'Could not get Order data...!' };
+  }
+}

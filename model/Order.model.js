@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 const OrderSchema = new Schema({
   orderName: {
     type: String,
-    ref: 'User',
     required: true,
   },
   orderType: {
@@ -24,6 +23,10 @@ const OrderSchema = new Schema({
     required: true,
   },
   sellerName: {
+    type: String,
+    required: true,
+  },
+  orderedBy: {
     type: String,
     required: true,
   },

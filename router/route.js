@@ -23,6 +23,7 @@ import DigitalProductsModel from '../model/DigitalProducts.model.js';
 import DigitalServicesModel from '../model/DigitalServices.model.js';
 import TokenModel from '../model/Token.model.js';
 import UserModel from '../model/User.model.js';
+import OrderModel from '../model/Order.model.js';
 
 /******************************************************************/
 /**************************-- PAYPAL --***************************/
@@ -441,5 +442,21 @@ router.put('/admin/users/:id/verify', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+// Create an order
+router.post('/orders', async (req, res) => {
+  try {
+    const order = new OrderModel(req.body);
+    await order.save();
+    res.status(201).json({ message: 'Order created successfully' });
+  } catch (error) {
+    console.error('Failed to create order', error);
+    res.status(500).json({ message: 'Failed to create order' });
+  }
+});
+
+router.route('/orders/seller/:username').get(controller.getOrdersBySeller);
+
+router.route('/orders/customer/:username').get(controller.getOrdersByCustomer);
 
 export default router;

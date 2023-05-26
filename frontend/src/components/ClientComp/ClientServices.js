@@ -6,13 +6,18 @@ import Modal from 'react-bootstrap/Modal';
 import FooterComp from '../FooterComp/FooterComp';
 import useFetch from '../../hooks/fetch.hook';
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
+import axios from 'axios';
 
 export default function ClientServices() {
-  const [{ isLoading }] = useFetch();
+  const [{ isLoading, apiData }] = useFetch();
   const [service, setService] = useState('');
   const [category, setCategory] = useState('');
   const [selectedService, setSelectedService] = useState(null);
   const [modalShow, setModalShow] = React.useState(false);
+
+  const [price, setPrice] = useState('');
+  const [seller, setSeller] = useState('');
+  const [orderName, setOrderName] = useState('');
 
   const div2Style = {
     padding: '20px',
@@ -56,9 +61,38 @@ export default function ClientServices() {
 
   function handleProductClick(item) {
     setSelectedService(item);
+    setPrice(item.dsPkg1Price);
+    setSeller(item.dsOwner);
+    setOrderName(item.dsSubCategory);
     setModalShow(true);
     console.log(item);
   }
+
+  // Function to handle order placement
+  const placeOrder = async (orderData) => {
+    try {
+      const response = await axios.post('/api/orders', orderData);
+      // Handle success, e.g., show a success message
+      console.log('Order placed successfully');
+    } catch (error) {
+      // Handle error, e.g., display an error message
+      console.error('Failed to place order', error);
+    }
+  };
+
+  // Function to handle button click
+  const handlePlaceOrderClick = () => {
+    const orderData = {
+      orderName: `${orderName} Order`,
+      orderType: 'ds',
+      orderDetails: document.getElementById('orderDescription').value,
+      orderTotal: price,
+      orderStatus: 'Pending',
+      sellerName: seller,
+      orderedBy: apiData.username,
+    };
+    placeOrder(orderData);
+  };
 
   return (
     <>
@@ -248,6 +282,22 @@ export default function ClientServices() {
                   <span className="font-bold">Revisions: </span>
                   <span>{item.dsPkg3Revisions}</span>
                 </div>
+              </div>
+              <div className="justify-center mt-3">
+                <form>
+                  <label className="font-bold">Order Description</label>
+                  <textarea
+                    id="orderDescription"
+                    className="border rounded w-full p-2"
+                    placeholder="Describe how you need your project to be done!"
+                  />
+                  <button
+                    className="border rounded w-full p-2 mt-2 bg-blue-500 text-white hover:bg-blue-700"
+                    onClick={handlePlaceOrderClick}
+                  >
+                    Place Order
+                  </button>
+                </form>
               </div>
             </div>
           </div>

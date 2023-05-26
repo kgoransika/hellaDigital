@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import ENV from '../config.js';
 import otpGenerator from 'otp-generator';
+import OrderModel from '../model/Order.model.js';
 
 /** middleware for verify user */
 export async function verifyUser(req, res, next) {
@@ -302,5 +303,29 @@ export async function resetPassword(req, res) {
     }
   } catch (error) {
     return res.status(401).send({ error });
+  }
+}
+
+export async function getOrdersBySeller(req, res) {
+  const { username } = req.params;
+
+  try {
+    if (!username) return res.status(501).send({ error: 'Invalid Username' });
+    const orders = await OrderModel.find({ sellerName: username });
+    res.status(200).send(orders);
+  } catch (error) {
+    res.status(500).send({ error });
+  }
+}
+
+export async function getOrdersByCustomer(req, res) {
+  const { username } = req.params;
+
+  try {
+    if (!username) return res.status(501).send({ error: 'Invalid Username' });
+    const orders = await OrderModel.find({ orderedBy: username });
+    res.status(200).send(orders);
+  } catch (error) {
+    res.status(500).send({ error });
   }
 }
