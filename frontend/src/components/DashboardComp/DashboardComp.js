@@ -117,9 +117,6 @@ export default function DashboardComp() {
           <div style={div1Style}>
             <h3>Recent Orders</h3>
           </div>
-          <div style={div2Style}>
-            <h3>Recent Orders</h3>
-          </div>
         </div>
       </div>
     </>

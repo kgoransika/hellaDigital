@@ -411,46 +411,6 @@ export default function ClientHome() {
               ))}
             </Slider>
           </div>
-          <div className="bg-white">
-            <div className="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
-              <h2 className="text-2xl font-bold tracking-tight text-gray-900">
-                Featured Products
-              </h2>
-
-              <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-                {products.map((product) => (
-                  <div key={product.id} className="group relative">
-                    <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:aspect-none lg:h-80">
-                      <img
-                        src={product.imageSrc}
-                        alt={product.imageAlt}
-                        className="h-full w-full object-cover object-center lg:h-full lg:w-full"
-                      />
-                    </div>
-                    <div className="mt-4 flex justify-between">
-                      <div>
-                        <h3 className="text-sm text-gray-700">
-                          <a href={product.href}>
-                            <span
-                              aria-hidden="true"
-                              className="absolute inset-0"
-                            />
-                            {product.name}
-                          </a>
-                        </h3>
-                        <p className="mt-1 text-sm text-gray-500">
-                          {product.color}
-                        </p>
-                      </div>
-                      <p className="text-sm font-medium text-gray-900">
-                        {product.price}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
           <section className="relative isolate overflow-hidden bg-white px-6 py-24 sm:py-32 lg:px-8">
             <div className="absolute inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.indigo.100),white)] opacity-20" />
             <div className="absolute inset-y-0 right-1/2 -z-10 mr-16 w-[200%] origin-bottom-left skew-x-[-30deg] bg-white shadow-xl shadow-indigo-600/10 ring-1 ring-indigo-50 sm:mr-28 lg:mr-0 xl:mr-16 xl:origin-center" />
@@ -459,9 +419,9 @@ export default function ClientHome() {
               <figure className="mt-10">
                 <blockquote className="text-center text-xl font-semibold leading-8 text-gray-900 sm:text-2xl sm:leading-9">
                   <p>
-                    “Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Nemo expedita voluptas culpa sapiente alias molestiae.
-                    Numquam corrupti in laborum sed rerum et corporis.”
+                    “Hella Digital provides a secure and user-friendly
+                    environment, allowing sellers to confidently showcase and
+                    sell products to a global audience.”
                   </p>
                 </blockquote>
                 <figcaption className="mt-10">
@@ -471,7 +431,7 @@ export default function ClientHome() {
                     alt=""
                   />
                   <div className="mt-4 flex items-center justify-center space-x-3 text-base">
-                    <div className="font-semibold text-gray-900">John Doe</div>
+                    <div className="font-semibold text-gray-900">Mark</div>
                     <svg
                       viewBox="0 0 2 2"
                       width={3}
@@ -481,7 +441,7 @@ export default function ClientHome() {
                     >
                       <circle cx={1} cy={1} r={1} />
                     </svg>
-                    <div className="text-gray-600">CEO of John Doe</div>
+                    <div className="text-gray-600">Friendly User</div>
                   </div>
                 </figcaption>
               </figure>
