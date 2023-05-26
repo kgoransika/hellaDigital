@@ -85,6 +85,67 @@ export default function ClientProducts() {
     }
   }
 
+  //Code to store reuses in Meta Data!
+  /* function downloadImage(dpImg) {
+    const xhr = new XMLHttpRequest();
+    xhr.open(
+      'GET',
+      `http://localhost:8080/api/products/digitalProducts/file/${dpImg}`,
+      true
+    );
+    xhr.responseType = 'blob';
+  
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        const blob = xhr.response;
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = dpImg;
+  
+        // Get the file metadata
+        const metadata = blob.slice(0, 1000);
+        const metadataReader = new FileReader();
+  
+        metadataReader.onload = function () {
+          const metadataArrayBuffer = metadataReader.result;
+          const metadataView = new DataView(metadataArrayBuffer);
+  
+          // Get the current reUses value from the metadata
+          let reUses = metadataView.getInt32(0, true);
+  
+          // Increment the reUses variable
+          reUses++;
+  
+          // Add the updated reUses variable to the metadata
+          metadataView.setInt32(0, reUses, true);
+  
+          // Attach the modified metadata to the downloaded file
+          const modifiedBlob = new Blob([metadata, blob.slice(1000)], {
+            type: blob.type,
+          });
+          const modifiedReader = new FileReader();
+  
+          modifiedReader.onload = function () {
+            const modifiedArrayBuffer = modifiedReader.result;
+            const modifiedBlobObject = new Blob([modifiedArrayBuffer], {
+              type: blob.type,
+            });
+            link.href = window.URL.createObjectURL(modifiedBlobObject);
+  
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          };
+  
+          modifiedReader.readAsArrayBuffer(modifiedBlob);
+        };
+  
+        metadataReader.readAsArrayBuffer(metadata);
+      }
+    };
+    xhr.send();
+  } */
+
   function downloadFile(dpFile) {
     const xhr = new XMLHttpRequest();
     xhr.open(
